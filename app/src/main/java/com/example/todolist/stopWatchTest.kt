@@ -23,7 +23,7 @@ class stopWatchTest : AppCompatActivity() , View.OnClickListener {
     private var isRunning = false
 
     private var timer: Timer? = null
-    private var time = 0 //time을 나타낼 변수
+    private var time = 0 //시간을 나타낼 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,9 +68,11 @@ class stopWatchTest : AppCompatActivity() , View.OnClickListener {
         btn_start.setBackgroundColor(getColor(R.color.btn_pause))
         isRunning = true
 
-        timer = timer(period = 10) { // timer는 background에서 돌아감
+        //timer는 background thread 에서 돌아감
+        //period = 10 , 0.01초 단위로 증가함, 1000일때 1초단위
+        timer = timer(period = 10) {
             //1000ms = 1s
-            //0.01 time 1+ , 0.01초 단위로 증가함
+            //0.01 time 1+
             time++
 
             val milliSecond = time % 100
