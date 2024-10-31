@@ -23,13 +23,12 @@
         android:padding="8dp"
         android:hint="ex) recyclerview 이해하기"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#E1D6F4"
-        android:textColor="#4A4A4A"
-        android:text="save"/>
+        android:src="@drawable/baseline_add_24"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
