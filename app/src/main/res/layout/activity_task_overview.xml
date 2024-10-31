@@ -81,7 +81,7 @@
         android:layout_height="240dp"
         android:background="#F8F4FF"
         android:layout_marginBottom="32dp"
-        tools:listitem="@layout/item_todo_list"/>
+        tools:listitem="@layout/fixed_item_todo_list"/>
 
     <Button
         android:id="@+id/button_record"
