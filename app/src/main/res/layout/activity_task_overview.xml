@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/to_do_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today Todo List"
+        android:textSize="24sp"
+        android:padding="8dp"
+        android:textColor="#4A4A4A"
+        android:textStyle="bold"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_marginBottom="16dp"
+        android:background="#F8F4FF"
+        tools:listitem="@layout/item_todo_list"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="16dp">
+
+        <ImageButton
+            android:id="@+id/timer_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_timer_24"
+            android:padding="3dp"/>
+
+        <TextView
+            android:id="@+id/total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="총 소요시간: 00H 00M 00S"
+            android:gravity="center"
+            android:layout_marginStart="8dp"
+            android:textColor="#707070"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_add_todo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="할 일 추가"
+        android:backgroundTint="#E1D6F4"
+        android:textColor="#4A4A4A"
+        android:drawableLeft="@drawable/baseline_add_24"
+        android:layout_marginBottom="33dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D3D3D3"
+        android:layout_marginBottom="32dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fixed Todo List"
+        android:textSize="24sp"
+        android:padding="8dp"
+        android:textColor="#4A4A4A"
+        android:textStyle="bold"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fixed_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="#F8F4FF"
+        android:layout_marginBottom="32dp"
+        tools:listitem="@layout/fixed_item_todo_list"/>
+
+    <Button
+        android:id="@+id/button_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="사진 기록"
+        android:backgroundTint="#E1D6F4"
+        android:textColor="#4A4A4A"
+        android:drawableLeft="@drawable/baseline_add_a_photo_24"/>
+</LinearLayout>
+
