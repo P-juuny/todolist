@@ -29,7 +29,7 @@
             android:id="@+id/todo_item_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="고정할 일을 입력해주세요."
+            android:hint="ex) 객프 강의 듣기"
             android:textSize="18sp"
             android:layout_weight="1"/>
 
@@ -37,7 +37,8 @@
             android:id="@+id/delete_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_delete_24"/>
+            android:backgroundTint="#E1D6F4"
+            android:src="@drawable/baseline_add_24"/>
     </LinearLayout>
 
     <LinearLayout
