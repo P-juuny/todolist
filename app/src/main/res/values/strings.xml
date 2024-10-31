@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">todolist</string>
+
+    <string name="btn_start">시작</string>
+    <string name="btn_refresh">초기화</string>
+    <string name="btn_pause">일시정지</string>
+
+    <string name="tv_hour_text">00</string>
+    <string name="tv_minute_text">:00</string>
+    <string name="tv_second_text">:00</string>
+    <string name="tv_millisecond_text">,00</string>
 </resources>

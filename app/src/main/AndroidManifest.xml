@@ -17,6 +17,9 @@
             android:name=".FixedOverview"
             android:exported="false" />
         <activity
+            android:name=".stopWatchTest"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
