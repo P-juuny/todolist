@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:hint="할 일을 작성해주세요."/>
+        android:hint="ex) recyclerview 이해하기"/>
 
     <Button
         android:id="@+id/button_save"

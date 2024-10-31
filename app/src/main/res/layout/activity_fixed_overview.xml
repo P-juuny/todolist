@@ -29,7 +29,7 @@
             android:id="@+id/todo_item_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="고정할 일을 입력해주세요."
+            android:hint="ex) 객프 강의 듣기"
             android:textSize="18sp"
             android:layout_weight="1"/>
 
