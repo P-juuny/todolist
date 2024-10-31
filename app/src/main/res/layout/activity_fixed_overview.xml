@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/Fixed_Todo"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,103 +9,24 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fixed Todo"
+        android:text="고정 할 일"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#4A4A4A"
-        android:padding="8dp"/>
+        android:paddingBottom="16dp"/>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F8F4FF"
-        android:padding="8dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="16dp">
-
-        <TextView
-            android:id="@+id/todo_item_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="ex) 객프 강의 듣기"
-            android:textSize="18sp"
-            android:layout_weight="1"/>
-
-        <ImageButton
-            android:id="@+id/delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#E1D6F4"
-            android:src="@drawable/baseline_add_24"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <CheckBox
-            android:id="@+id/checkbox_monday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="월"
-            android:textSize="14dp"/>
-
-        <CheckBox
-            android:id="@+id/checkbox_tuesday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="화"
-            android:textSize="14dp"/>
-
-        <CheckBox
-            android:id="@+id/checkbox_wednesday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="수"
-            android:textSize="14dp"/>
-
-        <CheckBox
-            android:id="@+id/checkbox_thursday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="목"
-            android:textSize="14dp"/>
-
-        <CheckBox
-            android:id="@+id/checkbox_friday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="금"
-            android:textSize="14dp"/>
-
-        <CheckBox
-            android:id="@+id/checkbox_saturday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="토"
-            android:textSize="14dp"/>
-
-        <CheckBox
-            android:id="@+id/checkbox_sunday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="일"
-            android:textSize="14dp"/>
-    </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#F8F4FF"/>
+        tools:listitem="@layout/fixed_item_todo_list"/>
 
-    <Button
-        android:id="@+id/button_add_todo"
+    <ImageButton
+        android:id="@+id/buttonAddTodo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="save"
-        android:backgroundTint="#E1D6F4"
-        android:textColor="#4A4A4A"/>
+        android:src="@drawable/baseline_add_24"
+        android:layout_marginBottom="16dp"/>
 </LinearLayout>
+
