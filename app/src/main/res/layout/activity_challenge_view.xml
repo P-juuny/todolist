@@ -10,7 +10,7 @@
         android:id="@+id/btnSetGoalTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="#A992D4"
         android:text="목표시간 설정"
         android:textColor="#FFFFFF"
@@ -19,95 +19,91 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/challengeIcon"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:src="@drawable/challenge"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <!-- Center Section for challenge icon and completion text -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/btnSetGoalTime"
+        app:layout_constraintBottom_toTopOf="@id/medalSection"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/tvCompletedPercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00% "
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvCompleted"
-        app:layout_constraintEnd_toStartOf="@+id/tvCompleted"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        <!-- Challenge Icon -->
+        <ImageView
+            android:id="@+id/challengeIcon"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:src="@drawable/challenge"
+            android:layout_marginBottom="16dp"/>
 
-    <TextView
-        android:id="@+id/tvCompleted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="completed"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvCompletedPercentage"
-        app:layout_constraintTop_toBottomOf="@+id/challengeIcon" />
+        <!-- Completed Percentage Text -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/tvCompletedPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00%"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvChallengeHour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="000"
-        android:textColor="#666666"
-        android:textSize="14sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentHour"
-        app:layout_constraintEnd_toStartOf="@+id/tvChallengeText1"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/tvCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvChallengeText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="시간 중 "
-        android:textColor="#666666"
-        android:textSize="14sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentHour"
-        app:layout_constraintEnd_toStartOf="@+id/tvCurrentHour"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvChallengeHour" />
+        <!-- Challenge Progress Text -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
 
-    <TextView
-        android:id="@+id/tvCurrentHour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="000"
-        android:textColor="#666666"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tvChallengeText2"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvChallengeText1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.311" />
+            <TextView
+                android:id="@+id/tvChallengeHour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="000"
+                android:textColor="#666666"
+                android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tvChallengeText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="시간 달성"
-        android:textColor="#666666"
-        android:textSize="14sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentHour"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvCurrentHour" />
+            <TextView
+                android:id="@+id/tvChallengeText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시간 중 "
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvCurrentHour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="000"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvChallengeText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시간 달성"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <!-- Medal Section Layout -->
     <!-- 수직으로 메달 배열 생성 -->
@@ -292,7 +288,7 @@
         android:id="@+id/tvTotalScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:text="000점"
         android:textSize="22sp"
         android:textStyle="bold"
