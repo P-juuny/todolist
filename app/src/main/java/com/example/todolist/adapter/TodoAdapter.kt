@@ -11,7 +11,7 @@ class TodoAdapter(
     private val viewModel: TodoViewModel
 ) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
-    private var todoList: List<TaskItem> = listOf()
+    private var todoList: List<TaskItem> = emptyList()
 
     inner class TodoViewHolder(
         private val binding: ItemTodoListBinding
@@ -22,11 +22,11 @@ class TodoAdapter(
             binding.todoItemText.text = taskItem.task
             // 체크박스 상태 설정
             // 뷰를 재활용하기때문에 처음 Listener은 null로 초기화
+
             binding.checkBox.setOnCheckedChangeListener(null)
             binding.checkBox.isChecked = taskItem.isChecked
 
             binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                binding.checkBox.isChecked = taskItem.isChecked
                 viewModel.updateTodoCheck(adapterPosition, isChecked)
             }
 
@@ -47,7 +47,7 @@ class TodoAdapter(
         )
         return TodoViewHolder(binding)
     }
-    // 스크롤 할 때마다 뷰 재활용
+
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.bind(todoList[position])
     }
