@@ -7,7 +7,7 @@ import com.example.todolist.databinding.ActivityStopWatchTestBinding
 import java.util.Timer
 import kotlin.concurrent.timer
 
-class StopWatchTest : AppCompatActivity(), View.OnClickListener {
+class StopWatchTest : AppCompatActivity() {
 
     //binding 객체 선언
     private lateinit var binding: ActivityStopWatchTestBinding
@@ -18,27 +18,18 @@ class StopWatchTest : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         //액티비티 바인딩 객체에 할당 및 뷰 설정
         binding = ActivityStopWatchTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //this는 View.OnclickListener을 의미
-        binding.btnStart.setOnClickListener(this)
-        binding.btnRefresh.setOnClickListener(this)
-    }
 
-    //btn_start 및 btn_refresh가 눌렸을때 실행되는 함수
-    override fun onClick(view: View?) {
-        when (view?.id) {
-            R.id.btn_start -> { // btn_start 버튼이 눌렸을때 btn_start id가 인식됨
-                if (isRunning) { // 스탑워치가 작동하고 있을 땐 멈춤
-                    pause()
-                } else { // 스탑워치가 멈춘 상태이면 다시 실행
-                    start()
-                }
-            }
-            R.id.btn_refresh -> {
-                refresh()
-            }
+        //btn_start 및 btn_refresh가 눌렸을때 실행되는 함수
+        binding.btnStart.setOnClickListener { // btn_start 버튼이 눌렸을때 btn_start id가 인식됨
+            if(isRunning) pause() // 스탑워치가 작동하고 있을 땐 멈춤
+            else start() // 스탑워치가 멈춘 상태이면 다시 실행
+        }
+        binding.btnRefresh.setOnClickListener {
+            refresh()
         }
     }
 
