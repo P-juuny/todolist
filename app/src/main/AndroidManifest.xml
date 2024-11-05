@@ -37,7 +37,7 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".TaskOverviewFragment"
+            android:name=".fragment.TaskOverviewFragment"
             android:exported="false" />
         <activity
             android:name=".EditToDoFragment"
