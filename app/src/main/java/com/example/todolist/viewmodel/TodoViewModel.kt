@@ -1,4 +1,3 @@
-// TodoViewModel.kt
 package com.example.todolist.viewmodel
 
 import androidx.lifecycle.LiveData
