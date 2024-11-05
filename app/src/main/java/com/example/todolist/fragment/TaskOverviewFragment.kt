@@ -11,7 +11,7 @@ import com.example.todolist.R
 import com.example.todolist.viewmodel.TodoViewModel
 import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentTaskOverviewBinding
-
+/*
 class TaskOverviewFragment : Fragment() {
     private var _binding: FragmentTaskOverviewBinding? = null
     private val binding get() = _binding!!
@@ -65,3 +65,4 @@ class TaskOverviewFragment : Fragment() {
         fun newInstance() = TaskOverviewFragment()
     }
 }
+ */
