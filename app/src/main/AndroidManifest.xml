@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FixedOverview"
+            android:name=".FixedOverviewFragment"
             android:exported="false" />
         <activity
             android:name=".stopWatchTest"
@@ -37,10 +37,10 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".TaskOverview"
+            android:name=".TaskOverviewFragment"
             android:exported="false" />
         <activity
-            android:name=".EditToDo"
+            android:name=".EditToDoFragment"
             android:exported="false" />
     </application>
 
