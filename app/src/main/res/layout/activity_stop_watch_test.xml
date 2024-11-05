@@ -5,83 +5,73 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".stopWatchTest">
+    tools:context=".StopWatchTest">
 
-    <TextView
-        android:id="@+id/tv_hour"
+    <!-- Time Display LinearLayout -->
+    <LinearLayout
+        android:id="@+id/time_display_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tv_hour_text"
-        android:textSize="36sp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_minute"
-        app:layout_constraintVertical_bias="0.35"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_minute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_minute_text"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.35"
-        app:layout_constraintEnd_toStartOf="@+id/tv_second"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_hour"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_second"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_second_text"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_millisecond"
-        app:layout_constraintVertical_bias="0.35"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_minute"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_millisecond"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_millisecond_text"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.35"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_second"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0.35">
 
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:backgroundTint="@color/btn_start"
-        android:text="@string/btn_start"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_refresh"
-        app:layout_constraintEnd_toStartOf="@+id/btn_refresh"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tv_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_hour_text"
+            android:textSize="36sp" />
 
-    <Button
-        android:id="@+id/btn_refresh"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="100dp"
-        android:backgroundTint="@color/btn_refresh"
-        android:text="@string/btn_refresh"
+        <TextView
+            android:id="@+id/tv_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_minute_text"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/tv_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_second_text"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/tv_millisecond"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_millisecond_text"
+            android:textSize="36sp" />
+    </LinearLayout>
+
+    <!-- Button Group LinearLayout -->
+    <LinearLayout
+        android:id="@+id/button_group_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_start" />
+        android:layout_marginBottom="100dp">
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/btn_start"
+            android:text="@string/btn_start" />
+
+        <Button
+            android:id="@+id/btn_refresh"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/btn_refresh"
+            android:text="@string/btn_refresh" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
