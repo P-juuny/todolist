@@ -20,13 +20,6 @@
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
-            android:exported="true"/>
-
-        <activity
-            android:name=".FixedOverview"
-            android:exported="false" />
-        <activity
-            android:name=".StopWatchTest"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,13 +28,19 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FixedOverviewFragment"
+            android:exported="false" />
+        <activity
+            android:name=".StopWatchTest"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".TaskOverview"
+            android:name=".fragment.TaskOverviewFragment"
             android:exported="false" />
         <activity
-            android:name=".EditToDo"
+            android:name=".EditToDoFragment"
             android:exported="false" />
     </application>
 
