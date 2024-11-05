@@ -1,51 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_todo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <LinearLayout
-        android:id="@+id/add_todo"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add your Todo"
+        android:textSize="24sp"
+        android:padding="8dp"
+        android:textColor="#4A4A4A"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/edit_todo_item"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:hint="ex) recyclerview 이해하기"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add your Todo"
-            android:textSize="24sp"
-            android:padding="8dp"
-            android:textColor="#4A4A4A"
-            android:textStyle="bold"/>
+    <ImageButton
+        android:id="@+id/AddTaskBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_add_24"/>
 
-        <EditText
-            android:id="@+id/edit_todo_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:hint="ex) recyclerview 이해하기"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:background="#F8F4FF"
+        tools:listitem="@layout/item_todo_list"/>
 
-        <ImageButton
-            android:id="@+id/AddTaskBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_add_24"/>
+    <Button
+        android:id="@+id/SaveBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="저장"
+        android:layout_gravity="center"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1"
-            android:background="#F8F4FF"
-            tools:listitem="@layout/item_todo_list"/>
-
-        <Button
-            android:id="@+id/SaveBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="저장"
-            android:layout_gravity="center"/>
-
-    </LinearLayout>
-</layout>
+</LinearLayout>

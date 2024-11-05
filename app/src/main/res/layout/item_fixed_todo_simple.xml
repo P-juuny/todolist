@@ -12,19 +12,16 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/todo_item_text"
+        android:id="@+id/FixedTodo"
+        android:hint="ex) 객프 A+ 받기"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingStart="8dp"
-        android:text="ex) 객프 수업가기"
-        android:textSize="18sp"/>
+        android:textSize="16sp"/>
 
     <ImageButton
         android:id="@+id/DeleteBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_delete_24"/>
-
 </LinearLayout>
-
