@@ -12,7 +12,6 @@ class TodoViewModel : ViewModel() {
     val todoList: LiveData<MutableList<TaskItem>> get() = _todoList
 
     fun addTodo(task: TaskItem) {
-        //_todoList는 MutableLiveData의 인스턴스로 바로 추가 불가
         val currentList = _todoList.value ?: mutableListOf()
         currentList.add(task)
         _todoList.value = currentList
@@ -24,6 +23,7 @@ class TodoViewModel : ViewModel() {
             currentList.removeAt(position)
             _todoList.value = currentList
         }
+        //else처리 해주기
     }
 
     fun updateTodoCheck(position: Int, isChecked: Boolean) {
@@ -32,5 +32,6 @@ class TodoViewModel : ViewModel() {
             currentList[position].isChecked = isChecked
             _todoList.value = currentList
         }
+        //else처리 해주기
     }
 }

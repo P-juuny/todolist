@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.example.todolist.model.FixedTaskItem
 
 class FixedToDoViewModel : ViewModel() {
-    //내부에서 사용하는 라이브 데이터 따라서 외부에서는 볼 수 없게 설정
+    // 내부 데이터
     private val _fixedtodoList = MutableLiveData<MutableList<FixedTaskItem>>()
-    //외부에서 관찰 가능한 라이브 데이터 UI가 이 라이브데이터를 관찰
+    // 외부 UI 데이터
     val fixedtodoList: LiveData<MutableList<FixedTaskItem>> get() = _fixedtodoList
 
     fun addTodo(task: FixedTaskItem) {
-        //_todoList는 MutableLiveData의 인스턴스로 바로 추가 불가
+        // observer에는 객체의 변화를 알려줘야하기 때문에 currentList 생성
         val currentList = _fixedtodoList.value ?: mutableListOf()
         currentList.add(task)
         _fixedtodoList.value = currentList
@@ -35,7 +35,7 @@ class FixedToDoViewModel : ViewModel() {
     }
 
     fun updateDate(Id: Int, position: Int, isChecked: Boolean) {
-        val currentList = _fixedtodoList.value?.toMutableList() ?: return
+        val currentList = _fixedtodoList.value ?: return
         if (position >= 0 && position < currentList.size) {
             val item = currentList[position]
             when(Id) {
