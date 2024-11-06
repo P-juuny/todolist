@@ -45,5 +45,9 @@
         android:id="@+id/challengeViewSettingGoalTimeFragment"
         android:name="com.example.todolist.fragment.ChallengeViewSettingGoalTimeFragment"
         android:label="fragment_challenge_view_setting_goal_time"
-        tools:layout="@layout/fragment_challenge_view_setting_goal_time" />
+        tools:layout="@layout/fragment_challenge_view_setting_goal_time" >
+        <action
+            android:id="@+id/action_challengeViewSettingGoalTimeFragment_to_challengeViewFragment"
+            app:destination="@id/challengeViewFragment" />
+    </fragment>
 </navigation>

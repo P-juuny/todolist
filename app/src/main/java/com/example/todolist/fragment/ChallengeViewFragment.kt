@@ -36,7 +36,6 @@ class ChallengeViewFragment : Fragment() {
         binding.btnSetGoalTime.setOnClickListener {
             findNavController().navigate(R.id.action_challengeViewFragment_to_challengeViewSettingGoalTimeFragment)
         }
-
     }
 
 
@@ -44,16 +43,6 @@ class ChallengeViewFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    /*
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_challenge_view, container, false)
-    }
-    */
 
     /*
     companion object {
