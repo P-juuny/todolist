@@ -31,7 +31,7 @@
             android:name=".FixedOverviewFragment"
             android:exported="false" />
         <activity
-            android:name=".stopWatchTest"
+            android:name=".StopWatchTest"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
