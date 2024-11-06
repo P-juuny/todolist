@@ -35,5 +35,15 @@
         android:id="@+id/challengeViewFragment"
         android:name="com.example.todolist.fragment.ChallengeViewFragment"
         android:label="fragment_challenge_view"
-        tools:layout="@layout/fragment_challenge_view" />
+        tools:layout="@layout/fragment_challenge_view" >
+        <!-- ChallengeViewFrag 에서 목표시간 설정 프래그먼트로 넘어가는 액선 -->
+        <action
+            android:id="@+id/action_challengeViewFragment_to_challengeViewSettingGoalTimeFragment"
+            app:destination="@id/challengeViewSettingGoalTimeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/challengeViewSettingGoalTimeFragment"
+        android:name="com.example.todolist.fragment.ChallengeViewSettingGoalTimeFragment"
+        android:label="fragment_challenge_view_setting_goal_time"
+        tools:layout="@layout/fragment_challenge_view_setting_goal_time" />
 </navigation>
