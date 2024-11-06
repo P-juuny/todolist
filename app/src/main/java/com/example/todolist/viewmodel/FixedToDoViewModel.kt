@@ -35,7 +35,7 @@ class FixedToDoViewModel : ViewModel() {
     }
 
     fun updateDate(Id: Int, position: Int, isChecked: Boolean) {
-        val currentList = _fixedtodoList.value ?: return
+        val currentList = _fixedtodoList.value?.toMutableList() ?: return
         if (position >= 0 && position < currentList.size) {
             val item = currentList[position]
             when(Id) {
