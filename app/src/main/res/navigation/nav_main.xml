@@ -17,6 +17,10 @@
         <action
             android:id="@+id/action_entryFragment_to_fixedOverviewFragment"
             app:destination="@id/fixedOverviewFragment" />
+        <action
+            android:id="@+id/action_entryFragment_to_challengeViewFragment"
+            app:destination="@id/challengeViewFragment"
+            app:popUpTo="@id/entryFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -27,4 +31,9 @@
         android:id="@+id/fixedOverviewFragment"
         android:name="com.example.todolist.fragment.FixedOverviewFragment"
         android:label="FixedOverviewFragment" />
+    <fragment
+        android:id="@+id/challengeViewFragment"
+        android:name="com.example.todolist.fragment.ChallengeViewFragment"
+        android:label="fragment_challenge_view"
+        tools:layout="@layout/fragment_challenge_view" />
 </navigation>
