@@ -6,7 +6,7 @@
     app:startDestination="@id/entryFragment">
     <fragment
         android:id="@+id/entryFragment"
-        android:name="com.example.todolist.EntryFragment"
+        android:name="com.example.todolist.fragment.EntryFragment"
         android:label="fragment_entry"
         tools:layout="@layout/fragment_entry" >
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.todolist.SettingsFragment"
+        android:name="com.example.todolist.fragment.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
