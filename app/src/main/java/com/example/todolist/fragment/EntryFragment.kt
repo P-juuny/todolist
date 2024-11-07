@@ -25,7 +25,7 @@ class EntryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,18 +52,22 @@ class EntryFragment : Fragment() {
 
     // Button의 Navigation 설정하는 함수
     private fun setupButtons() {
-        binding?.btnSettings?.setOnClickListener {
+        binding.btnSettings.setOnClickListener {
             findNavController().navigate(R.id.action_entryFragment_to_settingsFragment)
         }
 
-        binding?.btnFixedToDo?.setOnClickListener {
+        binding.btnFixedToDo.setOnClickListener {
             findNavController().navigate(R.id.action_entryFragment_to_fixedOverviewFragment)
             // navigation-nav_main 가서 원하는 Fragment 추가 후 EntryFragment에서 이어주기
             // 화살표 이름 보고 위에 코드에 action_entryFragment_to_~~) 에서 ~~만 수정 하면 볼 수 있음.
         }
 
-        binding?.btnAchievements?.setOnClickListener {
+        binding.btnAchievements.setOnClickListener {
             findNavController().navigate(R.id.action_entryFragment_to_challengeViewFragment)
+        }
+
+        binding.btnDaily.setOnClickListener {
+            findNavController().navigate(R.id.action_entryFragment_to_taskOverviewFragment)
         }
     }
 
