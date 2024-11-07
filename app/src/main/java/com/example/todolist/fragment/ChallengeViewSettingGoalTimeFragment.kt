@@ -12,6 +12,7 @@ import com.example.todolist.databinding.FragmentChallengeViewSettingGoalTimeBind
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+//binding 객체 선언
 private var binding: FragmentChallengeViewSettingGoalTimeBinding? = null
 
 class ChallengeViewSettingGoalTimeFragment : Fragment() {
