@@ -53,7 +53,7 @@ class StopWatchFragment : Fragment() {
             // 메인 스레드에서 UI 업데이트
             // 프래그먼트에서도 백그라운드에서 돌아가는 스레드가 메인 스레드에 반영 될 수 있도록함
             requireActivity().runOnUiThread {
-                if (isRunning) {
+                if (isRunning) { // 타이머가 실행중에만 시각이 변경될 수 있도록함
                     binding.tvMillisecond.text = if (milliSecond < 10) ".0$milliSecond" else ".$milliSecond"
                     binding.tvSecond.text = if (second < 10) ":0$second" else ":$second"
                     binding.tvMinute.text = if (minute < 10) ":0$minute" else ":$minute"
