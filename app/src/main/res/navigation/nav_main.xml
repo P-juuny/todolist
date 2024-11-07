@@ -16,7 +16,8 @@
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_entryFragment_to_fixedOverviewFragment"
-            app:destination="@id/fixedOverviewFragment" />
+            app:destination="@id/fixedOverviewFragment"
+            app:popUpTo="@id/entryFragment" />
         <action
             android:id="@+id/action_entryFragment_to_challengeViewFragment"
             app:destination="@id/challengeViewFragment"
@@ -72,7 +73,8 @@
             app:popUpTo="@id/taskOverviewFragment" />
         <action
             android:id="@+id/action_taskOverviewFragment_to_stopWatchFragment"
-            app:destination="@id/stopWatchFragment" />
+            app:destination="@id/stopWatchFragment"
+            app:popUpTo="@id/taskOverviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/stopWatchFragment"
