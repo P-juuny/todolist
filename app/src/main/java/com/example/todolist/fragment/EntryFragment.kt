@@ -37,6 +37,7 @@ class EntryFragment : Fragment() {
         setupButtons()
     }
 
+    // 오늘 할일 받아와서 RecyclerView에 넣는 함수
     private fun setupDailyRecyclerView() {
         todoAdapter = TodoAdapter(viewModel)
         binding.dailyRecyclerView.apply {
@@ -45,10 +46,11 @@ class EntryFragment : Fragment() {
         }
 
         viewModel.todoList.observe(viewLifecycleOwner) { tasks ->
-            todoAdapter.submitList(tasks)
+            todoAdapter.makeList(tasks)
         }
     }
 
+    // Button의 Navigation 설정하는 함수
     private fun setupButtons() {
         binding?.btnSettings?.setOnClickListener {
             findNavController().navigate(R.id.action_entryFragment_to_settingsFragment)
