@@ -1,12 +1,10 @@
 package com.example.todolist.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.databinding.FixedItemTodoListBinding
 import com.example.todolist.model.FixedTaskItem
-import com.example.todolist.model.TaskItem
 import com.example.todolist.viewmodel.FixedToDoViewModel
 
 class FixedTodoAdapter(
