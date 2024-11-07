@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentStopWatchBinding
+import com.example.todolist.viewmodel.TodoViewModel
 import java.util.Timer
 import kotlin.concurrent.timer
 
@@ -18,6 +22,10 @@ class StopWatchFragment : Fragment() {
     private var isRunning = false
     private var timer: Timer? = null
     private var time = 0 // 시간을 나타낼 변수
+
+    //todo어뎁터 객체생성
+    private val viewModel: TodoViewModel by activityViewModels()
+    private lateinit var todoAdapter: TodoAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +43,23 @@ class StopWatchFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupDailyRecyclerView()
+    }
+
+    // 오늘 할일 받아와서 RecyclerView에 넣는 함수
+    private fun setupDailyRecyclerView() {
+        todoAdapter = TodoAdapter(viewModel)
+        binding.todoRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = todoAdapter
+        }
+
+        viewModel.todoList.observe(viewLifecycleOwner) { tasks ->
+            todoAdapter.makeList(tasks)
+        }
+    }
 
     private fun start() {
         binding.btnStart.text = getString(R.string.btn_pause)
