@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.R
 import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentEntryBinding
@@ -32,11 +33,11 @@ class EntryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerView()
+        setupDailyRecyclerView()
         setupButtons()
     }
 
-    private fun setupRecyclerView() {
+    private fun setupDailyRecyclerView() {
         todoAdapter = TodoAdapter(viewModel)
         binding.dailyRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -66,7 +67,7 @@ class EntryFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
 
