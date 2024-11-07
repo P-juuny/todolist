@@ -84,7 +84,9 @@
             android:clickable="true"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_settings"
-            app:borderWidth="1dp" />
+            app:borderWidth="0dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            />
 
     </LinearLayout>
 
