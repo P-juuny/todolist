@@ -23,18 +23,18 @@ class StopWatchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentStopWatchBinding.inflate(inflater, container, false)
-
-        // btn_start 및 btn_refresh 클릭 리스너 설정
-        binding.btnStart.setOnClickListener {
-            if (isRunning) pause() else start()
+        _binding = FragmentStopWatchBinding.inflate(inflater, container, false).apply {
+            // btn_start 및 btn_refresh 클릭 리스너 설정
+            btnStart.setOnClickListener {
+                if (isRunning) pause() else start()
+            }
+            btnRefresh.setOnClickListener {
+                refresh()
+            }
         }
-        binding.btnRefresh.setOnClickListener {
-            refresh()
-        }
-
         return binding.root
     }
+
 
     private fun start() {
         binding.btnStart.text = getString(R.string.btn_pause)
