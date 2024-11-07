@@ -42,7 +42,7 @@ class FixedOverviewFragment : Fragment() {
         }
 
         viewModel.fixedtodoList.observe(viewLifecycleOwner) { tasks ->
-            fixedtodoAdapter.submitList(tasks)
+            fixedtodoAdapter.makeList(tasks)
         }
     }
 
@@ -59,7 +59,6 @@ class FixedOverviewFragment : Fragment() {
                     saturday = binding.inputSaturday.isChecked
                     sunday = binding.inputSunday.isChecked
                 })
-                binding.editTodoItem.text.clear()
             }
             binding.apply {
                 editTodoItem.text.clear()

@@ -15,7 +15,9 @@ import com.example.todolist.databinding.FragmentTaskOverviewBinding
 import com.example.todolist.viewmodel.FixedToDoViewModel
 import java.util.Calendar
 
-/*class TaskOverviewFragment : Fragment() {
+
+/*
+class TaskOverviewFragment : Fragment() {
     private var _binding: FragmentTaskOverviewBinding? = null
     private val binding get() = _binding!!
 
@@ -54,7 +56,7 @@ import java.util.Calendar
         }
 
         todoViewModel.todoList.observe(viewLifecycleOwner) { tasks ->
-            todoAdapter.submitList(tasks)
+            todoAdapter.makeList(tasks)
         }
 
         fixedTodoViewModel.fixedtodoList.observe(viewLifecycleOwner) { tasks ->
@@ -70,7 +72,7 @@ import java.util.Calendar
                     else -> false
                 }
             }
-            simplefixedTodoAdapter.submitList(todayTasks)
+            simplefixedTodoAdapter.makeList(todayTasks)
         }
     }
 

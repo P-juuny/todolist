@@ -12,7 +12,6 @@ class FixedToDoViewModel : ViewModel() {
     val fixedtodoList: LiveData<MutableList<FixedTaskItem>> get() = _fixedtodoList
 
     fun addTodo(task: FixedTaskItem) {
-        // observer에는 객체의 변화를 알려줘야하기 때문에 currentList 생성
         val currentList = _fixedtodoList.value ?: mutableListOf()
         currentList.add(task)
         _fixedtodoList.value = currentList
@@ -24,6 +23,7 @@ class FixedToDoViewModel : ViewModel() {
             currentList.removeAt(position)
             _fixedtodoList.value = currentList
         }
+        //else처리 해주기
     }
 
     fun updateTodoCheck(position: Int, isChecked: Boolean) {
@@ -32,6 +32,7 @@ class FixedToDoViewModel : ViewModel() {
             currentList[position].isChecked = isChecked
             _fixedtodoList.value = currentList
         }
+        //else처리 해주기
     }
 
     fun updateDate(Id: Int, position: Int, isChecked: Boolean) {
@@ -49,5 +50,6 @@ class FixedToDoViewModel : ViewModel() {
             }
             _fixedtodoList.value = currentList
         }
+        //else처리 해주기
     }
 }

@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.todolist.model.TaskItem
 
 class TodoViewModel : ViewModel() {
-    //내부에서 사용하는 라이브 데이터 따라서 외부에서는 볼 수 없게 설정
     private val _todoList = MutableLiveData<MutableList<TaskItem>>()
-    //외부에서 관찰 가능한 라이브 데이터 UI가 이 라이브데이터를 관찰
     val todoList: LiveData<MutableList<TaskItem>> get() = _todoList
 
     fun addTodo(task: TaskItem) {
