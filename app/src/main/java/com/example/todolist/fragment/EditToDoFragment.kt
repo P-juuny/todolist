@@ -44,7 +44,7 @@ class EditTodoFragment : Fragment() {
         }
 
         viewModel.todoList.observe(viewLifecycleOwner) { tasks ->
-            todoAdapter.submitList(tasks)
+            todoAdapter.makeList(tasks)
         }
     }
 
