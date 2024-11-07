@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.R
 import com.example.todolist.adapter.SimpleFixedTodoAdapter
@@ -16,7 +17,6 @@ import com.example.todolist.viewmodel.FixedToDoViewModel
 import java.util.Calendar
 
 
-/*
 class TaskOverviewFragment : Fragment() {
     private var _binding: FragmentTaskOverviewBinding? = null
     private val binding get() = _binding!!
@@ -78,18 +78,17 @@ class TaskOverviewFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.buttonAddTodo.setOnClickListener {
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment_container, EditTodoFragment())
-                addToBackStack(null)
-                commit()
-            }
+            findNavController().navigate(R.id.action_taskOverviewFragment_to_editTodoFragment)
+        }
+
+        binding.timerButton.setOnClickListener {
+            findNavController().navigate(R.id.action_taskOverviewFragment_to_stopWatchFragment)
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
        _binding = null
     }
 }
-
- */
