@@ -16,7 +16,6 @@ import com.example.todolist.viewmodel.FixedToDoViewModel
 import java.util.Calendar
 
 
-/*
 class TaskOverviewFragment : Fragment() {
     private var _binding: FragmentTaskOverviewBinding? = null
     private val binding get() = _binding!!
@@ -60,19 +59,7 @@ class TaskOverviewFragment : Fragment() {
         }
 
         fixedTodoViewModel.fixedtodoList.observe(viewLifecycleOwner) { tasks ->
-            val todayTasks = tasks.filter { task ->
-                when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-                    Calendar.MONDAY -> task.monday
-                    Calendar.TUESDAY -> task.tuesday
-                    Calendar.WEDNESDAY -> task.wednesday
-                    Calendar.THURSDAY -> task.thursday
-                    Calendar.FRIDAY -> task.friday
-                    Calendar.SATURDAY -> task.saturday
-                    Calendar.SUNDAY -> task.sunday
-                    else -> false
-                }
-            }
-            simplefixedTodoAdapter.makeList(todayTasks)
+            simplefixedTodoAdapter.makeList(tasks)
         }
     }
 
@@ -92,4 +79,3 @@ class TaskOverviewFragment : Fragment() {
     }
 }
 
- */
