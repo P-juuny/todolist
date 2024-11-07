@@ -51,7 +51,7 @@ class SimpleFixedTodoAdapter(
 
     override fun getItemCount(): Int = fixedtodoList.size
 
-    fun submitList(newList: List<FixedTaskItem>) {
+    fun makeList(newList: List<FixedTaskItem>) {
         fixedtodoList = newList
         notifyDataSetChanged()
     }

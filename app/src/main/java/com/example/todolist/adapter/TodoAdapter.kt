@@ -18,11 +18,7 @@ class TodoAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(taskItem: TaskItem) {
-            // 할일 텍스트 설정
             binding.todoItemText.text = taskItem.task
-            // 체크박스 상태 설정
-            // 뷰를 재활용하기때문에 처음 Listener은 null로 초기화
-
             binding.checkBox.setOnCheckedChangeListener(null)
             binding.checkBox.isChecked = taskItem.isChecked
 
@@ -54,7 +50,7 @@ class TodoAdapter(
 
     override fun getItemCount(): Int = todoList.size
 
-    fun submitList(newList: List<TaskItem>) {
+    fun makeList(newList: List<TaskItem>) {
         todoList = newList
         notifyDataSetChanged()
     }
