@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Center Section for challenge icon and completion text -->
+    <!-- 트로피 그림, 퍼센테이와 목표시간, 현재시간 나타내는 레이아웃 -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Challenge Icon -->
+        <!-- 트로피 이미지 -->
         <ImageView
             android:id="@+id/challengeIcon"
             android:layout_width="125dp"
@@ -38,7 +38,7 @@
             android:src="@drawable/challenge"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Completed Percentage Text -->
+        <!-- 00% Completed -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 android:layout_marginStart="4dp" />
         </LinearLayout>
 
-        <!-- Challenge Progress Text -->
+        <!-- 000시간 중 000시간 달성 -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
     </LinearLayout>
 
     <!-- Medal Section Layout -->
-    <!-- 수직으로 메달 배열 생성 -->
+    <!-- 수직으로 메달 배열(금, 은, 동) 생성 -->
 
     <LinearLayout
         android:id="@+id/medalSection"
