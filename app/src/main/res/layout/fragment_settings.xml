@@ -5,7 +5,7 @@
     android:id="@+id/Settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsFragment" >
+    tools:context=".fragment.SettingsFragment" >
 
     <TextView
         android:id="@+id/txt_settings_label"
