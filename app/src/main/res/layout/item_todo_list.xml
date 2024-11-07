@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingStart="8dp"
-        android:text="ex) 객프 수업가기"
+        android:hint="ex) 객프 수업가기"
         android:textSize="18sp"/>
 
     <ImageButton
