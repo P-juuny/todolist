@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
 import com.example.todolist.databinding.FragmentChallengeViewBinding
 import com.example.todolist.viewmodel.StopwatchViewModel
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 class ChallengeViewFragment : Fragment() {
@@ -45,17 +46,17 @@ class ChallengeViewFragment : Fragment() {
         // 목표 시간을 관찰하여 tvChallengeHour에 표시
         viewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
             val hours = goalTimeInSeconds?.div(3600) ?: 0
-            binding.tvChallengeHour.text = String.format("%02d.00", hours)
+            binding.tvChallengeHour.text = "$hours"
         }
 
         // 전체 누적 시간을 관찰하여 tvCurrentHour에 표시
         viewModel.totalAccumulatedTime.observe(viewLifecycleOwner) { totalAccumulatedSeconds ->
             val hours = totalAccumulatedSeconds / 3600
             val minutes = (totalAccumulatedSeconds % 3600) / 60
-            binding.tvCurrentHour.text = String.format("%02d.%02d", hours, minutes)
+            binding.tvCurrentHour.text = if(minutes < 10) "$hours.0$minutes" else "$hours.$minutes"
         }
 
-        // 목표 시간과 전체 누적 시간을 이용해 완료 퍼센티지 계산하여 tvCompletedPercentage에 표시
+        // 목표 시간과 전체 누적 시간을 이용해 완료 퍼센티지 계산하여 tvCompletedPercentage에 표시, 초 단위로 저장 후 초 단위로 계산
         viewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
             val totalAccumulatedSeconds = viewModel.totalAccumulatedTime.value ?: 0
             val completionPercentage = if (goalTimeInSeconds != null && goalTimeInSeconds > 0) {
@@ -63,7 +64,8 @@ class ChallengeViewFragment : Fragment() {
             } else {
                 0
             }
-            binding.tvCompletedPercentage.text = String.format("%02d%%", completionPercentage)
+            binding.tvCompletedPercentage.text =
+                if(completionPercentage < 10) "0$completionPercentage%" else "$completionPercentage%"
         }
     }
 

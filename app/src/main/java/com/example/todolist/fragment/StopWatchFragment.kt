@@ -33,10 +33,20 @@ class StopWatchFragment : Fragment() {
         // btn_start 및 btn_refresh 클릭 리스너 설정
         _binding = FragmentStopWatchBinding.inflate(inflater, container, false).apply {
             btnStart.setOnClickListener {
-                if (stopwatchViewModel.isRunning) stopwatchViewModel.stopTimer() else stopwatchViewModel.startTimer()
+                if (stopwatchViewModel.isRunning) {
+                    stopwatchViewModel.stopTimer()
+                    btnStart.text = getString(R.string.btn_start)
+                    btnStart.setBackgroundColor(requireContext().getColor(R.color.btn_start))
+                }
+                else {
+                    stopwatchViewModel.startTimer()
+                    btnStart.text = getString(R.string.btn_pause)
+                    btnStart.setBackgroundColor(requireContext().getColor(R.color.btn_pause))
+                }
             }
             btnRefresh.setOnClickListener {
                 stopwatchViewModel.resetTimer() // ViewModel에 저장된 현재 시간을 초기화
+                btnStart.text = getString(R.string.btn_start)
             }
         }
         return binding.root
