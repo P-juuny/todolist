@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
 import com.example.todolist.databinding.FragmentChallengeViewBinding
+import com.example.todolist.viewmodel.StopwatchViewModel
+import kotlin.math.roundToInt
 
 class ChallengeViewFragment : Fragment() {
 
@@ -15,10 +18,7 @@ class ChallengeViewFragment : Fragment() {
     private var _binding: FragmentChallengeViewBinding? = null
     private val binding get() = _binding!!
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {}
-//    }
+    private val viewModel: StopwatchViewModel by activityViewModels() // ViewModel을 Activity와 공유
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,22 +36,39 @@ class ChallengeViewFragment : Fragment() {
         binding.btnSetGoalTime.setOnClickListener {
             findNavController().navigate(R.id.action_challengeViewFragment_to_challengeViewSettingGoalTimeFragment)
         }
+
+        // ViewModel의 데이터를 관찰하여 UI 업데이트
+        observeViewModel()
     }
 
+    private fun observeViewModel() {
+        // 목표 시간을 관찰하여 tvChallengeHour에 표시
+        viewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
+            val hours = goalTimeInSeconds?.div(3600) ?: 0
+            binding.tvChallengeHour.text = String.format("%02d.00", hours)
+        }
+
+        // 전체 누적 시간을 관찰하여 tvCurrentHour에 표시
+        viewModel.totalAccumulatedTime.observe(viewLifecycleOwner) { totalAccumulatedSeconds ->
+            val hours = totalAccumulatedSeconds / 3600
+            val minutes = (totalAccumulatedSeconds % 3600) / 60
+            binding.tvCurrentHour.text = String.format("%02d.%02d", hours, minutes)
+        }
+
+        // 목표 시간과 전체 누적 시간을 이용해 완료 퍼센티지 계산하여 tvCompletedPercentage에 표시
+        viewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
+            val totalAccumulatedSeconds = viewModel.totalAccumulatedTime.value ?: 0
+            val completionPercentage = if (goalTimeInSeconds != null && goalTimeInSeconds > 0) {
+                ((totalAccumulatedSeconds.toDouble() / goalTimeInSeconds) * 100).roundToInt()
+            } else {
+                0
+            }
+            binding.tvCompletedPercentage.text = String.format("%02d%%", completionPercentage)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    /*
-    companion object {
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ChallengeViewFragment().apply {
-                arguments = Bundle().apply {}
-            }
-    }
-    */
 }

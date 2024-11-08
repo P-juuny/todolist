@@ -20,6 +20,9 @@ class StopwatchViewModel : ViewModel() {
     private val _dailyAccumulatedTimes = MutableLiveData<Map<String, Int>>(emptyMap()) // 날짜별 누적 시간
     val dailyAccumulatedTimes: LiveData<Map<String, Int>> get() = _dailyAccumulatedTimes
 
+    private val _goalTime = MutableLiveData<Int?>() // 목표 시간
+    val goalTime: LiveData<Int?> get() = _goalTime
+
     private var timer: Timer? = null
     var isRunning = false
         private set
@@ -73,6 +76,15 @@ class StopwatchViewModel : ViewModel() {
             val updatedDailyTimes = _dailyAccumulatedTimes.value?.toMutableMap() ?: mutableMapOf()
             updatedDailyTimes[currentDate] = 0
             _dailyAccumulatedTimes.value = updatedDailyTimes
+        }
+    }
+
+    // 목표 시간을 설정하는 함수, 초단위로 받아옴
+    fun setGoalTime(timeInSeconds: Int?) {
+        if (timeInSeconds != null && timeInSeconds > 0) {
+            _goalTime.value = timeInSeconds
+        } else {
+            _goalTime.value = null // 잘못된 입력일 경우 null로 설정
         }
     }
 
