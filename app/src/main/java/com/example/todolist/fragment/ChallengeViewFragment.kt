@@ -18,7 +18,7 @@ class ChallengeViewFragment : Fragment() {
     private var _binding: FragmentChallengeViewBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: StopwatchViewModel by activityViewModels() // ViewModel을 Activity와 공유
+    private val stopwatchViewModel: StopwatchViewModel by activityViewModels() // ViewModel을 Activity와 공유
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,21 +43,21 @@ class ChallengeViewFragment : Fragment() {
 
     private fun observeViewModel() {
         // 목표 시간을 관찰하여 tvChallengeHour에 표시
-        viewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
+        stopwatchViewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
             val hours = goalTimeInSeconds?.div(3600) ?: 0
             binding.tvChallengeHour.text = "$hours"
         }
 
         // 전체 누적 시간을 관찰하여 tvCurrentHour에 표시
-        viewModel.totalAccumulatedTime.observe(viewLifecycleOwner) { totalAccumulatedSeconds ->
+        stopwatchViewModel.totalAccumulatedTime.observe(viewLifecycleOwner) { totalAccumulatedSeconds ->
             val hours = totalAccumulatedSeconds / 3600
             val minutes = (totalAccumulatedSeconds % 3600) / 60
             binding.tvCurrentHour.text = if(minutes < 10) "$hours.0$minutes" else "$hours.$minutes"
         }
 
-        // 목표 시간과 전체 누적 시간을 이용해 완료 퍼센티지 계산하여 tvCompletedPercentage에 표시, 초 단위로 저장 후 초 단위로 계산
-        viewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
-            val totalAccumulatedSeconds = viewModel.totalAccumulatedTime.value ?: 0
+        // 목표 시간과 전체 누적 시간을 이용해 퍼센티지 계산하여 tvCompletedPercentage에 표시, 초 단위로 저장 후 초 단위로 계산
+        stopwatchViewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
+            val totalAccumulatedSeconds = stopwatchViewModel.totalAccumulatedTime.value ?: 0
             val completionPercentage = if (goalTimeInSeconds != null && goalTimeInSeconds > 0) {
                 ((totalAccumulatedSeconds.toDouble() / goalTimeInSeconds) * 100).roundToInt()
             } else {
@@ -68,20 +68,20 @@ class ChallengeViewFragment : Fragment() {
         }
 
         // 메달 개수를 관찰하여 업데이트
-        viewModel.goldMedalCount.observe(viewLifecycleOwner) { goldCount ->
+        stopwatchViewModel.goldMedalCount.observe(viewLifecycleOwner) { goldCount ->
             binding.goldMedalCount.text = goldCount.toString()
         }
 
-        viewModel.silverMedalCount.observe(viewLifecycleOwner) { silverCount ->
+        stopwatchViewModel.silverMedalCount.observe(viewLifecycleOwner) { silverCount ->
             binding.silverMedalCount.text = silverCount.toString()
         }
 
-        viewModel.bronzeMedalCount.observe(viewLifecycleOwner) { bronzeCount ->
+        stopwatchViewModel.bronzeMedalCount.observe(viewLifecycleOwner) { bronzeCount ->
             binding.bronzeMedalCount.text = bronzeCount.toString()
         }
 
         // 총점을 관찰하여 tvTotalScore에 표시
-        viewModel.totalScore.observe(viewLifecycleOwner) { score ->
+        stopwatchViewModel.totalScore.observe(viewLifecycleOwner) { score ->
             binding.tvTotalScore.text = score.toString()
         }
     }
