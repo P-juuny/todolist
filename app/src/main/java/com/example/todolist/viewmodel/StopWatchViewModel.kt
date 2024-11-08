@@ -80,9 +80,19 @@ class StopwatchViewModel : ViewModel() {
 
         // 메달 개수 업데이트 및 총점 계산
         updateMedalCounts()
-        calculateTotalScore()
+        addDailyScore()
 
         _elapsedTime.value = 0
+    }
+
+    // 모든 누적 시간을 초기화하는 함수
+    fun resetAllAccumulatedTime() {
+        _totalAccumulatedTime.value = 0
+        _dailyAccumulatedTimes.value = emptyMap()
+        _goldMedalCount.value = 0
+        _silverMedalCount.value = 0
+        _bronzeMedalCount.value = 0
+        _totalScore.value = 0
     }
 
     // 메달 개수를 업데이트하는 함수
