@@ -40,12 +40,12 @@
             android:text="@string/tv_second_text"
             android:textSize="36sp" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tv_millisecond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_millisecond_text"
-            android:textSize="36sp" />
+            android:textSize="36sp" />-->
     </LinearLayout>
 
     <!-- Button Group LinearLayout -->
