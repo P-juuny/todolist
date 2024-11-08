@@ -29,7 +29,7 @@ class ChallengeViewSettingGoalTimeFragment : Fragment() {
             applyGoalTime()
         }
         // 현재시간 초기화 버튼을 누르면 여지껏 누적된 총 시간과 일별 누적시간 및 메달 개수 총 점수가 모두 리셋됨
-        binding.btnApplySettingGoalTime.setOnClickListener {
+        binding.btnResetCurrent.setOnClickListener {
             stopwatchViewModel.resetAllAccumulatedTime()
         }
         return binding.root
