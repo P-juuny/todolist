@@ -30,7 +30,7 @@ class StopWatchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentStopWatchBinding.inflate(inflater, container, false).apply {
             // btn_start 및 btn_refresh 클릭 리스너 설정
             btnStart.setOnClickListener {
@@ -67,19 +67,17 @@ class StopWatchFragment : Fragment() {
         isRunning = true
 
         // Timer는 background thread에서 동작
-        timer = timer(period = 10) {
-            time++ // 0.01초씩 증가
+        timer = timer(period = 1000) {
+            time++ // 1초씩 증가
 
-            val milliSecond = time % 100
-            val second = (time % 6000) / 100
-            val minute = time / 6000
-            val hour = time / 360000
+            val second = time % 60
+            val minute = (time / 60) % 60
+            val hour = time / 3600
 
             // 메인 스레드에서 UI 업데이트
             // 프래그먼트에서도 백그라운드에서 돌아가는 스레드가 메인 스레드에 반영 될 수 있도록함
             requireActivity().runOnUiThread {
                 if (isRunning) { // 타이머가 실행중에만 시각이 변경될 수 있도록함
-                    binding.tvMillisecond.text = if (milliSecond < 10) ".0$milliSecond" else ".$milliSecond"
                     binding.tvSecond.text = if (second < 10) ":0$second" else ":$second"
                     binding.tvMinute.text = if (minute < 10) ":0$minute" else ":$minute"
                     binding.tvHour.text = "$hour"
@@ -103,7 +101,6 @@ class StopWatchFragment : Fragment() {
         time = 0
 
         // 초기 시간 표시 설정
-        binding.tvMillisecond.text = getString(R.string.tv_millisecond_text)
         binding.tvSecond.text = getString(R.string.tv_second_text)
         binding.tvMinute.text = getString(R.string.tv_minute_text)
         binding.tvHour.text = getString(R.string.tv_hour_text)
