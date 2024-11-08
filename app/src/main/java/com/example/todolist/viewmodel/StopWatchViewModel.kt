@@ -23,6 +23,20 @@ class StopwatchViewModel : ViewModel() {
     private val _goalTime = MutableLiveData<Int?>() // 목표 시간
     val goalTime: LiveData<Int?> get() = _goalTime
 
+    //금, 은, 동 메달 개수
+    private val _goldMedalCount = MutableLiveData(0)
+    val goldMedalCount: LiveData<Int> get() = _goldMedalCount
+
+    private val _silverMedalCount = MutableLiveData(0)
+    val silverMedalCount: LiveData<Int> get() = _silverMedalCount
+
+    private val _bronzeMedalCount = MutableLiveData(0)
+    val bronzeMedalCount: LiveData<Int> get() = _bronzeMedalCount
+
+    //메달 개수를 토대로 점수 계산을 관리하는 변수
+    private val _totalScore = MutableLiveData(0)
+    val totalScore: LiveData<Int> get() = _totalScore
+
     private var timer: Timer? = null
     var isRunning = false
         private set
@@ -64,8 +78,49 @@ class StopwatchViewModel : ViewModel() {
         // 전체 누적 시간 업데이트
         _totalAccumulatedTime.value = (_totalAccumulatedTime.value ?: 0) + currentElapsedTime
 
+        // 메달 개수 업데이트 및 총점 계산
+        updateMedalCounts()
+        calculateTotalScore()
+
         _elapsedTime.value = 0
     }
+
+    // 메달 개수를 업데이트하는 함수
+    private fun updateMedalCounts() {
+        // 금, 은, 동 메달 개수 초기화
+        var goldCount = 0
+        var silverCount = 0
+        var bronzeCount = 0
+
+        // 날짜별로 가장 높은 시간의 메달을 결정하여 하루에 메달이  1개씩만 증가하도록 함.
+        _dailyAccumulatedTimes.value?.forEach { (_, dailyTime) ->
+            val hours = dailyTime / 3600 // dailyTime은 초 단위로 되어있어서 시간을 알기위해 3600을 나눔
+            when {
+                hours >= 6 -> goldCount++
+                hours >= 3 -> silverCount++
+                hours >= 1 -> bronzeCount++
+            }
+        }
+
+        _goldMedalCount.value = goldCount
+        _silverMedalCount.value = silverCount
+        _bronzeMedalCount.value = bronzeCount
+    }
+
+    // 총점을 계산하여 _totalScore에 더하는 함수
+    // 해당 날짜의 메달 등급에 따른 점수를 총점에 추가
+    private fun addDailyScore() {
+        val dailyTime = _dailyAccumulatedTimes.value?.get(currentDate) ?: 0
+        val hours = dailyTime / 3600
+        val dailyScore = when {
+            hours >= 6 -> 3  // 금메달 조건
+            hours >= 3 -> 2  // 은메달 조건
+            hours >= 1 -> 1  // 동메달 조건
+            else -> 0
+        }
+        _totalScore.value = (_totalScore.value ?: 0) + dailyScore
+    }
+
 
     // 날짜가 변경되었을 경우 현재 날짜를 갱신
     private fun checkDateAndInitialize() {

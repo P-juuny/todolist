@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
 import com.example.todolist.databinding.FragmentChallengeViewBinding
 import com.example.todolist.viewmodel.StopwatchViewModel
-import kotlin.math.min
 import kotlin.math.roundToInt
 
 class ChallengeViewFragment : Fragment() {
@@ -65,7 +64,25 @@ class ChallengeViewFragment : Fragment() {
                 0
             }
             binding.tvCompletedPercentage.text =
-                if(completionPercentage < 10) "0$completionPercentage%" else "$completionPercentage%"
+                if(completionPercentage < 10) "$completionPercentage%" else "$completionPercentage%"
+        }
+
+        // 메달 개수를 관찰하여 업데이트
+        viewModel.goldMedalCount.observe(viewLifecycleOwner) { goldCount ->
+            binding.goldMedalCount.text = goldCount.toString()
+        }
+
+        viewModel.silverMedalCount.observe(viewLifecycleOwner) { silverCount ->
+            binding.silverMedalCount.text = silverCount.toString()
+        }
+
+        viewModel.bronzeMedalCount.observe(viewLifecycleOwner) { bronzeCount ->
+            binding.bronzeMedalCount.text = bronzeCount.toString()
+        }
+
+        // 총점을 관찰하여 tvTotalScore에 표시
+        viewModel.totalScore.observe(viewLifecycleOwner) { score ->
+            binding.tvTotalScore.text = score.toString()
         }
     }
 
