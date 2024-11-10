@@ -11,8 +11,8 @@ import kotlin.concurrent.timer
 
 class StopwatchViewModel : ViewModel() {
 
-    private val _elapsedTime = MutableLiveData(0) // 초 단위로 스탑워치 시간
-    val elapsedTime: LiveData<Int> get() = _elapsedTime
+    private val _time = MutableLiveData(0) // 초 단위로 진행되는 스탑워치 시간
+    val time: LiveData<Int> get() = _time
 
     private val _totalAccumulatedTime = MutableLiveData(0) // 전체 누적 시간
     val totalAccumulatedTime: LiveData<Int> get() = _totalAccumulatedTime
@@ -37,6 +37,7 @@ class StopwatchViewModel : ViewModel() {
     private val _totalScore = MutableLiveData(0)
     val totalScore: LiveData<Int> get() = _totalScore
 
+    //Timer 클래스 사용. 타이머가 실행중이 아닐땐 null로 설정
     private var timer: Timer? = null
     var isRunning = false
         private set
@@ -49,13 +50,25 @@ class StopwatchViewModel : ViewModel() {
         return dateFormat.format(Date())
     }
 
+    // 날짜가 변경되었을 경우 현재 날짜를 갱신
+    private fun checkDateAndInitialize() {
+        val today = getCurrentDate()
+        if (today != currentDate) {
+            currentDate = today
+            // 날짜가 변경되면 새로운 날의 일일 누적 시간을 0으로 시작
+            val updatedDailyTimes = _dailyAccumulatedTimes.value?.toMutableMap() ?: mutableMapOf()
+            updatedDailyTimes[currentDate] = 0
+            _dailyAccumulatedTimes.value = updatedDailyTimes
+        }
+    }
+
     // 타이머 시작
     fun startTimer() {
         if (isRunning) return // 이미 실행 중이면 무시
         isRunning = true
         timer = timer(period = 1000) {
             checkDateAndInitialize()
-            _elapsedTime.postValue((_elapsedTime.value ?: 0) + 1) // 1초씩 증가
+            _time.postValue((_time.value ?: 0) + 1) // 1초씩 증가
         }
     }
 
@@ -67,22 +80,22 @@ class StopwatchViewModel : ViewModel() {
 
     // 타이머 초기화 및 현재 시간을 날짜별 누적 시간에 추가
     fun resetTimer() {
-        val currentElapsedTime = _elapsedTime.value ?: 0
+        val currentTime = _time.value ?: 0
         checkDateAndInitialize()
 
         // 날짜별 누적 시간 업데이트
         val updatedDailyTimes = _dailyAccumulatedTimes.value?.toMutableMap() ?: mutableMapOf()
-        updatedDailyTimes[currentDate] = (updatedDailyTimes[currentDate] ?: 0) + currentElapsedTime
+        updatedDailyTimes[currentDate] = (updatedDailyTimes[currentDate] ?: 0) + currentTime
         _dailyAccumulatedTimes.value = updatedDailyTimes
 
         // 전체 누적 시간 업데이트
-        _totalAccumulatedTime.value = (_totalAccumulatedTime.value ?: 0) + currentElapsedTime
+        _totalAccumulatedTime.value = (_totalAccumulatedTime.value ?: 0) + currentTime
 
         // 메달 개수 업데이트 및 총점 계산
         updateMedalCounts()
         addDailyScore()
 
-        _elapsedTime.value = 0
+        _time.value = 0
     }
 
     // 모든 누적 시간을 초기화하는 함수
@@ -103,18 +116,19 @@ class StopwatchViewModel : ViewModel() {
         var bronzeCount = 0
 
         // 날짜별로 가장 높은 시간의 메달을 결정하여 하루에 메달이  1개씩만 증가하도록 함.
-        _dailyAccumulatedTimes.value?.forEach { (_, dailyTime) ->
-            val hours = dailyTime / 3600 // dailyTime은 초 단위로 되어있어서 시간을 알기위해 3600을 나눔
-            when {
-                hours >= 6 -> goldCount++
-                hours >= 3 -> silverCount++
-                hours >= 1 -> bronzeCount++
-            }
+//        _dailyAccumulatedTimes.value?.forEach { (_, dailyTime) ->
+//            val hours = dailyTime / 3600 // dailyTime은 초 단위로 되어있어서 시간을 알기위해 3600을 나눔
+        val dailyTime = _dailyAccumulatedTimes.value?.get(currentDate) ?: 0
+        val hours = dailyTime / 3600
+        when {
+            hours >= 6 -> goldCount++
+            hours >= 3 -> silverCount++
+            hours >= 1 -> bronzeCount++
         }
 
-        _goldMedalCount.value = goldCount
-        _silverMedalCount.value = silverCount
-        _bronzeMedalCount.value = bronzeCount
+        _goldMedalCount.value = (_goldMedalCount.value ?: 0) + goldCount
+        _silverMedalCount.value = (_silverMedalCount.value ?: 0) + silverCount
+        _bronzeMedalCount.value = (_bronzeMedalCount.value ?: 0) + bronzeCount
     }
 
     // 총점을 계산하여 _totalScore에 더하는 함수
@@ -129,19 +143,6 @@ class StopwatchViewModel : ViewModel() {
             else -> 0
         }
         _totalScore.value = (_totalScore.value ?: 0) + dailyScore
-    }
-
-
-    // 날짜가 변경되었을 경우 현재 날짜를 갱신
-    private fun checkDateAndInitialize() {
-        val today = getCurrentDate()
-        if (today != currentDate) {
-            currentDate = today
-            // 날짜가 변경되면 새로운 날의 일일 누적 시간을 0으로 시작
-            val updatedDailyTimes = _dailyAccumulatedTimes.value?.toMutableMap() ?: mutableMapOf()
-            updatedDailyTimes[currentDate] = 0
-            _dailyAccumulatedTimes.value = updatedDailyTimes
-        }
     }
 
     // 목표 시간을 설정하는 함수, 초단위로 받아옴
