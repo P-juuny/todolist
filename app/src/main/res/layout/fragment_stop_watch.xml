@@ -40,12 +40,12 @@
             android:text="@string/tv_second_text"
             android:textSize="36sp" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tv_millisecond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_millisecond_text"
-            android:textSize="36sp" />
+            android:textSize="36sp" />-->
     </LinearLayout>
 
     <!-- Button Group LinearLayout -->
@@ -75,12 +75,16 @@
             android:text="@string/btn_refresh" />
     </LinearLayout>
 
-    <!-- 할 일 목록에서 리스트뷰를 가져와 여기에 표시 -->
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/button_group_layout"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+    <!-- 할 일 목록에서 리스트뷰를 가져와 버튼 아래 표시 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/todoRecyclerView"
+        android:layout_width="409dp"
+        android:layout_height="395dp"
+        android:padding="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_group_layout" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
