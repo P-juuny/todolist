@@ -83,7 +83,8 @@ class StopWatchFragment : Fragment() {
             binding.tvHour.text = "$hour"
         }
     }
-
+    
+// StopWatchViewModel 사용 전 코드
 //    private fun start() {
 //        binding.btnStart.text = getString(R.string.btn_pause)
 //        binding.btnStart.setBackgroundColor(requireContext().getColor(R.color.btn_pause))
