@@ -14,7 +14,7 @@ import com.example.todolist.viewmodel.TodoViewModel
 import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentTaskOverviewBinding
 import com.example.todolist.viewmodel.FixedToDoViewModel
-
+import com.example.todolist.viewmodel.StopwatchViewModel
 
 
 class TaskOverviewFragment : Fragment() {
@@ -23,6 +23,7 @@ class TaskOverviewFragment : Fragment() {
 
     private val todoViewModel: TodoViewModel by activityViewModels()
     private val fixedTodoViewModel: FixedToDoViewModel by activityViewModels()
+    private val stopWatchViewModel: StopwatchViewModel by activityViewModels()
 
     private lateinit var todoAdapter: TodoAdapter
     private lateinit var simplefixedTodoAdapter: SimpleFixedTodoAdapter
@@ -40,6 +41,7 @@ class TaskOverviewFragment : Fragment() {
 
         setupRecyclerView()
         setupClickListeners()
+        setupTimer()
     }
 
     private fun setupRecyclerView() {
@@ -74,10 +76,18 @@ class TaskOverviewFragment : Fragment() {
         }
     }
 
+    private fun setupTimer() {
+        stopWatchViewModel.totalAccumulatedTime.observe(viewLifecycleOwner) { time ->
+            val hours = time / 3600
+            val minutes = (time % 3600) / 60
+            val seconds = time % 60
+            val timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+            binding.totalTime.text = timeString
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
        _binding = null
     }
-
 }
