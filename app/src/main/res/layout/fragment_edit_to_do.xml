@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add your Todo"
+        android:text="할 일 추가"
         android:textSize="24sp"
         android:padding="8dp"
         android:textColor="#4A4A4A"
