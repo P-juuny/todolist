@@ -14,7 +14,7 @@ import com.example.todolist.viewmodel.TodoViewModel
 import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentTaskOverviewBinding
 import com.example.todolist.viewmodel.FixedToDoViewModel
-
+import com.example.todolist.viewmodel.StopwatchViewModel
 
 
 class TaskOverviewFragment : Fragment() {
@@ -23,6 +23,7 @@ class TaskOverviewFragment : Fragment() {
 
     private val todoViewModel: TodoViewModel by activityViewModels()
     private val fixedTodoViewModel: FixedToDoViewModel by activityViewModels()
+    private val stopWatchViewModel: StopwatchViewModel by activityViewModels()
 
     private lateinit var todoAdapter: TodoAdapter
     private lateinit var simplefixedTodoAdapter: SimpleFixedTodoAdapter
@@ -35,11 +36,13 @@ class TaskOverviewFragment : Fragment() {
         return binding.root
     }
 
+    //뷰모델 쓰는 공간
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
         setupClickListeners()
+        setupTimer()
     }
 
     private fun setupRecyclerView() {
@@ -55,12 +58,12 @@ class TaskOverviewFragment : Fragment() {
             adapter = simplefixedTodoAdapter
         }
 
-        todoViewModel.todoList.observe(viewLifecycleOwner) { tasks ->
-            todoAdapter.makeList(tasks)
+        todoViewModel.todoList.observe(viewLifecycleOwner) {
+            todoAdapter.makeList(it)
         }
 
-        fixedTodoViewModel.fixedtodoList.observe(viewLifecycleOwner) { tasks ->
-            simplefixedTodoAdapter.makeList(tasks)
+        fixedTodoViewModel.fixedtodoList.observe(viewLifecycleOwner) {
+            simplefixedTodoAdapter.makeList(it)
         }
     }
 
@@ -74,10 +77,18 @@ class TaskOverviewFragment : Fragment() {
         }
     }
 
+    private fun setupTimer() {
+        stopWatchViewModel.totalAccumulatedTime.observe(viewLifecycleOwner) {
+            val hours = it / 3600
+            val minutes = (it % 3600) / 60
+            val seconds = it % 60
+            val timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+            binding.totalTime.text = timeString
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
        _binding = null
     }
-
 }

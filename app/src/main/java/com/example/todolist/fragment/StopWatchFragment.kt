@@ -73,10 +73,10 @@ class StopWatchFragment : Fragment() {
 
     private fun observeViewModel() {
         // 스탑워치 시간을 UI에 업데이트
-        stopwatchViewModel.elapsedTime.observe(viewLifecycleOwner) { time ->
-            val second = time % 60
-            val minute = (time / 60) % 60
-            val hour = time / 3600
+        stopwatchViewModel.time.observe(viewLifecycleOwner) { t ->
+            val second = t % 60
+            val minute = (t / 60) % 60
+            val hour = t / 3600
 
             binding.tvSecond.text = if (second < 10) ":0$second" else ":$second"
             binding.tvMinute.text = if (minute < 10) ":0$minute" else ":$minute"
