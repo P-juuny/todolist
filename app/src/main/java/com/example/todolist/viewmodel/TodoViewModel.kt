@@ -17,19 +17,13 @@ class TodoViewModel : ViewModel() {
 
     fun deleteTodo(position: Int) {
         val currentList = _todoList.value ?: return
-        if (position >= 0 && position < currentList.size) {
-            currentList.removeAt(position)
-            _todoList.value = currentList
-        }
-        //else처리 해주기
+        currentList.removeAt(position)
+        _todoList.value = currentList
     }
 
     fun updateTodoCheck(position: Int, isChecked: Boolean) {
         val currentList = _todoList.value ?: return
-        if (position >= 0 && position < currentList.size) {
-            currentList[position].isChecked = isChecked
-            _todoList.value = currentList
-        }
-        //else처리 해주기
+        currentList[position].isChecked = isChecked
+        _todoList.value = currentList
     }
 }

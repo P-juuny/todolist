@@ -1,7 +1,8 @@
 package com.example.todolist.model
 
 data class FixedTaskItem(
-    val task: String,
+    val task: String = "",
+    var id: String? = null,
     var monday: Boolean = false,
     var tuesday: Boolean = false,
     var wednesday: Boolean = false,
