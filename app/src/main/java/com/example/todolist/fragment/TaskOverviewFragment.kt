@@ -36,6 +36,7 @@ class TaskOverviewFragment : Fragment() {
         return binding.root
     }
 
+    //뷰모델 쓰는 공간
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -57,12 +58,12 @@ class TaskOverviewFragment : Fragment() {
             adapter = simplefixedTodoAdapter
         }
 
-        todoViewModel.todoList.observe(viewLifecycleOwner) { tasks ->
-            todoAdapter.makeList(tasks)
+        todoViewModel.todoList.observe(viewLifecycleOwner) {
+            todoAdapter.makeList(it)
         }
 
-        fixedTodoViewModel.fixedtodoList.observe(viewLifecycleOwner) { tasks ->
-            simplefixedTodoAdapter.makeList(tasks)
+        fixedTodoViewModel.fixedtodoList.observe(viewLifecycleOwner) {
+            simplefixedTodoAdapter.makeList(it)
         }
     }
 
@@ -77,10 +78,10 @@ class TaskOverviewFragment : Fragment() {
     }
 
     private fun setupTimer() {
-        stopWatchViewModel.totalAccumulatedTime.observe(viewLifecycleOwner) { time ->
-            val hours = time / 3600
-            val minutes = (time % 3600) / 60
-            val seconds = time % 60
+        stopWatchViewModel.totalAccumulatedTime.observe(viewLifecycleOwner) {
+            val hours = it / 3600
+            val minutes = (it % 3600) / 60
+            val seconds = it % 60
             val timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds)
             binding.totalTime.text = timeString
         }

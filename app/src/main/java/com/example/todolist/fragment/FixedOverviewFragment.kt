@@ -41,8 +41,8 @@ class FixedOverviewFragment : Fragment() {
             adapter = fixedtodoAdapter
         }
 
-        viewModel.fixedtodoList.observe(viewLifecycleOwner) { tasks ->
-            fixedtodoAdapter.makeList(tasks)
+        viewModel.fixedtodoList.observe(viewLifecycleOwner) {
+            fixedtodoAdapter.makeList(it)
         }
     }
 
