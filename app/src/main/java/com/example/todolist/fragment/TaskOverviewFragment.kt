@@ -75,6 +75,10 @@ class TaskOverviewFragment : Fragment() {
         binding.timerButton.setOnClickListener {
             findNavController().navigate(R.id.action_taskOverviewFragment_to_stopWatchFragment)
         }
+
+        binding.pictureBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_taskOverviewFragment_to_pictureFragment)
+        }
     }
 
     private fun setupTimer() {
