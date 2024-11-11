@@ -23,7 +23,7 @@ class FixedToDoViewModel : ViewModel() {
     val database = Firebase.database
     val myRef = database.getReference("FixedTodo").child(currentUser?.uid ?: "")
 
-    init{
+    init {
         LoadData()
     }
 
@@ -52,44 +52,39 @@ class FixedToDoViewModel : ViewModel() {
         val currentList = _fixedtodoList.value ?: mutableListOf()
         val taskRef = myRef.push()
 
-        task.id = taskRef.key
-        taskRef.setValue(task)
-
         currentList.add(task)
         _fixedtodoList.value = currentList
+
+        task.id = taskRef.key
+        taskRef.setValue(task)
     }
 
     fun deleteTodo(position: Int) {
         val currentList = _fixedtodoList.value ?: return
         val task = currentList[position]
 
+        currentList.removeAt(position)
+        _fixedtodoList.value = currentList
+
         task.id?.let {
             myRef.child(it).removeValue()
         }
-
-        currentList.removeAt(position)
-        _fixedtodoList.value = currentList
     }
 
     fun updateTodoCheck(position: Int, isChecked: Boolean) {
         val currentList = _fixedtodoList.value ?: return
         val task = currentList[position]
+        currentList[position].isChecked = isChecked
+        _fixedtodoList.value = currentList
 
         task.id?.let {
             myRef.child(it).setValue(task)
         }
-
-        currentList[position].isChecked = isChecked
-        _fixedtodoList.value = currentList
     }
 
     fun updateDate(Id: Int, position: Int, isChecked: Boolean) {
         val currentList = _fixedtodoList.value ?: return
         val task = currentList[position]
-
-        task.id?.let {
-            myRef.child(it).setValue(task)
-        }
 
         when (Id) {
             0 -> task.monday = isChecked
@@ -101,5 +96,9 @@ class FixedToDoViewModel : ViewModel() {
             6 -> task.sunday = isChecked
         }
         _fixedtodoList.value = currentList
+
+        task.id?.let {
+            myRef.child(it).setValue(task)
+        }
     }
 }
