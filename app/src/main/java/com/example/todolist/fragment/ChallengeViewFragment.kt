@@ -59,7 +59,7 @@ class ChallengeViewFragment : Fragment() {
         stopwatchViewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
             val totalAccumulatedSeconds = stopwatchViewModel.totalAccumulatedTime.value ?: 0
             val completionPercentage = if (goalTimeInSeconds != null && goalTimeInSeconds > 0) {
-                ((totalAccumulatedSeconds.toDouble() / goalTimeInSeconds) * 100).roundToInt()
+                ((totalAccumulatedSeconds.toDouble() / goalTimeInSeconds) * 100).toInt()
             } else {
                 0
             }

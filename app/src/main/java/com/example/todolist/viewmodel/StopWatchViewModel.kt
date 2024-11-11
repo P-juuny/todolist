@@ -80,6 +80,8 @@ class StopwatchViewModel : ViewModel() {
 
     // 타이머 초기화 및 현재 시간을 날짜별 누적 시간에 추가
     fun resetTimer() {
+        stopTimer()
+
         val currentTime = _time.value ?: 0
         checkDateAndInitialize()
 
