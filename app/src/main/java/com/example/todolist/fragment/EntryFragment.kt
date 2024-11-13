@@ -7,19 +7,30 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.R
+import com.example.todolist.adapter.CalendarAdapter
 import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentEntryBinding
+import com.example.todolist.viewmodel.CalendarViewModel
 import com.example.todolist.viewmodel.TodoViewModel
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.time.Instant
+import java.time.LocalDate
+import java.time.YearMonth
+import java.time.ZoneId
 
 class EntryFragment : Fragment() {
 
     private var _binding: FragmentEntryBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: TodoViewModel by activityViewModels()
+    private val todoViewModel: TodoViewModel by activityViewModels()
+    private val calendarViewModel: CalendarViewModel by activityViewModels()
+
     private lateinit var todoAdapter: TodoAdapter
+    private lateinit var calendarAdapter: CalendarAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,19 +44,73 @@ class EntryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupCalendarRecyclerView()
         setupDailyRecyclerView()
         setupButtons()
+        observeCalendarData()
+
+        calendarViewModel.currentMonth.observe(viewLifecycleOwner) {
+            binding.tvCurrentDate.text = calendarViewModel.formatCurrentMonth()
+        }
+    }
+
+    // 달력 RecyclerView 설정
+    // EntryFragment.kt의 setupCalendarRecyclerView 수정
+    private fun setupCalendarRecyclerView() {
+        calendarAdapter = CalendarAdapter(
+            onDateClick = { date ->
+                calendarViewModel.selectDate(date)
+                todoViewModel.updateSelectedDate(date)
+                findNavController().navigate(R.id.action_entryFragment_to_taskOverviewFragment)
+            },
+            currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
+        )
+
+        binding.calendarRecyclerView.apply {
+            layoutManager = GridLayoutManager(context, 7)
+            adapter = calendarAdapter
+        }
+    }
+
+    // 월/연도 선택을 위한 DatePicker
+    private fun setupMonthYearPicker() {
+        binding.tvCurrentDate.setOnClickListener {
+            val currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
+
+            MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build().apply {
+                    addOnPositiveButtonClickListener { selection ->
+                        val selectedDate = Instant.ofEpochMilli(selection)
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+                        calendarViewModel.setCurrentMonth(YearMonth.of(selectedDate.year, selectedDate.month))
+                    }
+                }.show(parentFragmentManager, "MonthYearPicker")
+        }
+    }
+
+    // 달력 데이터 관찰
+    private fun observeCalendarData() {
+        calendarViewModel.calendarItems.observe(viewLifecycleOwner) { items ->
+            calendarAdapter.submitList(items)
+        }
+
+        calendarViewModel.selectedDate.observe(viewLifecycleOwner) { date ->
+            calendarAdapter.setSelectedDate(date)
+        }
     }
 
     // 오늘 할일 받아와서 RecyclerView에 넣는 함수
     private fun setupDailyRecyclerView() {
-        todoAdapter = TodoAdapter(viewModel)
+        todoAdapter = TodoAdapter(todoViewModel)
         binding.dailyRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = todoAdapter
         }
 
-        viewModel.todoList.observe(viewLifecycleOwner) { tasks ->
+        todoViewModel.todoList.observe(viewLifecycleOwner) { tasks ->
             todoAdapter.makeList(tasks)
         }
     }
@@ -58,8 +123,6 @@ class EntryFragment : Fragment() {
 
         binding.btnFixedToDo.setOnClickListener {
             findNavController().navigate(R.id.action_entryFragment_to_fixedOverviewFragment)
-            // navigation-nav_main 가서 원하는 Fragment 추가 후 EntryFragment에서 이어주기
-            // 화살표 이름 보고 위에 코드에 action_entryFragment_to_~~) 에서 ~~만 수정 하면 볼 수 있음.
         }
 
         binding.btnAchievements.setOnClickListener {
@@ -75,27 +138,4 @@ class EntryFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
-    /*
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EntryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EntryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-    */
 }

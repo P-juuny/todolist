@@ -11,10 +11,14 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
+import java.time.LocalDate
 
 class TodoViewModel : ViewModel() {
     private val _todoList = MutableLiveData<MutableList<TaskItem>>()
     val todoList: LiveData<MutableList<TaskItem>> get() = _todoList
+
+    private val _selectedDateTasks = MutableLiveData<MutableList<TaskItem>>() // 선택된 날짜의 할 일 목록 - 건수 추가
+    val selectedDateTasks: LiveData<MutableList<TaskItem>> get() = _selectedDateTasks
 
     private val auth = Firebase.auth
     private val currentUser = auth.currentUser
@@ -31,10 +35,11 @@ class TodoViewModel : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newList = mutableListOf<TaskItem>()
 
-                for (dataModel in snapshot.children) {
-                    val item = dataModel.getValue(TaskItem::class.java)
-                    item?.let {
-                        newList.add(it)
+                for (dateNode in snapshot.children) {  // 날짜별 노드 - 건수 추가
+                    for (taskNode in dateNode.children) {  // 할일 노드 - 건수 추가
+                        taskNode.getValue(TaskItem::class.java)?.let { task ->
+                            newList.add(task)
+                        }
                     }
                 }
                 _todoList.value = newList
@@ -79,5 +84,25 @@ class TodoViewModel : ViewModel() {
         task.id?.let {
             myRef.child(it).setValue(task)
         }
+    }
+
+    fun updateSelectedDate(date: LocalDate) {   // 선택된 날짜의 할 일 목록 업데이트 - 건수 추가
+        val filteredList = _todoList.value?.filter { task ->
+            task.year == date.year &&
+                    task.month == date.monthValue &&
+                    task.day == date.dayOfMonth
+        }?.toMutableList() ?: mutableListOf()
+
+        _selectedDateTasks.value = filteredList
+    }
+
+    fun addTodoWithDate(task: String, date: LocalDate) {    // 선택된 날짜에 할 일 추가 - 건수 추가
+        val taskItem = TaskItem(
+            task = task,
+            year = date.year,
+            month = date.monthValue,
+            day = date.dayOfMonth
+        )
+        addTodo(taskItem)
     }
 }

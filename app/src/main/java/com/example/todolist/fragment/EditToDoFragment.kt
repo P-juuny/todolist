@@ -11,6 +11,8 @@ import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.model.TaskItem
 import com.example.todolist.viewmodel.TodoViewModel
 import com.example.todolist.databinding.FragmentEditToDoBinding
+import com.example.todolist.viewmodel.CalendarViewModel
+import java.time.LocalDate
 
 class EditTodoFragment : Fragment() {
     //메모리 누수 관리하기 위해서 2개로 바인딩 (구글의 바인딩 사용법)
@@ -18,6 +20,7 @@ class EditTodoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: TodoViewModel by activityViewModels()
+    private val calendarViewModel: CalendarViewModel by activityViewModels() // 일 별 데이터 분리를 위해 추가 - 건수 추가
     private lateinit var todoAdapter: TodoAdapter
 
     override fun onCreateView(
@@ -52,7 +55,14 @@ class EditTodoFragment : Fragment() {
         binding.AddTaskBtn.setOnClickListener {
             val todoText = binding.editTodoItem.text.toString()
             if (todoText.isNotBlank()) {
-                viewModel.addTodo(TaskItem(todoText))
+                val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now() // 할 일 추가 시 선택된 날짜에 저장 - 건수 추가
+                val taskItem = TaskItem(
+                    task = todoText,
+                    year = selectedDate.year,
+                    month = selectedDate.monthValue,
+                    day = selectedDate.dayOfMonth
+                )
+                viewModel.addTodo(taskItem)
                 binding.editTodoItem.text.clear()
             }
         }
