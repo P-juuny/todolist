@@ -6,7 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingTop="40dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="16dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,7 +31,7 @@
         android:id="@+id/AddTaskBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_add_24"/>
+        android:src="@drawable/baseline_add_24" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -44,6 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="저장"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:backgroundTint="#E1D6F4"
+        android:textColor="#4A4A4A"/>
 
 </LinearLayout>

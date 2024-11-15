@@ -6,7 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingTop="40dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="16dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -82,15 +85,4 @@
         android:background="#F8F4FF"
         android:layout_marginBottom="32dp"
         tools:listitem="@layout/item_fixed_todo_simple"/>
-
-    <Button
-        android:id="@+id/pictureBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="사진 기록"
-        android:backgroundTint="#E1D6F4"
-        android:textColor="#4A4A4A"
-        android:drawableLeft="@drawable/baseline_add_a_photo_24"/>
-
 </LinearLayout>
