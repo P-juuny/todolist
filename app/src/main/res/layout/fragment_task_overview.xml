@@ -6,10 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="40dp"
+    android:paddingTop="20dp"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:paddingBottom="16dp">
+    android:paddingBottom="16dp"
+    tools:context=".fragment.TaskOverviewFragment">
 
     <TextView
         android:layout_width="wrap_content"
@@ -85,4 +86,14 @@
         android:background="#F8F4FF"
         android:layout_marginBottom="32dp"
         tools:listitem="@layout/item_fixed_todo_simple"/>
+
+    <Button
+        android:id="@+id/diaryBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="일기장"
+        android:backgroundTint="#E1D6F4"
+        android:textColor="#4A4A4A"
+        android:drawableLeft="@drawable/baseline_add_24"/>
 </LinearLayout>

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.adapter.TodoAdapter
@@ -54,6 +55,9 @@ class EditTodoFragment : Fragment() {
             if (todoText.isNotBlank()) {
                 viewModel.addTodo(TaskItem(todoText))
                 binding.editTodoItem.text.clear()
+            }
+            else {
+                Toast.makeText(context, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
         }
 

@@ -16,18 +16,15 @@ class TodoViewModel : ViewModel() {
     private val _todoList = MutableLiveData<MutableList<TaskItem>>()
     val todoList: LiveData<MutableList<TaskItem>> get() = _todoList
 
-    private val auth = Firebase.auth
-    private val currentUser = auth.currentUser
-
     val database = Firebase.database
-    val myRef = database.getReference("Todo").child(currentUser?.uid ?: "")
+    val TodoRef = database.getReference("Users").child("ToDo")
 
     init {
         LoadData()
     }
 
     fun LoadData() {
-        myRef.addValueEventListener(object : ValueEventListener {
+        TodoRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newList = mutableListOf<TaskItem>()
 
@@ -49,7 +46,7 @@ class TodoViewModel : ViewModel() {
 
     fun addTodo(task: TaskItem) {
         val currentList = _todoList.value ?: mutableListOf()
-        val taskRef = myRef.push()
+        val taskRef = TodoRef.push()
 
         currentList.add(task)
         _todoList.value = currentList
@@ -66,7 +63,7 @@ class TodoViewModel : ViewModel() {
         _todoList.value = currentList
 
         task.id?.let {
-            myRef.child(it).removeValue()
+            TodoRef.child(it).removeValue()
         }
     }
 
@@ -77,7 +74,7 @@ class TodoViewModel : ViewModel() {
         _todoList.value = currentList
 
         task.id?.let {
-            myRef.child(it).setValue(task)
+            TodoRef.child(it).setValue(task)
         }
     }
 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.adapter.FixedTodoAdapter
@@ -59,6 +60,9 @@ class FixedOverviewFragment : Fragment() {
                     saturday = binding.inputSaturday.isChecked
                     sunday = binding.inputSunday.isChecked
                 })
+            }
+            else {
+                Toast.makeText(context, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
             binding.apply {
                 editTodoItem.text.clear()
