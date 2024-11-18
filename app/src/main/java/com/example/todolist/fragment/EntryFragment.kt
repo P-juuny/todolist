@@ -59,7 +59,7 @@ class EntryFragment : Fragment() {
         calendarAdapter = CalendarAdapter(
             onDateClick = { date ->
                 calendarViewModel.selectDate(date)
-                todoViewModel.updateSelectedDate(date)
+                todoViewModel.loadTasksForDate(date)
                 // Bundle로 날짜 데이터 전달
                 val bundle = Bundle().apply {
                     putInt("selectedYear", date.year)
@@ -112,7 +112,7 @@ class EntryFragment : Fragment() {
 
     // 오늘 할일 받아와서 RecyclerView에 넣는 함수
     private fun setupDailyRecyclerView() {
-        todoAdapter = TodoAdapter(todoViewModel)
+        todoAdapter = TodoAdapter(todoViewModel, LocalDate.now())  // 오늘 날짜 전달
         binding.dailyRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = todoAdapter

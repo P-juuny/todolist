@@ -48,7 +48,7 @@ class TaskOverviewFragment : Fragment() {
             val day = args.getInt("selectedDay")
 
             val selectedDate = LocalDate.of(year, month, day)
-            todoViewModel.updateSelectedDate(selectedDate)
+            todoViewModel.loadTasksForDate(selectedDate)
         }
 
         setupRecyclerView()
@@ -57,7 +57,15 @@ class TaskOverviewFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        todoAdapter = TodoAdapter(todoViewModel)
+        val selectedDate = arguments?.let { args ->
+            LocalDate.of(
+                args.getInt("selectedYear"),
+                args.getInt("selectedMonth"),
+                args.getInt("selectedDay")
+            )
+        } ?: LocalDate.now()
+
+        todoAdapter = TodoAdapter(todoViewModel, selectedDate)
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = todoAdapter
