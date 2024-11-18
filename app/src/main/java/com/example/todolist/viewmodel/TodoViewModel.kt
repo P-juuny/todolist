@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.todolist.model.TaskItem
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
