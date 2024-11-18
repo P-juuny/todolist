@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.todolist.model.FixedTaskItem
 import com.google.firebase.database.database
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -17,8 +18,9 @@ class FixedToDoViewModel : ViewModel() {
     // 외부 UI 데이터
     val fixedtodoList: LiveData<MutableList<FixedTaskItem>> get() = _fixedtodoList
 
+    val auth = FirebaseAuth.getInstance()
     val database = Firebase.database
-    val FixedRef = database.getReference("Users").child("FixedToDO")
+    val FixedRef = database.getReference("Users/${auth.currentUser?.uid}/FixedToDo")
 
     init {
         LoadData()

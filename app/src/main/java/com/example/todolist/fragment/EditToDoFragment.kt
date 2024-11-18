@@ -62,6 +62,7 @@ class EditTodoFragment : Fragment() {
         }
 
         binding.SaveBtn.setOnClickListener {
+            Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show()
             parentFragmentManager.popBackStack()
         }
     }

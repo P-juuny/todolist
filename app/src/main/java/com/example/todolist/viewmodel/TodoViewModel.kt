@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.todolist.model.TaskItem
 import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -16,8 +16,9 @@ class TodoViewModel : ViewModel() {
     private val _todoList = MutableLiveData<MutableList<TaskItem>>()
     val todoList: LiveData<MutableList<TaskItem>> get() = _todoList
 
+    val auth = FirebaseAuth.getInstance()
     val database = Firebase.database
-    val TodoRef = database.getReference("Users").child("ToDo")
+    val TodoRef = database.getReference("Users/${auth.currentUser?.uid}/ToDo")
 
     init {
         LoadData()

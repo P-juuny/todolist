@@ -1,5 +1,7 @@
 package com.example.todolist.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,29 +14,26 @@ import com.google.firebase.database.ValueEventListener
 import java.time.LocalDate
 
 class DiaryViewModel : ViewModel() {
-    private val _diary = MutableLiveData<MutableList<DiaryItem>>()
-    val diary: LiveData<MutableList<DiaryItem>> = _diary
+    private val _diary = MutableLiveData<DiaryItem?>()
+    val diary: LiveData<DiaryItem?> = _diary
 
     private val auth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance()
-    private val DiaryRef = database.getReference("Users").child("Diary")
+    private val diaryRef = database.getReference("Users/${auth.currentUser?.uid}/Diary")
 
     init {
-        loadDiaryEntries()
+        loadDiaryEntry()
     }
 
-    private fun loadDiaryEntries() {
-        DiaryRef.addValueEventListener(object : ValueEventListener {
+    private fun loadDiaryEntry() {
+        diaryRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val entries = mutableListOf<DiaryItem>()
-                for (entrySnapshot in snapshot.children) {
-                    entrySnapshot.getValue(DiaryItem::class.java)?.let { entries.add(it) }
-                }
-                _diary.value = entries
+                val item = snapshot.getValue(DiaryItem::class.java)
+                _diary.value = item
             }
 
             override fun onCancelled(error: DatabaseError) {
-                println("Error loading diary entries: ${error.message}")
+                println("Error loading diary entry: ${error.message}")
             }
         })
     }
@@ -45,10 +44,10 @@ class DiaryViewModel : ViewModel() {
             id = currentDate,
             content = content
         )
-        DiaryRef.setValue(item)
+        diaryRef.setValue(item)
     }
 
     fun deleteDiary() {
-        DiaryRef.removeValue()
+        diaryRef.removeValue()
     }
 }

@@ -42,8 +42,11 @@ class DiaryFragment : Fragment() {
     private fun setupClickListeners() {
         // 이미지 추가 버튼 클릭 리스너
         binding.addPictureBtn.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
+            // Intent.ACTION_GET_CONTENT는 안드로이드 OS에 콘텐츠를 선택하고 싶다는 의도를 전달하는 액션
+            val intent = Intent(Intent.ACTION_GET_CONTENT).apply{
+                // 모든 이미지 형식을 포함하는 MIME 타입
+                type = "image/*"
+            }
             startActivityForResult(intent, 1)
         }
 
@@ -58,8 +61,8 @@ class DiaryFragment : Fragment() {
     }
 
     private fun updateCurrentDate() {
-        // 날짜 포맷 지정
-        val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
+        // 날짜를 한국 시간에 맞춤, Date -> String 형태로 변환
+        val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA)
         binding.currentDate.text = dateFormat.format(calendar.time)
     }
 
@@ -74,20 +77,23 @@ class DiaryFragment : Fragment() {
 
         Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show()
         binding.editDiaryContent.text.clear()
+        binding.selectedImage.visibility = View.INVISIBLE
     }
 
     private fun deleteDiary() {
         diaryViewModel.deleteDiary()
         Toast.makeText(context, "일기가 삭제되었습니다", Toast.LENGTH_SHORT).show()
-        binding.editDiaryContent.text.clear()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        // resultCode == RESULT_OK , 이미지 선택을 위해 호출한 Intent 구분
         if (resultCode == Activity.RESULT_OK && requestCode == 1) {
-            data?.data?.let { uri ->
+            // 첫번째 data는 매개변수, 두번째 data는 URI?로 선택된 이미지의 URI
+            data?.data?.let {
                 binding.selectedImage.apply {
-                    setImageURI(uri)
+                    // uri가 가리키는 이미지 주소 가져와서 표시
+                    setImageURI(it)
                     visibility = View.VISIBLE
                 }
 
