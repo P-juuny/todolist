@@ -71,7 +71,7 @@ class TaskOverviewFragment : Fragment() {
             adapter = todoAdapter
         }
 
-        simplefixedTodoAdapter = SimpleFixedTodoAdapter(fixedTodoViewModel)
+        simplefixedTodoAdapter = SimpleFixedTodoAdapter(fixedTodoViewModel, selectedDate) // selectedDate 추가
         binding.fixedRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = simplefixedTodoAdapter

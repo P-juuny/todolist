@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.R
 import com.example.todolist.adapter.CalendarAdapter
+import com.example.todolist.adapter.SimpleFixedTodoAdapter
 import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentEntryBinding
 import com.example.todolist.viewmodel.CalendarViewModel
+import com.example.todolist.viewmodel.FixedToDoViewModel
 import com.example.todolist.viewmodel.TodoViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.time.Instant
@@ -28,6 +30,7 @@ class EntryFragment : Fragment() {
 
     private val todoViewModel: TodoViewModel by activityViewModels()
     private val calendarViewModel: CalendarViewModel by activityViewModels()
+    private val fixedTodoViewModel: FixedToDoViewModel by activityViewModels()  // 추가
 
     private lateinit var todoAdapter: TodoAdapter
     private lateinit var calendarAdapter: CalendarAdapter
@@ -115,7 +118,6 @@ class EntryFragment : Fragment() {
         todoAdapter = TodoAdapter(todoViewModel, LocalDate.now())  // 오늘 날짜 전달
         binding.dailyRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = todoAdapter
         }
 
         todoViewModel.todayTasks.observe(viewLifecycleOwner) { tasks ->
