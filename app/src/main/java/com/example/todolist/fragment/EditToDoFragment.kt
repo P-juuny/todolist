@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.adapter.TodoAdapter
@@ -55,9 +56,13 @@ class EditTodoFragment : Fragment() {
                 viewModel.addTodo(TaskItem(todoText))
                 binding.editTodoItem.text.clear()
             }
+            else {
+                Toast.makeText(context, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.SaveBtn.setOnClickListener {
+            Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show()
             parentFragmentManager.popBackStack()
         }
     }

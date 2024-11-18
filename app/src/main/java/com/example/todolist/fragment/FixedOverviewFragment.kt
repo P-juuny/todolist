@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.adapter.FixedTodoAdapter
@@ -60,6 +61,9 @@ class FixedOverviewFragment : Fragment() {
                     sunday = binding.inputSunday.isChecked
                 })
             }
+            else {
+                Toast.makeText(context, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
             binding.apply {
                 editTodoItem.text.clear()
                 inputMonday.isChecked = false
@@ -73,6 +77,7 @@ class FixedOverviewFragment : Fragment() {
         }
 
         binding.SaveBtn.setOnClickListener {
+            Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show()
             parentFragmentManager.popBackStack()
         }
     }

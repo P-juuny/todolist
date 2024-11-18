@@ -76,8 +76,8 @@ class TaskOverviewFragment : Fragment() {
             findNavController().navigate(R.id.action_taskOverviewFragment_to_stopWatchFragment)
         }
 
-        binding.pictureBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_taskOverviewFragment_to_pictureFragment)
+        binding.diaryBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_taskOverviewFragment_to_diaryFragment)
         }
     }
 

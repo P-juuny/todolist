@@ -1,5 +1,6 @@
 package com.example.todolist.model
 
+// 동등성, toString()
 data class FixedTaskItem(
     val task: String = "",
     var id: String? = null,
