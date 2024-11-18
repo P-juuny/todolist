@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.model.CalendarItem
-import com.example.todolist.viewmodel.CalendarViewModel
 import com.google.android.material.card.MaterialCardView
 import java.time.LocalDate
 import java.time.YearMonth

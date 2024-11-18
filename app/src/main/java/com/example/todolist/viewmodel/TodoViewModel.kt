@@ -87,10 +87,10 @@ class TodoViewModel : ViewModel() {
     }
 
     fun updateSelectedDate(date: LocalDate) {   // 선택된 날짜의 할 일 목록 업데이트 - 건수 추가
-        val filteredList = _todoList.value?.filter { task ->
-            task.year == date.year &&
-                    task.month == date.monthValue &&
-                    task.day == date.dayOfMonth
+        val filteredList = _todoList.value?.filter {
+            it.year == date.year &&
+                    it.month == date.monthValue &&
+                    it.day == date.dayOfMonth
         }?.toMutableList() ?: mutableListOf()
 
         _selectedDateTasks.value = filteredList
