@@ -41,7 +41,8 @@ class EditTodoFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        todoAdapter = TodoAdapter(viewModel)
+        val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now()
+        todoAdapter = TodoAdapter(viewModel, selectedDate)
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = todoAdapter
@@ -56,14 +57,8 @@ class EditTodoFragment : Fragment() {
         binding.AddTaskBtn.setOnClickListener {
             val todoText = binding.editTodoItem.text.toString()
             if (todoText.isNotBlank()) {
-                val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now() // 할 일 추가 시 선택된 날짜에 저장 - 건수 추가
-                val taskItem = TaskItem(
-                    task = todoText,
-                    year = selectedDate.year,
-                    month = selectedDate.monthValue,
-                    day = selectedDate.dayOfMonth
-                )
-                viewModel.addTodo(taskItem)
+                val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now()
+                viewModel.addTodo(todoText, selectedDate)  // 새로운 addTodo 메서드 사용
                 binding.editTodoItem.text.clear()
             }
             else {

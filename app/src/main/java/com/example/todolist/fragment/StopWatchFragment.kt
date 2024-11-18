@@ -11,6 +11,7 @@ import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentStopWatchBinding
 import com.example.todolist.viewmodel.StopwatchViewModel
 import com.example.todolist.viewmodel.TodoViewModel
+import java.time.LocalDate
 
 class StopWatchFragment : Fragment() {
 
@@ -60,13 +61,13 @@ class StopWatchFragment : Fragment() {
 
     // 오늘 할일 받아와서 RecyclerView에 넣는 함수
     private fun setupDailyRecyclerView() {
-        todoAdapter = TodoAdapter(viewModel)
+        todoAdapter = TodoAdapter(viewModel, LocalDate.now())  // 오늘 날짜 추가
         binding.todoRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = todoAdapter
         }
 
-        viewModel.todoList.observe(viewLifecycleOwner) { tasks ->
+        viewModel.todayTasks.observe(viewLifecycleOwner) { tasks ->  // todoList -> todayTasks
             todoAdapter.makeList(tasks)
         }
     }
