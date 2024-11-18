@@ -20,6 +20,9 @@ class TodoViewModel : ViewModel() {
     private val _selectedDateTasks = MutableLiveData<MutableList<TaskItem>>() // 선택된 날짜의 할 일 목록 - 건수 추가
     val selectedDateTasks: LiveData<MutableList<TaskItem>> get() = _selectedDateTasks
 
+    private val _todayTasks = MutableLiveData<MutableList<TaskItem>>()  // EntryFragment에 오늘 할 일만 보이기 위해서 추가한 로직 - 건수 추가
+    val todayTasks: LiveData<MutableList<TaskItem>> get() = _todayTasks
+
     private val auth = Firebase.auth
     private val currentUser = auth.currentUser
 
@@ -35,14 +38,14 @@ class TodoViewModel : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newList = mutableListOf<TaskItem>()
 
-                for (dateNode in snapshot.children) {  // 날짜별 노드 - 건수 추가
-                    for (taskNode in dateNode.children) {  // 할일 노드 - 건수 추가
-                        taskNode.getValue(TaskItem::class.java)?.let { task ->
-                            newList.add(task)
-                        }
+                for (taskNode in snapshot.children) {   // 직접 TaskItem들을 가져옴 - 건수 추가
+                    taskNode.getValue(TaskItem::class.java)?.let {
+                        it.id = taskNode.key // ID 설정을 보장
+                        newList.add(it) // TaskItem을 리스트에 추가
                     }
                 }
                 _todoList.value = newList
+                updateTodayTasks() // 데이터가 변경될 때 마다 오늘 할 일 업데이트 - 건수 추가
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -104,5 +107,16 @@ class TodoViewModel : ViewModel() {
             day = date.dayOfMonth
         )
         addTodo(taskItem)
+    }
+
+    private fun updateTodayTasks() {
+        val today = LocalDate.now()
+        val todayList = _todoList.value?.filter {
+            it.year == today.year &&
+                    it.month == today.monthValue &&
+                    it.day == today.dayOfMonth
+        }?.toMutableList() ?: mutableListOf()
+
+        _todayTasks.value = todayList
     }
 }

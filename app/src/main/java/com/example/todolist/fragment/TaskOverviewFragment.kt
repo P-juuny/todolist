@@ -15,6 +15,7 @@ import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentTaskOverviewBinding
 import com.example.todolist.viewmodel.FixedToDoViewModel
 import com.example.todolist.viewmodel.StopwatchViewModel
+import java.time.LocalDate
 
 
 class TaskOverviewFragment : Fragment() {
@@ -40,6 +41,16 @@ class TaskOverviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 전달받은 날짜 데이터로 선택된 날짜 업데이트 -- 건수 추가
+        arguments?.let { args ->
+            val year = args.getInt("selectedYear")
+            val month = args.getInt("selectedMonth")
+            val day = args.getInt("selectedDay")
+
+            val selectedDate = LocalDate.of(year, month, day)
+            todoViewModel.updateSelectedDate(selectedDate)
+        }
+
         setupRecyclerView()
         setupClickListeners()
         setupTimer()
@@ -58,8 +69,8 @@ class TaskOverviewFragment : Fragment() {
             adapter = simplefixedTodoAdapter
         }
 
-        todoViewModel.todoList.observe(viewLifecycleOwner) {
-            todoAdapter.makeList(it)
+        todoViewModel.selectedDateTasks.observe(viewLifecycleOwner) { tasks ->
+            todoAdapter.makeList(tasks)
         }
 
         fixedTodoViewModel.fixedtodoList.observe(viewLifecycleOwner) {

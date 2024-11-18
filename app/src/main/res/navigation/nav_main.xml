@@ -67,6 +67,15 @@
         android:id="@+id/taskOverviewFragment"
         android:name="com.example.todolist.fragment.TaskOverviewFragment"
         android:label="TaskOverviewFragment" >
+        <argument
+            android:name="selectedYear"
+            app:argType="integer" />
+        <argument
+            android:name="selectedMonth"
+            app:argType="integer" />
+        <argument
+            android:name="selectedDay"
+            app:argType="integer" />
         <action
             android:id="@+id/action_taskOverviewFragment_to_editTodoFragment"
             app:destination="@id/editTodoFragment"

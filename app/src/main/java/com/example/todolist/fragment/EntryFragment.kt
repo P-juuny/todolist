@@ -55,13 +55,21 @@ class EntryFragment : Fragment() {
     }
 
     // 달력 RecyclerView 설정
-    // EntryFragment.kt의 setupCalendarRecyclerView 수정
     private fun setupCalendarRecyclerView() {
         calendarAdapter = CalendarAdapter(
             onDateClick = { date ->
                 calendarViewModel.selectDate(date)
                 todoViewModel.updateSelectedDate(date)
-                findNavController().navigate(R.id.action_entryFragment_to_taskOverviewFragment)
+                // Bundle로 날짜 데이터 전달
+                val bundle = Bundle().apply {
+                    putInt("selectedYear", date.year)
+                    putInt("selectedMonth", date.monthValue)
+                    putInt("selectedDay", date.dayOfMonth)
+                }
+                findNavController().navigate(
+                    R.id.action_entryFragment_to_taskOverviewFragment,
+                    bundle
+                )
             },
             currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
         )
@@ -110,7 +118,7 @@ class EntryFragment : Fragment() {
             adapter = todoAdapter
         }
 
-        todoViewModel.todoList.observe(viewLifecycleOwner) { tasks ->
+        todoViewModel.todayTasks.observe(viewLifecycleOwner) { tasks ->
             todoAdapter.makeList(tasks)
         }
     }

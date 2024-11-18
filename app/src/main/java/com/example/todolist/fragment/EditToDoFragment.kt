@@ -46,7 +46,7 @@ class EditTodoFragment : Fragment() {
             adapter = todoAdapter
         }
 
-        viewModel.todoList.observe(viewLifecycleOwner) {
+        viewModel.selectedDateTasks.observe(viewLifecycleOwner) {
             todoAdapter.makeList(it)
         }
     }
