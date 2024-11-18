@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.todolist.model.TaskItem
 import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -27,14 +27,14 @@ class TodoViewModel : ViewModel() {
     private val currentUser = auth.currentUser
 
     val database = Firebase.database
-    val myRef = database.getReference("Todo").child(currentUser?.uid ?: "")
+    val TodoRef = database.getReference("Users/${auth.currentUser?.uid}/ToDo")
 
     init {
         LoadData()
     }
 
     fun LoadData() {
-        myRef.addValueEventListener(object : ValueEventListener {
+        TodoRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newList = mutableListOf<TaskItem>()
 
@@ -57,7 +57,7 @@ class TodoViewModel : ViewModel() {
 
     fun addTodo(task: TaskItem) {
         val currentList = _todoList.value ?: mutableListOf()
-        val taskRef = myRef.push()
+        val taskRef = TodoRef.push()
 
         currentList.add(task)
         _todoList.value = currentList
@@ -74,7 +74,7 @@ class TodoViewModel : ViewModel() {
         _todoList.value = currentList
 
         task.id?.let {
-            myRef.child(it).removeValue()
+            TodoRef.child(it).removeValue()
         }
     }
 
@@ -85,7 +85,7 @@ class TodoViewModel : ViewModel() {
         _todoList.value = currentList
 
         task.id?.let {
-            myRef.child(it).setValue(task)
+            TodoRef.child(it).setValue(task)
         }
     }
 

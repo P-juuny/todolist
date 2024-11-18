@@ -84,16 +84,16 @@
             android:id="@+id/action_taskOverviewFragment_to_stopWatchFragment"
             app:destination="@id/stopWatchFragment" />
         <action
-            android:id="@+id/action_taskOverviewFragment_to_pictureFragment"
-            app:destination="@id/pictureFragment" />
+            android:id="@+id/action_taskOverviewFragment_to_diaryFragment"
+            app:destination="@id/diaryFragment" />
     </fragment>
     <fragment
         android:id="@+id/stopWatchFragment"
         android:name="com.example.todolist.StopWatchFragment"
         android:label="StopWatchFragment" />
     <fragment
-        android:id="@+id/pictureFragment"
-        android:name="com.example.todolist.fragment.PictureFragment"
-        android:label="fragment_picture"
-        tools:layout="@layout/fragment_picture" />
+        android:id="@+id/diaryFragment"
+        android:name="com.example.todolist.fragment.DiaryFragment"
+        android:label="fragment_diary"
+        tools:layout="@layout/fragment_diary" />
 </navigation>
