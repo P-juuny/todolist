@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.example.todolist.model.FixedTaskItem
 import com.google.firebase.database.database
 import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -17,18 +16,16 @@ class FixedToDoViewModel : ViewModel() {
     private val _fixedtodoList = MutableLiveData<MutableList<FixedTaskItem>>()
     // 외부 UI 데이터
     val fixedtodoList: LiveData<MutableList<FixedTaskItem>> get() = _fixedtodoList
-    private val auth = Firebase.auth
-    private val currentUser = auth.currentUser
 
     val database = Firebase.database
-    val myRef = database.getReference("FixedTodo").child(currentUser?.uid ?: "")
+    val FixedRef = database.getReference("Users").child("FixedToDO")
 
     init {
         LoadData()
     }
 
     fun LoadData() {
-        myRef.addValueEventListener(object: ValueEventListener{
+        FixedRef.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newList = mutableListOf<FixedTaskItem>()
 
@@ -50,7 +47,7 @@ class FixedToDoViewModel : ViewModel() {
 
     fun addTodo(task: FixedTaskItem) {
         val currentList = _fixedtodoList.value ?: mutableListOf()
-        val taskRef = myRef.push()
+        val taskRef = FixedRef.push()
 
         currentList.add(task)
         _fixedtodoList.value = currentList
@@ -67,7 +64,7 @@ class FixedToDoViewModel : ViewModel() {
         _fixedtodoList.value = currentList
 
         task.id?.let {
-            myRef.child(it).removeValue()
+            FixedRef.child(it).removeValue()
         }
     }
 
@@ -78,7 +75,7 @@ class FixedToDoViewModel : ViewModel() {
         _fixedtodoList.value = currentList
 
         task.id?.let {
-            myRef.child(it).setValue(task)
+            FixedRef.child(it).setValue(task)
         }
     }
 
@@ -98,7 +95,7 @@ class FixedToDoViewModel : ViewModel() {
         _fixedtodoList.value = currentList
 
         task.id?.let {
-            myRef.child(it).setValue(task)
+            FixedRef.child(it).setValue(task)
         }
     }
 }
