@@ -12,10 +12,11 @@ import java.util.Calendar
 
 class SimpleFixedTodoAdapter(
     private val viewModel: FixedToDoViewModel,
-    private val selectedDate: LocalDate // 선택한 날짜 추가
+    private val date: LocalDate// 선택한 날짜 추가
 ) : RecyclerView.Adapter<SimpleFixedTodoAdapter.ViewHolder>() {
 
-    private var fixedtodoList: List<FixedTaskItem> = mutableListOf()
+    private var allTasks: List<FixedTaskItem> = mutableListOf()
+    private var visibleTasks: List<FixedTaskItem> = mutableListOf()
 
     inner class ViewHolder(
         private val binding: ItemFixedTodoSimpleBinding
@@ -28,13 +29,15 @@ class SimpleFixedTodoAdapter(
             binding.checkBox.isChecked = taskItem.isChecked
 
             binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.updateTodoCheck(adapterPosition, isChecked)
+                val originalPosition = allTasks.indexOf(taskItem)
+                viewModel.updateTodoCheck(originalPosition, isChecked)
             }
 
             binding.DeleteBtn.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    viewModel.deleteTodo(position)
+                    val originalPosition = allTasks.indexOf(taskItem)
+                    viewModel.deleteTodo(originalPosition)
                 }
             }
         }
@@ -50,28 +53,29 @@ class SimpleFixedTodoAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(fixedtodoList[position])
+        holder.bind(visibleTasks[position])
     }
 
-    override fun getItemCount(): Int = fixedtodoList.size
+    override fun getItemCount(): Int = visibleTasks.size
 
     private fun todayTasks(tasks: List<FixedTaskItem>): List<FixedTaskItem> {
         return tasks.filter { task ->
-            // when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-            when (selectedDate.dayOfWeek) {
-                java.time.DayOfWeek.MONDAY -> task.monday
-                java.time.DayOfWeek.TUESDAY -> task.tuesday
-                java.time.DayOfWeek.WEDNESDAY -> task.wednesday
-                java.time.DayOfWeek.THURSDAY -> task.thursday
-                java.time.DayOfWeek.FRIDAY -> task.friday
-                java.time.DayOfWeek.SATURDAY -> task.saturday
-                java.time.DayOfWeek.SUNDAY -> task.sunday
+            when (date.dayOfWeek.value) {
+                1 -> task.monday
+                2 -> task.tuesday
+                3 -> task.wednesday
+                4  -> task.thursday
+                5  -> task.friday
+                6 -> task.saturday
+                7 -> task.sunday
+                else -> false
             }
-        }
+        }.toMutableList()
     }
 
     fun makeList(newList: List<FixedTaskItem>) {
-        fixedtodoList = todayTasks(newList)
+        allTasks = newList
+        visibleTasks = todayTasks(newList)
         notifyDataSetChanged()
     }
 }
