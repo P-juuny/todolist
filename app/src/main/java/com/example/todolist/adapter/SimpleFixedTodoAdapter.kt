@@ -7,15 +7,15 @@ import com.example.todolist.databinding.ItemFixedTodoSimpleBinding
 import com.example.todolist.viewmodel.FixedToDoViewModel
 import com.example.todolist.model.FixedTaskItem
 import java.time.LocalDate
-import java.util.Calendar
-
 
 class SimpleFixedTodoAdapter(
     private val viewModel: FixedToDoViewModel,
-    private val date: LocalDate// 선택한 날짜 추가
+    private val date: LocalDate
 ) : RecyclerView.Adapter<SimpleFixedTodoAdapter.ViewHolder>() {
 
+    // 모든 고정된 할 일 (날짜 상관 x)
     private var allTasks: List<FixedTaskItem> = mutableListOf()
+    // 해당 날 고정된 할 일 (날짜 상관 o)
     private var visibleTasks: List<FixedTaskItem> = mutableListOf()
 
     inner class ViewHolder(
@@ -29,6 +29,7 @@ class SimpleFixedTodoAdapter(
             binding.checkBox.isChecked = taskItem.isChecked
 
             binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
+                // allTasks와 visibleTasks의 Position이 상이, FixedToDoViewModel에서 전체 리스트를 updateTodoCheck해주었기 떄문
                 val originalPosition = allTasks.indexOf(taskItem)
                 viewModel.updateTodoCheck(originalPosition, isChecked)
             }
@@ -70,7 +71,7 @@ class SimpleFixedTodoAdapter(
                 7 -> task.sunday
                 else -> false
             }
-        }.toMutableList()
+        }
     }
 
     fun makeList(newList: List<FixedTaskItem>) {

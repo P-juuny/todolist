@@ -118,6 +118,7 @@ class EntryFragment : Fragment() {
         todoAdapter = TodoAdapter(todoViewModel, LocalDate.now())  // 오늘 날짜 전달
         binding.dailyRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
+            adapter = todoAdapter
         }
 
         todoViewModel.todayTasks.observe(viewLifecycleOwner) { tasks ->

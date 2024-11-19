@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.adapter.TodoAdapter
-import com.example.todolist.model.TaskItem
 import com.example.todolist.viewmodel.TodoViewModel
 import com.example.todolist.databinding.FragmentEditToDoBinding
 import com.example.todolist.viewmodel.CalendarViewModel

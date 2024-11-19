@@ -21,8 +21,9 @@ class FixedTodoAdapter(
             binding.FixedTodo.setText(taskItem.task)
 
             initCheckboxes(taskItem)
-            setOnCheckedChangeListener(taskItem)
+            setOnCheckedChangeListener()
 
+            // 함수로 빼기
             binding.DeleteBtn.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
@@ -32,6 +33,7 @@ class FixedTodoAdapter(
         }
 
         private fun initCheckboxes(taskItem: FixedTaskItem) {
+            // 리사이클러뷰 충돌 방지
             binding.checkboxMonday.setOnCheckedChangeListener(null)
             binding.checkboxTuesday.setOnCheckedChangeListener(null)
             binding.checkboxWednesday.setOnCheckedChangeListener(null)
@@ -39,6 +41,7 @@ class FixedTodoAdapter(
             binding.checkboxFriday.setOnCheckedChangeListener(null)
             binding.checkboxSaturday.setOnCheckedChangeListener(null)
             binding.checkboxSunday.setOnCheckedChangeListener(null)
+            // 고정된 할 일 저장시 체크박스 상태 저장
             binding.checkboxMonday.isChecked = taskItem.monday
             binding.checkboxTuesday.isChecked = taskItem.tuesday
             binding.checkboxWednesday.isChecked = taskItem.wednesday
@@ -48,7 +51,8 @@ class FixedTodoAdapter(
             binding.checkboxSunday.isChecked = taskItem.sunday
         }
 
-        private fun setOnCheckedChangeListener(taskItem: FixedTaskItem) {
+        private fun setOnCheckedChangeListener() {
+            // 체크박스에 체크를 하면 _, isChecked = true -> vieModel.updateDate(id, adapterposition, true) 로 변경
             binding.checkboxMonday.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateDate(1,adapterPosition, isChecked)
             }

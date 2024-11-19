@@ -13,6 +13,7 @@ import com.example.todolist.adapter.SimpleFixedTodoAdapter
 import com.example.todolist.viewmodel.TodoViewModel
 import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentTaskOverviewBinding
+import com.example.todolist.viewmodel.CalendarViewModel
 import com.example.todolist.viewmodel.FixedToDoViewModel
 import com.example.todolist.viewmodel.StopwatchViewModel
 import java.time.LocalDate
@@ -25,6 +26,7 @@ class TaskOverviewFragment : Fragment() {
     private val todoViewModel: TodoViewModel by activityViewModels()
     private val fixedTodoViewModel: FixedToDoViewModel by activityViewModels()
     private val stopWatchViewModel: StopwatchViewModel by activityViewModels()
+    private val calendarViewModel: CalendarViewModel by activityViewModels()
 
     private lateinit var todoAdapter: TodoAdapter
     private lateinit var simplefixedTodoAdapter: SimpleFixedTodoAdapter
@@ -41,30 +43,13 @@ class TaskOverviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 전달받은 날짜 데이터로 선택된 날짜 업데이트 -- 건수 추가
-        arguments?.let { args ->
-            val year = args.getInt("selectedYear")
-            val month = args.getInt("selectedMonth")
-            val day = args.getInt("selectedDay")
-
-            val selectedDate = LocalDate.of(year, month, day)
-            todoViewModel.loadTasksForDate(selectedDate)
-        }
-
         setupRecyclerView()
         setupClickListeners()
         setupTimer()
     }
 
     private fun setupRecyclerView() {
-        val selectedDate = arguments?.let { args ->
-            LocalDate.of(
-                args.getInt("selectedYear"),
-                args.getInt("selectedMonth"),
-                args.getInt("selectedDay")
-            )
-        } ?: LocalDate.now()
-
+        val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now()
         todoAdapter = TodoAdapter(todoViewModel, selectedDate)
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -77,8 +62,8 @@ class TaskOverviewFragment : Fragment() {
             adapter = simplefixedTodoAdapter
         }
 
-        todoViewModel.selectedDateTasks.observe(viewLifecycleOwner) { tasks ->
-            todoAdapter.makeList(tasks)
+        todoViewModel.selectedDateTasks.observe(viewLifecycleOwner) {
+            todoAdapter.makeList(it)
         }
 
         fixedTodoViewModel.fixedtodoList.observe(viewLifecycleOwner) {
