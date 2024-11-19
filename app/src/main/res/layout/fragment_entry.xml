@@ -10,8 +10,8 @@
         android:id="@+id/UpperLinearLayout"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/LowerLinearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -36,16 +36,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:clickable="true"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_settings"
-                app:borderWidth="1dp"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+                android:backgroundTint="?attr/colorPrimaryContainer"
+                app:icon="@drawable/ic_settings"
+                app:iconTint="?attr/colorOnPrimaryContainer"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
         </LinearLayout>
 
@@ -166,7 +169,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            android:layout_height="50dp" />
 
         <ImageButton
             android:id="@+id/btn_fixed_to_do"
