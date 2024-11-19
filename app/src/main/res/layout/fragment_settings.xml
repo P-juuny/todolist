@@ -73,13 +73,44 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_theme_title" />
 
     <TextView
-        android:id="@+id/txt_settings_3"
+        android:id="@+id/txt_app_info_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="설정 3"
+        android:text="앱 정보"
+        android:textStyle="bold"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/txt_settings_2"
         app:layout_constraintTop_toBottomOf="@+id/txt_settings_2" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/txt_app_info_title"
+        app:layout_constraintTop_toBottomOf="@+id/txt_app_info_title">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="버전: 1.0.0"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="개발자: Team 8"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="© 2024 Todo List App"
+            android:textSize="14sp"/>
+    </LinearLayout>
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/switch_settings_2"
@@ -90,12 +121,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txt_settings_2" />
 
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switch_settings_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_settings_3"
-        app:layout_constraintEnd_toEndOf="@+id/switch_settings_2"
-        app:layout_constraintTop_toTopOf="@+id/txt_settings_3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

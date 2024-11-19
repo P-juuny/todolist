@@ -20,6 +20,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     // Theme mode: 0 = 시스템 설정, 1 = 라이트 모드, 2 = 다크 모드
     private val _themeMode = MutableLiveData<Int>()
     val themeMode: LiveData<Int> = _themeMode
+    
 
     init {
         // 저장된 테마 설정 불러오기
@@ -37,4 +38,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         _themeMode.value = mode
         AppCompatDelegate.setDefaultNightMode(mode)
     }
+
+
 }

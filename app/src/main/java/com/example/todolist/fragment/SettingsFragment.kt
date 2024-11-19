@@ -11,6 +11,7 @@ import com.example.todolist.R
 import com.example.todolist.databinding.FragmentSettingsBinding
 import com.example.todolist.viewmodel.SettingsViewModel
 
+
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
