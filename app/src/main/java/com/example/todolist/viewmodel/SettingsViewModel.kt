@@ -17,7 +17,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     private val preferences = application.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
     // Theme mode: 0 = 시스템 설정, 1 = 라이트 모드, 2 = 다크 모드
     private val _themeMode = MutableLiveData<Int>()
     val themeMode: LiveData<Int> = _themeMode
@@ -28,28 +27,14 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun loadThemeMode() {
-        // SharedPreferences에서 테마 모드 불러오기 (기본값: 시스템 설정)
-        val savedThemeMode = preferences.getInt(KEY_THEME_MODE, 0)
+        val savedThemeMode = preferences.getInt(KEY_THEME_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         _themeMode.value = savedThemeMode
-        applyTheme(savedThemeMode)
+        AppCompatDelegate.setDefaultNightMode(savedThemeMode)
     }
 
     fun setThemeMode(mode: Int) {
-        viewModelScope.launch {
-            // SharedPreferences에 테마 모드 저장
-            preferences.edit().putInt(KEY_THEME_MODE, mode).apply()
-            _themeMode.value = mode
-            applyTheme(mode)
-        }
-    }
-
-    private fun applyTheme(mode: Int) {
-        val nightMode = when (mode) {
-            0 -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            1 -> AppCompatDelegate.MODE_NIGHT_NO
-            2 -> AppCompatDelegate.MODE_NIGHT_YES
-            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        }
-        AppCompatDelegate.setDefaultNightMode(nightMode)
+        preferences.edit().putInt(KEY_THEME_MODE, mode).apply()
+        _themeMode.value = mode
+        AppCompatDelegate.setDefaultNightMode(mode)
     }
 }
