@@ -10,7 +10,7 @@ import java.time.LocalDate
 
 class TodoAdapter(
     private val viewModel: TodoViewModel,
-    private val date: LocalDate  // 날짜 매개변수 추가
+    private val date: LocalDate
 ) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     private var todoList: List<TaskItem> = emptyList()

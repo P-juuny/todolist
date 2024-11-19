@@ -23,10 +23,10 @@ class FixedToDoViewModel : ViewModel() {
     val FixedRef = database.getReference("Users/${auth.currentUser?.uid}/FixedToDo")
 
     init {
-        LoadData()
+        LoadFixedData()
     }
 
-    fun LoadData() {
+    fun LoadFixedData() {
         FixedRef.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newList = mutableListOf<FixedTaskItem>()
