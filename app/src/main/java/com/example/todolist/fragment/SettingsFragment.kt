@@ -56,6 +56,18 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private fun setupTodoVisibility() {
+        binding.switchTodoVisibility.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setTodoHidden(isChecked)
+        }
+    }
+
+    private fun observeTodoVisibility() {
+        viewModel.todoHidden.observe(viewLifecycleOwner) { collapsed ->
+            binding.switchTodoVisibility.isChecked = collapsed
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

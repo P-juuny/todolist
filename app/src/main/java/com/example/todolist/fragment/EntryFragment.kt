@@ -16,6 +16,7 @@ import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentEntryBinding
 import com.example.todolist.viewmodel.CalendarViewModel
 import com.example.todolist.viewmodel.FixedToDoViewModel
+import com.example.todolist.viewmodel.SettingsViewModel
 import com.example.todolist.viewmodel.TodoViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.time.Instant
@@ -30,7 +31,8 @@ class EntryFragment : Fragment() {
 
     private val todoViewModel: TodoViewModel by activityViewModels()
     private val calendarViewModel: CalendarViewModel by activityViewModels()
-    private val fixedTodoViewModel: FixedToDoViewModel by activityViewModels()  // 추가
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
+    //private val fixedTodoViewModel: FixedToDoViewModel by activityViewModels()  // 추가
 
     private lateinit var todoAdapter: TodoAdapter
     private lateinit var calendarAdapter: CalendarAdapter
@@ -54,6 +56,10 @@ class EntryFragment : Fragment() {
 
         calendarViewModel.currentMonth.observe(viewLifecycleOwner) {
             binding.tvCurrentDate.text = calendarViewModel.formatCurrentMonth()
+        }
+
+        settingsViewModel.todoHidden.observe(viewLifecycleOwner) { collapsed ->
+            binding.dailyRecyclerView.visibility = if (collapsed) View.GONE else View.VISIBLE
         }
     }
 

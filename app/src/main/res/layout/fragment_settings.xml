@@ -68,12 +68,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="방해 금지 모드"
+        android:text="오늘 할 일 보이기"
         app:layout_constraintStart_toStartOf="@+id/txt_theme_title"
         app:layout_constraintTop_toBottomOf="@+id/txt_theme_title" />
 
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/switch_todo_visibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_settings_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_settings_2" />
+
     <TextView
-        android:id="@+id/txt_app_info_title"
+        android:id="@+id/txt_app_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -88,8 +97,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/txt_app_info_title"
-        app:layout_constraintTop_toBottomOf="@+id/txt_app_info_title">
+        app:layout_constraintStart_toStartOf="@+id/txt_app_info"
+        app:layout_constraintTop_toBottomOf="@+id/txt_app_info">
 
         <TextView
             android:layout_width="wrap_content"
@@ -111,15 +120,6 @@
             android:text="© 2024 Todo List App"
             android:textSize="14sp"/>
     </LinearLayout>
-
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switch_settings_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_settings_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txt_settings_2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
