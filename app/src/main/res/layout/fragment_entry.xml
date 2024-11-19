@@ -7,49 +7,51 @@
     tools:context=".fragment.EntryFragment">
 
     <LinearLayout
-        android:id="@+id/LowerLinearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <!-- 달력 부분만 LinearLayout으로 감싸기 -->
-
-        <!-- 기존 나머지 부분 유지 -->
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/daily_recycler_view"
-            android:layout_width="376sp"
-            android:layout_height="200sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-
-        <ImageButton
-            android:id="@+id/btn_fixed_to_do"
-            android:layout_width="220dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:background="?attr/colorSurface"
-            android:src="@drawable/ic_fixed_to_do" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/UpperLinearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="377dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/LowerLinearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ButtonLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_achievements"
+                android:layout_width="55dp"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:background="?attr/colorSurface"
+                android:scaleType="fitCenter"
+                android:src="@drawable/challenge" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_settings"
+                app:borderWidth="1dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
 
         <LinearLayout
             android:id="@+id/LinearLayoutCalendar"
@@ -61,41 +63,6 @@
             <!-- 년도, 월 표시 -->
 
             <!-- 요일 표시 줄 -->
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="20dp"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/btn_achievements"
-                    android:layout_width="55dp"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:background="?attr/colorSurface"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/challenge" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btn_settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:clickable="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_settings"
-                    app:borderWidth="1dp"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_current_date"
@@ -176,6 +143,39 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LowerLinearLayout"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- 달력 부분만 LinearLayout으로 감싸기 -->
+
+        <!-- 기존 나머지 부분 유지 -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/daily_recycler_view"
+            android:layout_width="377sp"
+            android:layout_height="200sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <ImageButton
+            android:id="@+id/btn_fixed_to_do"
+            android:layout_width="220dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="?attr/colorSurface"
+            android:src="@drawable/ic_fixed_to_do" />
+
     </LinearLayout>
 
 
