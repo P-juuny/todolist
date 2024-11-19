@@ -50,20 +50,35 @@ class FixedOverviewFragment : Fragment() {
     private fun setupClickListeners() {
         binding.AddTaskBtn.setOnClickListener {
             val newTask = binding.editTodoItem.text.toString()
-            if(newTask.isNotBlank()) {
-                viewModel.addTodo(FixedTaskItem(newTask).apply {
-                    monday = binding.inputMonday.isChecked
-                    tuesday = binding.inputTuesday.isChecked
-                    wednesday = binding.inputWednesday.isChecked
-                    thursday = binding.inputThursday.isChecked
-                    friday = binding.inputFriday.isChecked
-                    saturday = binding.inputSaturday.isChecked
-                    sunday = binding.inputSunday.isChecked
-                })
-            }
-            else {
+
+            // 내용이 비어있는지 체크
+            if(newTask.isBlank()) {
                 Toast.makeText(context, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            // 체크박스가 하나라도 체크되어있는지 확인
+            if(!binding.inputMonday.isChecked &&
+                !binding.inputTuesday.isChecked &&
+                !binding.inputWednesday.isChecked &&
+                !binding.inputThursday.isChecked &&
+                !binding.inputFriday.isChecked &&
+                !binding.inputSaturday.isChecked &&
+                !binding.inputSunday.isChecked) {
+                Toast.makeText(context, "요일을 하나 이상 선택해주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            viewModel.addTodo(FixedTaskItem(newTask).apply {
+                monday = binding.inputMonday.isChecked
+                tuesday = binding.inputTuesday.isChecked
+                wednesday = binding.inputWednesday.isChecked
+                thursday = binding.inputThursday.isChecked
+                friday = binding.inputFriday.isChecked
+                saturday = binding.inputSaturday.isChecked
+                sunday = binding.inputSunday.isChecked
+            })
+
             binding.apply {
                 editTodoItem.text.clear()
                 inputMonday.isChecked = false
