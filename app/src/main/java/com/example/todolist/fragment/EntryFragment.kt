@@ -124,6 +124,7 @@ class EntryFragment : Fragment() {
         todoAdapter = TodoAdapter(todoViewModel, LocalDate.now())  // 오늘 날짜 전달
         binding.dailyRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
+            adapter = todoAdapter
         }
 
         todoViewModel.todayTasks.observe(viewLifecycleOwner) { tasks ->
@@ -143,10 +144,6 @@ class EntryFragment : Fragment() {
 
         binding.btnAchievements.setOnClickListener {
             findNavController().navigate(R.id.action_entryFragment_to_challengeViewFragment)
-        }
-
-        binding.btnDaily.setOnClickListener {
-            findNavController().navigate(R.id.action_entryFragment_to_taskOverviewFragment)
         }
     }
 

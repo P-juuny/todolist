@@ -30,7 +30,9 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupThemeSelection()
+        setupTodoVisibility()
         observeThemeMode()
+        observeTodoVisibility()
     }
 
     private fun setupThemeSelection() {

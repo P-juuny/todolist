@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="오늘 할 일 보이기"
+        android:text="오늘 할 일 숨기기"
         app:layout_constraintStart_toStartOf="@+id/txt_theme_title"
         app:layout_constraintTop_toBottomOf="@+id/txt_theme_title" />
 
