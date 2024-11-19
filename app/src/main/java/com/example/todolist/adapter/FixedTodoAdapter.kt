@@ -50,31 +50,31 @@ class FixedTodoAdapter(
 
         private fun setOnCheckedChangeListener(taskItem: FixedTaskItem) {
             binding.checkboxMonday.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.updateDate(0,adapterPosition, isChecked)
+                viewModel.updateDate(1,adapterPosition, isChecked)
             }
 
             binding.checkboxTuesday.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.updateDate(1, adapterPosition, isChecked)
-            }
-
-            binding.checkboxWednesday.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateDate(2, adapterPosition, isChecked)
             }
 
-            binding.checkboxThursday.setOnCheckedChangeListener { _, isChecked ->
+            binding.checkboxWednesday.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateDate(3, adapterPosition, isChecked)
             }
 
-            binding.checkboxFriday.setOnCheckedChangeListener { _, isChecked ->
+            binding.checkboxThursday.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateDate(4, adapterPosition, isChecked)
             }
 
-            binding.checkboxSaturday.setOnCheckedChangeListener { _, isChecked ->
+            binding.checkboxFriday.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateDate(5, adapterPosition, isChecked)
             }
 
-            binding.checkboxSunday.setOnCheckedChangeListener { _, isChecked ->
+            binding.checkboxSaturday.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateDate(6, adapterPosition, isChecked)
+            }
+
+            binding.checkboxSunday.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.updateDate(7, adapterPosition, isChecked)
             }
         }
     }
