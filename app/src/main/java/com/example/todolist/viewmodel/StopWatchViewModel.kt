@@ -4,9 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.todolist.repository.StopWatchRepository
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import java.util.Timer
 import kotlin.concurrent.timer
 
