@@ -55,7 +55,16 @@ class StopWatchRepository {
     }
 
     fun updateDailyTime(date: String, timeInSeconds: Int) {
-        userRef.child("dailyTimes").child(date).setValue(timeInSeconds)
+        // 현재 날짜의 dailyTimes를 먼저 조회
+        userRef.child("dailyTimes").child(date).get().addOnSuccessListener { snapshot ->
+            val currentValue = snapshot.getValue(Int::class.java) ?: 0
+            val newValue = currentValue + timeInSeconds
+
+            // 누적된 값으로 업데이트
+            userRef.child("dailyTimes").child(date).setValue(newValue)
+        }
+
+        // totalAccumulatedTime 업데이트
         userRef.child("totalAccumulatedTime")
             .setValue(ServerValue.increment(timeInSeconds.toLong()))
     }
