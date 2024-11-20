@@ -18,6 +18,12 @@ class SettingsFragment : Fragment() {
 
     private val viewModel: SettingsViewModel by activityViewModels()
 
+    companion object {
+        private const val SYSTEM_THEME = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        private const val LIGHT_THEME = AppCompatDelegate.MODE_NIGHT_NO
+        private const val DARK_THEME = AppCompatDelegate.MODE_NIGHT_YES
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,10 +44,10 @@ class SettingsFragment : Fragment() {
     private fun setupThemeSelection() {
         binding.themeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             val themeMode = when (checkedId) {
-                R.id.radioSystemTheme -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                R.id.radioLightTheme -> AppCompatDelegate.MODE_NIGHT_NO
-                R.id.radioDarkTheme -> AppCompatDelegate.MODE_NIGHT_YES
-                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                R.id.radioSystemTheme -> SYSTEM_THEME
+                R.id.radioLightTheme -> LIGHT_THEME
+                R.id.radioDarkTheme -> DARK_THEME
+                else -> SYSTEM_THEME
             }
             viewModel.setThemeMode(themeMode)
         }
@@ -50,8 +56,8 @@ class SettingsFragment : Fragment() {
     private fun observeThemeMode() {
         viewModel.themeMode.observe(viewLifecycleOwner) { mode ->
             val radioButton = when (mode) {
-                AppCompatDelegate.MODE_NIGHT_NO -> binding.radioLightTheme
-                AppCompatDelegate.MODE_NIGHT_YES -> binding.radioDarkTheme
+                LIGHT_THEME -> binding.radioLightTheme
+                DARK_THEME -> binding.radioDarkTheme
                 else -> binding.radioSystemTheme
             }
             radioButton.isChecked = true
