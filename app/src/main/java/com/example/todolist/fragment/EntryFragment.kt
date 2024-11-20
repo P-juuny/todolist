@@ -44,19 +44,36 @@ class EntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViews()
+        observeViewModels()
+    }
 
+    private fun setupViews() {
         setupCalendarRecyclerView()
         setupDailyRecyclerView()
         setupButtons()
-        observeCalendarData()
         setupMonthYearSelection()
+    }
 
+    private fun observeViewModels() {
         calendarViewModel.currentMonth.observe(viewLifecycleOwner) {
             binding.tvCurrentDate.text = calendarViewModel.formatCurrentMonth()
         }
 
         settingsViewModel.todoHidden.observe(viewLifecycleOwner) { collapsed ->
             binding.dailyRecyclerView.visibility = if (collapsed) View.GONE else View.VISIBLE
+        }
+
+        calendarViewModel.calendarItems.observe(viewLifecycleOwner) { items ->
+            calendarAdapter.submitList(items)
+        }
+
+        calendarViewModel.selectedDate.observe(viewLifecycleOwner) { date ->
+            calendarAdapter.setSelectedDate(date)
+        }
+
+        todoViewModel.todayTasks.observe(viewLifecycleOwner) { tasks ->
+            todoAdapter.makeList(tasks)
         }
     }
 
@@ -86,16 +103,6 @@ class EntryFragment : Fragment() {
         }
     }
 
-    // 달력 데이터 관찰
-    private fun observeCalendarData() {
-        calendarViewModel.calendarItems.observe(viewLifecycleOwner) { items ->
-            calendarAdapter.submitList(items)
-        }
-
-        calendarViewModel.selectedDate.observe(viewLifecycleOwner) { date ->
-            calendarAdapter.setSelectedDate(date)
-        }
-    }
 
     // 오늘 할일 받아와서 RecyclerView에 넣는 함수
     private fun setupDailyRecyclerView() {
@@ -105,9 +112,7 @@ class EntryFragment : Fragment() {
             adapter = todoAdapter
         }
 
-        todoViewModel.todayTasks.observe(viewLifecycleOwner) { tasks ->
-            todoAdapter.makeList(tasks)
-        }
+
     }
 
     // Button의 Navigation 설정하는 함수
@@ -130,16 +135,18 @@ class EntryFragment : Fragment() {
             val current = calendarViewModel.currentMonth.value ?: YearMonth.now()
             val dialogBinding = DialogMonthYearPickerBinding.inflate(layoutInflater)
 
-            dialogBinding.monthPicker.apply {
-                minValue = 1
-                maxValue = 12
-                value = current.monthValue
-            }
+            with(dialogBinding) {
+                monthPicker.apply {
+                    minValue = 1
+                    maxValue = 12
+                    value = current.monthValue
+                }
 
-            dialogBinding.yearPicker.apply {
-                minValue = 2020
-                maxValue = 2030
-                value = current.year
+                yearPicker.apply {
+                    minValue = 2020
+                    maxValue = 2030
+                    value = current.year
+                }
             }
 
             MaterialAlertDialogBuilder(requireContext())

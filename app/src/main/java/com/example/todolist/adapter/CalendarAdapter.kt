@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.model.DayInfo
-import com.example.todolist.viewmodel.CalendarViewModel
-import com.google.android.material.card.MaterialCardView
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -24,28 +22,21 @@ class CalendarAdapter(
 
     inner class CalendarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvDay: TextView = itemView.findViewById(R.id.tv_day)
-        private val tvTaskCount: TextView = itemView.findViewById(R.id.tv_task_count)
-        private val cardView: MaterialCardView = itemView.findViewById(R.id.calendar_card)
 
         fun bind(item: DayInfo) {
-            // 날짜 표시
-            tvDay.text = item.date.dayOfMonth.toString()
+            tvDay.apply {
+                text = item.date.dayOfMonth.toString()  // 날짜 표시
+                alpha = if (item.isCurrentMonth) 1.0f else 0.5f // 해당 월이 아닌 날짜는 흐리게 표시
 
-            // 현재 달이 아닌 날짜는 흐리게 표시
-            tvDay.alpha = if (item.isCurrentMonth) 1.0f else 0.5f
-
-            // 할 일 개수 표시 (일반 + 고정 할 일)
-            val totalTasks = item.normalTaskCount + item.fixedTaskCount
-            tvTaskCount.text = if (totalTasks > 0) "$totalTasks" else ""
-
-            // 오늘 날짜 표시
-            if (item.date == LocalDate.now()) {
-                tvDay.setBackgroundResource(R.drawable.today_circle_background)
-                tvDay.setTextColor(ContextCompat.getColor(itemView.context, android.R.color.white))
-            } else {
-                tvDay.background = null
-                tvDay.setTextColor(ContextCompat.getColor(itemView.context,
-                    com.google.android.material.R.color.material_on_background_emphasis_high_type))
+                // 오늘 날짜 처리
+                if (item.date == LocalDate.now()) {
+                    setBackgroundResource(R.drawable.today_circle_background)
+                    setTextColor(ContextCompat.getColor(context, android.R.color.white))
+                } else {
+                    background = null
+                    setTextColor(ContextCompat.getColor(context,
+                        com.google.android.material.R.color.material_on_background_emphasis_high_type))
+                }
             }
 
             // 클릭 리스너
@@ -57,9 +48,9 @@ class CalendarAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.calendar_item, parent, false)
-        return CalendarViewHolder(view)
+        return CalendarViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.calendar_item, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {

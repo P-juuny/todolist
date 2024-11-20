@@ -1,12 +1,10 @@
 package com.example.todolist.repository
 
+import android.util.Log
 import com.example.todolist.model.DayInfo
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.database
-import com.example.todolist.model.FixedTaskItem
-import com.example.todolist.viewmodel.CalendarViewModel
-import java.time.LocalDate
 import java.time.YearMonth
 
 class CalendarRepository {
@@ -22,47 +20,24 @@ class CalendarRepository {
         val startDate = firstDay.minusDays((firstDayOfWeek - 1).toLong())
         val endDate = lastDay.plusDays((7 - lastDay.dayOfWeek.value).toLong())
 
-        baseRef.get().addOnSuccessListener { snapshot ->
+        baseRef.get().addOnSuccessListener { 
             val dayInfoList = mutableListOf<DayInfo>()
             var currentDate = startDate
 
             while (!currentDate.isAfter(endDate)) {
-                val dateKey = "${currentDate.year}-${currentDate.monthValue}-${currentDate.dayOfMonth}"
-
-                val normalTaskCount = snapshot
-                    .child("NormalTasks")
-                    .child(dateKey)
-                    .childrenCount.toInt()
-
-                val fixedTaskCount = snapshot
-                    .child("FixedTasks")
-                    .children
-                    .count { taskSnapshot ->
-                        val task = taskSnapshot.getValue(FixedTaskItem::class.java)
-                        when(currentDate.dayOfWeek.value) {
-                            1 -> task?.monday
-                            2 -> task?.tuesday
-                            3 -> task?.wednesday
-                            4 -> task?.thursday
-                            5 -> task?.friday
-                            6 -> task?.saturday
-                            7 -> task?.sunday
-                            else -> false
-                        } ?: false
-                    }
-
                 dayInfoList.add(
                     DayInfo(
                         date = currentDate,
-                        normalTaskCount = normalTaskCount,
-                        fixedTaskCount = fixedTaskCount,
                         isCurrentMonth = currentDate.month == yearMonth.month
                     )
                 )
-
                 currentDate = currentDate.plusDays(1)
             }
             callback(dayInfoList)
+        }
+        .addOnFailureListener { exception ->
+            Log.e("CalendarRepository", "Error loading month data", exception)
+            callback(emptyList())
         }
     }
 }
