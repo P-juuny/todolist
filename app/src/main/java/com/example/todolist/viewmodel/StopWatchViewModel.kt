@@ -8,18 +8,23 @@ import java.util.Timer
 import kotlin.concurrent.timer
 
 class StopwatchViewModel : ViewModel() {
+    // 현재 타이머 시간
     private val _time = MutableLiveData(0)
     val time: LiveData<Int> get() = _time
 
+    // 총 누적 시간
     private val _totalAccumulatedTime = MutableLiveData(0)
     val totalAccumulatedTime: LiveData<Int> get() = _totalAccumulatedTime
 
+    // 날짜별 누적 시간
     private val _dailyAccumulatedTimes = MutableLiveData<Map<String, Int>>(emptyMap())
     val dailyAccumulatedTimes: LiveData<Map<String, Int>> get() = _dailyAccumulatedTimes
 
+    // 목표 시간
     private val _goalTime = MutableLiveData<Int?>()
     val goalTime: LiveData<Int?> get() = _goalTime
 
+    // 금, 은, 동 메달 수
     private val _goldMedalCount = MutableLiveData(0)
     val goldMedalCount: LiveData<Int> get() = _goldMedalCount
 
@@ -29,9 +34,11 @@ class StopwatchViewModel : ViewModel() {
     private val _bronzeMedalCount = MutableLiveData(0)
     val bronzeMedalCount: LiveData<Int> get() = _bronzeMedalCount
 
+    // 메달별 계산에 따른 총 점수
     private val _totalScore = MutableLiveData(0)
     val totalScore: LiveData<Int> get() = _totalScore
 
+    // Timer의 객체를 사용하여 타이머 구현, isRunning으로 타이머의 상태를 관리함
     private var timer: Timer? = null
     var isRunning = false
         private set

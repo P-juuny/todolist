@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-// StopWatchRepository.kt
 class StopWatchRepository {
     private val auth = Firebase.auth
     private val database = Firebase.database
