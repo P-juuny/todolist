@@ -9,6 +9,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 // StopWatchRepository.kt
 class StopWatchRepository {
@@ -28,19 +31,16 @@ class StopWatchRepository {
                 goalTime.postValue(snapshot.child("goalTime").getValue(Int::class.java))
                 totalAccumulatedTime.postValue(snapshot.child("totalAccumulatedTime").getValue(Int::class.java) ?: 0)
 
-                // 날짜별 시간
                 val timesMap = mutableMapOf<String, Int>()
                 snapshot.child("dailyTimes").children.forEach {
                     timesMap[it.key ?: ""] = it.getValue(Int::class.java) ?: 0
                 }
                 dailyAccumulatedTimes.postValue(timesMap)
 
-                // 메달 카운트
-                medalCounts.first.postValue(snapshot.child("goldMedals").getValue(Int::class.java) ?: 0)
-                medalCounts.second.postValue(snapshot.child("silverMedals").getValue(Int::class.java) ?: 0)
-                medalCounts.third.postValue(snapshot.child("bronzeMedals").getValue(Int::class.java) ?: 0)
+                medalCounts.first.postValue(snapshot.child("medals").child("goldMedals").getValue(Int::class.java) ?: 0)
+                medalCounts.second.postValue(snapshot.child("medals").child("silverMedals").getValue(Int::class.java) ?: 0)
+                medalCounts.third.postValue(snapshot.child("medals").child("bronzeMedals").getValue(Int::class.java) ?: 0)
 
-                // 총점
                 totalScore.postValue(snapshot.child("totalScore").getValue(Int::class.java) ?: 0)
             }
 
@@ -50,38 +50,55 @@ class StopWatchRepository {
         })
     }
 
-    fun updateGoalTime(timeInSeconds: Int?) {
-        userRef.child("goalTime").setValue(timeInSeconds)
-    }
-
     fun updateDailyTime(date: String, timeInSeconds: Int) {
         // 현재 날짜의 dailyTimes를 먼저 조회
         userRef.child("dailyTimes").child(date).get().addOnSuccessListener { snapshot ->
             val currentValue = snapshot.getValue(Int::class.java) ?: 0
             val newValue = currentValue + timeInSeconds
 
-            // 누적된 값으로 업데이트
-            userRef.child("dailyTimes").child(date).setValue(newValue)
+            // dailyTimes와 totalAccumulatedTime 동시 업데이트
+            userRef.updateChildren(mapOf(
+                "dailyTimes/$date" to newValue,
+                "totalAccumulatedTime" to ServerValue.increment(timeInSeconds.toLong())
+            ))
         }
-
-        // totalAccumulatedTime 업데이트
-        userRef.child("totalAccumulatedTime")
-            .setValue(ServerValue.increment(timeInSeconds.toLong()))
     }
 
-    fun updateMedals(gold: Int, silver: Int, bronze: Int) {
+    fun getTodayMedalStatus(date: String, callback: (Int) -> Unit) {
+        userRef.child("medalStatus").child(date).get()
+            .addOnSuccessListener { snapshot ->
+                callback(snapshot.getValue(Int::class.java) ?: 0)
+            }
+            .addOnFailureListener {
+                callback(0)
+            }
+    }
+
+    fun updateMedalsAndScore(gold: Int, silver: Int, bronze: Int, score: Int) {
         userRef.updateChildren(mapOf(
-            "goldMedals" to gold,
-            "silverMedals" to silver,
-            "bronzeMedals" to bronze
+            "medals/goldMedals" to gold,
+            "medals/silverMedals" to silver,
+            "medals/bronzeMedals" to bronze,
+            "totalScore" to score,
+            "medalStatus/${getCurrentDate()}" to when {
+                gold > 0 -> 3
+                silver > 0 -> 2
+                bronze > 0 -> 1
+                else -> 0
+            }
         ))
     }
 
-    fun updateTotalScore(score: Int) {
-        userRef.child("totalScore").setValue(score)
+    fun updateGoalTime(timeInSeconds: Int?) {
+        userRef.child("goalTime").setValue(timeInSeconds)
     }
 
     fun resetAllData() {
         userRef.setValue(null)
+    }
+
+    private fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(Date())
     }
 }
