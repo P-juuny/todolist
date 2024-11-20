@@ -3,18 +3,12 @@ package com.example.todolist.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.todolist.model.DayInfo
 import com.example.todolist.repository.CalendarRepository
 import java.time.LocalDate
 import java.time.YearMonth
 
 class CalendarViewModel : ViewModel() {
-    // UI 상태를 위한 데이터 클래스
-    data class DayInfo(
-        val date: LocalDate,
-        val normalTaskCount: Int = 0,
-        val fixedTaskCount: Int = 0,
-        val isCurrentMonth: Boolean = true
-    )
 
     private val _calendarItems = MutableLiveData<List<DayInfo>>()
     val calendarItems: LiveData<List<DayInfo>> get() = _calendarItems

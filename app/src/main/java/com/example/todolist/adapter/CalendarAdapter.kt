@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
+import com.example.todolist.model.DayInfo
 import com.example.todolist.viewmodel.CalendarViewModel
 import com.google.android.material.card.MaterialCardView
 import java.time.LocalDate
@@ -17,7 +18,7 @@ import java.time.YearMonth
 class CalendarAdapter(
     private val onDateClick: (LocalDate) -> Unit,
     private val currentMonth: YearMonth
-) : ListAdapter<CalendarViewModel.DayInfo, CalendarAdapter.CalendarViewHolder>(CalendarDiffCallback()) {
+) : ListAdapter<DayInfo, CalendarAdapter.CalendarViewHolder>(CalendarDiffCallback()) {
 
     private var selectedDate: LocalDate? = null
 
@@ -26,7 +27,7 @@ class CalendarAdapter(
         private val tvTaskCount: TextView = itemView.findViewById(R.id.tv_task_count)
         private val cardView: MaterialCardView = itemView.findViewById(R.id.calendar_card)
 
-        fun bind(item: CalendarViewModel.DayInfo) {
+        fun bind(item: DayInfo) {
             // 날짜 표시
             tvDay.text = item.date.dayOfMonth.toString()
 
@@ -71,12 +72,12 @@ class CalendarAdapter(
     }
 }
 
-private class CalendarDiffCallback : DiffUtil.ItemCallback<CalendarViewModel.DayInfo>() {
-    override fun areItemsTheSame(oldItem: CalendarViewModel.DayInfo, newItem: CalendarViewModel.DayInfo): Boolean {
+private class CalendarDiffCallback : DiffUtil.ItemCallback<DayInfo>() {
+    override fun areItemsTheSame(oldItem: DayInfo, newItem: DayInfo): Boolean {
         return oldItem.date == newItem.date
     }
 
-    override fun areContentsTheSame(oldItem: CalendarViewModel.DayInfo, newItem: CalendarViewModel.DayInfo): Boolean {
+    override fun areContentsTheSame(oldItem: DayInfo, newItem: DayInfo): Boolean {
         return oldItem == newItem
     }
 }

@@ -1,5 +1,6 @@
 package com.example.todolist.repository
 
+import com.example.todolist.model.DayInfo
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.database
@@ -13,7 +14,7 @@ class CalendarRepository {
     private val database = Firebase.database
     private val baseRef = database.getReference("Users/${auth.currentUser?.uid ?: ""}")
 
-    fun loadMonthData(yearMonth: YearMonth, callback: (List<CalendarViewModel.DayInfo>) -> Unit) {
+    fun loadMonthData(yearMonth: YearMonth, callback: (List<DayInfo>) -> Unit) {
         val firstDay = yearMonth.atDay(1)
         val lastDay = yearMonth.atEndOfMonth()
         val firstDayOfWeek = firstDay.dayOfWeek.value
@@ -22,7 +23,7 @@ class CalendarRepository {
         val endDate = lastDay.plusDays((7 - lastDay.dayOfWeek.value).toLong())
 
         baseRef.get().addOnSuccessListener { snapshot ->
-            val dayInfoList = mutableListOf<CalendarViewModel.DayInfo>()
+            val dayInfoList = mutableListOf<DayInfo>()
             var currentDate = startDate
 
             while (!currentDate.isAfter(endDate)) {
@@ -51,7 +52,7 @@ class CalendarRepository {
                     }
 
                 dayInfoList.add(
-                    CalendarViewModel.DayInfo(
+                    DayInfo(
                         date = currentDate,
                         normalTaskCount = normalTaskCount,
                         fixedTaskCount = fixedTaskCount,
