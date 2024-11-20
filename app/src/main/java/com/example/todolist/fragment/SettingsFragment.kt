@@ -4,51 +4,74 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.todolist.R
+import com.example.todolist.databinding.FragmentSettingsBinding
+import com.example.todolist.viewmodel.SettingsViewModel
+
 
 class SettingsFragment : Fragment() {
-    /*
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(com.example.todolist.ARG_PARAM1)
-            param2 = it.getString(com.example.todolist.ARG_PARAM2)
-        }
-    }
-     */
+    private val viewModel: SettingsViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+    ): View {
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    /*
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(com.example.todolist.ARG_PARAM1, param1)
-                    putString(com.example.todolist.ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupThemeSelection()
+        setupTodoVisibility()
+        observeThemeMode()
+        observeTodoVisibility()
+    }
+
+    private fun setupThemeSelection() {
+        binding.themeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            val themeMode = when (checkedId) {
+                R.id.radioSystemTheme -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                R.id.radioLightTheme -> AppCompatDelegate.MODE_NIGHT_NO
+                R.id.radioDarkTheme -> AppCompatDelegate.MODE_NIGHT_YES
+                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             }
+            viewModel.setThemeMode(themeMode)
+        }
     }
 
-     */
+    private fun observeThemeMode() {
+        viewModel.themeMode.observe(viewLifecycleOwner) { mode ->
+            val radioButton = when (mode) {
+                AppCompatDelegate.MODE_NIGHT_NO -> binding.radioLightTheme
+                AppCompatDelegate.MODE_NIGHT_YES -> binding.radioDarkTheme
+                else -> binding.radioSystemTheme
+            }
+            radioButton.isChecked = true
+        }
+    }
+
+    private fun setupTodoVisibility() {
+        binding.switchTodoVisibility.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setTodoHidden(isChecked)
+        }
+    }
+
+    private fun observeTodoVisibility() {
+        viewModel.todoHidden.observe(viewLifecycleOwner) { collapsed ->
+            binding.switchTodoVisibility.isChecked = collapsed
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

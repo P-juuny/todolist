@@ -11,17 +11,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.R
 import com.example.todolist.adapter.CalendarAdapter
-import com.example.todolist.adapter.SimpleFixedTodoAdapter
 import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.FragmentEntryBinding
 import com.example.todolist.viewmodel.CalendarViewModel
-import com.example.todolist.viewmodel.FixedToDoViewModel
+import com.example.todolist.viewmodel.SettingsViewModel
 import com.example.todolist.viewmodel.TodoViewModel
-import com.google.android.material.datepicker.MaterialDatePicker
-import java.time.Instant
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.ZoneId
 
 class EntryFragment : Fragment() {
 
@@ -30,7 +26,7 @@ class EntryFragment : Fragment() {
 
     private val todoViewModel: TodoViewModel by activityViewModels()
     private val calendarViewModel: CalendarViewModel by activityViewModels()
-    private val fixedTodoViewModel: FixedToDoViewModel by activityViewModels()  // 추가
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
 
     private lateinit var todoAdapter: TodoAdapter
     private lateinit var calendarAdapter: CalendarAdapter
@@ -54,6 +50,10 @@ class EntryFragment : Fragment() {
 
         calendarViewModel.currentMonth.observe(viewLifecycleOwner) {
             binding.tvCurrentDate.text = calendarViewModel.formatCurrentMonth()
+        }
+
+        settingsViewModel.todoHidden.observe(viewLifecycleOwner) { collapsed ->
+            binding.dailyRecyclerView.visibility = if (collapsed) View.GONE else View.VISIBLE
         }
     }
 
@@ -80,25 +80,6 @@ class EntryFragment : Fragment() {
         binding.calendarRecyclerView.apply {
             layoutManager = GridLayoutManager(context, 7)
             adapter = calendarAdapter
-        }
-    }
-
-    // 월/연도 선택을 위한 DatePicker
-    private fun setupMonthYearPicker() {
-        binding.tvCurrentDate.setOnClickListener {
-            val currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
-
-            MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select date")
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build().apply {
-                    addOnPositiveButtonClickListener { selection ->
-                        val selectedDate = Instant.ofEpochMilli(selection)
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDate()
-                        calendarViewModel.setCurrentMonth(YearMonth.of(selectedDate.year, selectedDate.month))
-                    }
-                }.show(parentFragmentManager, "MonthYearPicker")
         }
     }
 
@@ -138,10 +119,6 @@ class EntryFragment : Fragment() {
 
         binding.btnAchievements.setOnClickListener {
             findNavController().navigate(R.id.action_entryFragment_to_challengeViewFragment)
-        }
-
-        binding.btnDaily.setOnClickListener {
-            findNavController().navigate(R.id.action_entryFragment_to_taskOverviewFragment)
         }
     }
 

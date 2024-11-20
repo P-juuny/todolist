@@ -1,9 +1,11 @@
 package com.example.todolist
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.NavHostFragment
 import com.example.todolist.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        initTheme()
 
         auth = Firebase.auth
 
@@ -35,6 +39,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navController = binding.frgNav.getFragment<NavHostFragment>().navController
+    }
+
+    private fun initTheme() {
+        val preferences = getSharedPreferences("todo_settings", Context.MODE_PRIVATE)
+        val themeMode = preferences.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) // 기본값은 시스템 설정
+        AppCompatDelegate.setDefaultNightMode(themeMode)
     }
 
     override fun onSupportNavigateUp(): Boolean {

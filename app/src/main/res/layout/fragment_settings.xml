@@ -19,56 +19,107 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- 테마 설정을 위한 새로운 영역 -->
     <TextView
-        android:id="@+id/txt_settings_1"
+        android:id="@+id/txt_theme_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="다크모드"
+        android:layout_marginTop="50dp"
+        android:text="테마 설정"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/txt_settings_label"
         app:layout_constraintTop_toBottomOf="@+id/txt_settings_label" />
 
+    <RadioGroup
+        android:id="@+id/themeRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_theme_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_theme_title">
+
+        <RadioButton
+            android:id="@+id/radioLightTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="라이트 모드"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/radioDarkTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다크 모드"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/radioSystemTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="시스템 설정"
+            android:textSize="14sp" />
+
+    </RadioGroup>
+
+    <!-- 기존 설정들은 테마 설정 아래로 이동 -->
     <TextView
         android:id="@+id/txt_settings_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="방해 금지 모드"
-        app:layout_constraintStart_toStartOf="@+id/txt_settings_1"
-        app:layout_constraintTop_toBottomOf="@+id/txt_settings_1" />
-
-    <TextView
-        android:id="@+id/txt_settings_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="설정 3"
-        app:layout_constraintStart_toStartOf="@+id/txt_settings_2"
-        app:layout_constraintTop_toBottomOf="@+id/txt_settings_2" />
+        android:layout_marginTop="100dp"
+        android:text="오늘 할 일 숨기기"
+        app:layout_constraintStart_toStartOf="@+id/txt_theme_title"
+        app:layout_constraintTop_toBottomOf="@+id/txt_theme_title" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switch_settings_1"
+        android:id="@+id/switch_todo_visibility"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_settings_1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txt_settings_1" />
-
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switch_settings_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/txt_settings_2"
-        app:layout_constraintEnd_toEndOf="@+id/switch_settings_1"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txt_settings_2" />
 
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switch_settings_3"
+    <TextView
+        android:id="@+id/txt_app_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_settings_3"
-        app:layout_constraintEnd_toEndOf="@+id/switch_settings_2"
-        app:layout_constraintTop_toTopOf="@+id/txt_settings_3" />
+        android:layout_marginTop="50dp"
+        android:text="앱 정보"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/txt_settings_2"
+        app:layout_constraintTop_toBottomOf="@+id/txt_settings_2" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/txt_app_info"
+        app:layout_constraintTop_toBottomOf="@+id/txt_app_info">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="버전: 1.0.0"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="개발자: Team 8"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="© 2024 Todo List App"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
