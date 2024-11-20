@@ -25,15 +25,7 @@ class SimpleFixedTodoAdapter(
         fun bind(taskItem: FixedTaskItem) {
             binding.FixedTodo.text = taskItem.task
 
-            binding.checkBox.setOnCheckedChangeListener(null)
-            binding.checkBox.isChecked = taskItem.isChecked
-
-            binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                // allTasks와 visibleTasks의 Position이 상이, FixedToDoViewModel에서 전체 리스트를 updateTodoCheck해주었기 떄문
-                val originalPosition = allTasks.indexOf(taskItem)
-                viewModel.updateTodoCheck(originalPosition, isChecked)
-            }
-
+            // allTasks와 visibleTasks의 Position이 상이, FixedToDoViewModel에서 전체 리스트를 updateTodoCheck해주었기 떄문
             binding.DeleteBtn.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {

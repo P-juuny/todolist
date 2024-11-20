@@ -26,13 +26,6 @@ class FixedToDoViewModel : ViewModel() {
         repository.deleteFixedTodo(task.id)
     }
 
-    fun updateTodoCheck(position: Int, isChecked: Boolean) {
-        val currentList = _fixedtodoList.value ?: return
-        val task = currentList[position]
-        task.isChecked = isChecked
-        repository.updateFixedTodo(task.id, task)
-    }
-
     fun updateDate(Id: Int, position: Int, isChecked: Boolean) {
         val currentList = _fixedtodoList.value ?: return
         val task = currentList[position]
