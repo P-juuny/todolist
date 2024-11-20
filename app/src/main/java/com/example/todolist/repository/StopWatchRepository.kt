@@ -97,7 +97,7 @@ class StopWatchRepository {
         userRef.setValue(null)
     }
 
-    private fun getCurrentDate(): String {
+    fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dateFormat.format(Date())
     }

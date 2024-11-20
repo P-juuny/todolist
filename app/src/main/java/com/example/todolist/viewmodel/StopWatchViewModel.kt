@@ -39,8 +39,8 @@ class StopwatchViewModel : ViewModel() {
     var isRunning = false
         private set
 
-    private var currentDate: String = getCurrentDate()
     private val repository = StopWatchRepository()
+    private var currentDate: String = repository.getCurrentDate()
     private var todayMedal: Int = 0
 
     init {
@@ -56,13 +56,8 @@ class StopwatchViewModel : ViewModel() {
         }
     }
 
-    private fun getCurrentDate(): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        return dateFormat.format(Date())
-    }
-
     private fun checkDateAndInitialize() {
-        val today = getCurrentDate()
+        val today = repository.getCurrentDate()
         if (today != currentDate) {
             currentDate = today
 
