@@ -18,7 +18,7 @@ class FixedTodoAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(taskItem: FixedTaskItem) {
-            binding.FixedTodo.setText(taskItem.task)
+            binding.FixedTodo.text = taskItem.task
 
             initCheckboxes(taskItem)
             setOnCheckedChangeListener()
