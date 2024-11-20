@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.R
 import com.example.todolist.adapter.CalendarAdapter
 import com.example.todolist.adapter.TodoAdapter
+import com.example.todolist.databinding.DialogMonthYearPickerBinding
 import com.example.todolist.databinding.FragmentEntryBinding
 import com.example.todolist.viewmodel.CalendarViewModel
 import com.example.todolist.viewmodel.SettingsViewModel
 import com.example.todolist.viewmodel.TodoViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -47,6 +49,7 @@ class EntryFragment : Fragment() {
         setupDailyRecyclerView()
         setupButtons()
         observeCalendarData()
+        setupMonthYearSelection()
 
         calendarViewModel.currentMonth.observe(viewLifecycleOwner) {
             binding.tvCurrentDate.text = calendarViewModel.formatCurrentMonth()
@@ -119,6 +122,36 @@ class EntryFragment : Fragment() {
 
         binding.btnAchievements.setOnClickListener {
             findNavController().navigate(R.id.action_entryFragment_to_challengeViewFragment)
+        }
+    }
+
+    private fun setupMonthYearSelection() {
+        binding.tvCurrentDate.setOnClickListener {
+            val current = calendarViewModel.currentMonth.value ?: YearMonth.now()
+            val dialogBinding = DialogMonthYearPickerBinding.inflate(layoutInflater)
+
+            dialogBinding.monthPicker.apply {
+                minValue = 1
+                maxValue = 12
+                value = current.monthValue
+            }
+
+            dialogBinding.yearPicker.apply {
+                minValue = 2020
+                maxValue = 2030
+                value = current.year
+            }
+
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("월/연도 선택")
+                .setView(dialogBinding.root)
+                .setPositiveButton("확인") { _, _ ->
+                    val month = dialogBinding.monthPicker.value
+                    val year = dialogBinding.yearPicker.value
+                    calendarViewModel.setCurrentMonth(YearMonth.of(year, month))
+                }
+                .setNegativeButton("취소", null)
+                .show()
         }
     }
 
