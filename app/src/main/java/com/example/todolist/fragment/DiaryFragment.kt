@@ -7,21 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.todolist.databinding.FragmentDiaryBinding
 import com.example.todolist.viewmodel.DiaryViewModel
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import com.example.todolist.viewmodel.CalendarViewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class DiaryFragment : Fragment() {
     private var _binding: FragmentDiaryBinding? = null
     private val binding get() = _binding!!
 
-    // 현재 날짜를 위한 Calendar 인스턴스
-    private val calendar = Calendar.getInstance()
     private val diaryViewModel: DiaryViewModel by activityViewModels()
+    private val calendarViewModel: CalendarViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,69 +34,77 @@ class DiaryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 현재 날짜 설정
-        updateCurrentDate()
-        setupClickListeners()
+        val currentDate = calendarViewModel.selectedDate.value ?: LocalDate.now()
+        binding.currentDate.text = currentDate.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일"))
+
+        // 처음엔 저장, 사진 버튼만 보이게
+        updateButtonVisibility(true)
+
+        setupClickListeners(currentDate)
+        diaryViewModel.loadDiaryForDate(currentDate)
+
+        updateUI()
     }
 
-    private fun setupClickListeners() {
-        // 이미지 추가 버튼 클릭 리스너
+    private fun updateButtonVisibility(isEditMode: Boolean) {
+        binding.apply {
+            saveBtn.isVisible = isEditMode
+            addPictureBtn.isVisible = isEditMode
+            deleteBtn.isVisible = !isEditMode
+            editDiaryContent.isEnabled = isEditMode
+        }
+    }
+
+    private fun updateUI() {
+        diaryViewModel.diary.observe(viewLifecycleOwner) { diary ->
+            diary?.let {
+                binding.editDiaryContent.setText(it.content)
+                if (it.content.isNotBlank()) {
+                    // 내용 있으면 읽기 모드로
+                    updateButtonVisibility(false)
+                }
+            }
+        }
+    }
+
+    private fun setupClickListeners(currentDate: LocalDate) {
         binding.addPictureBtn.setOnClickListener {
-            // Intent.ACTION_GET_CONTENT는 안드로이드 OS에 콘텐츠를 선택하고 싶다는 의도를 전달하는 액션
-            val intent = Intent(Intent.ACTION_GET_CONTENT).apply{
-                // 모든 이미지 형식을 포함하는 MIME 타입
+            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
                 type = "image/*"
             }
             startActivityForResult(intent, 1)
         }
 
-        // 저장 버튼 클릭 리스너
         binding.saveBtn.setOnClickListener {
-            saveDiary()
+            val content = binding.editDiaryContent.text.toString()
+            if (content.isBlank()) {
+                Toast.makeText(context, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            diaryViewModel.saveDiaryForDate(content, currentDate)
+            // 저장하면 저장,사진 버튼 숨기고 삭제 버튼 보이게
+            updateButtonVisibility(false)
+            Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show()
         }
 
         binding.deleteBtn.setOnClickListener {
-            deleteDiary()
+            diaryViewModel.deleteDiaryForDate(currentDate)
+            binding.editDiaryContent.text.clear()
+            binding.selectedImage.visibility = View.GONE
+            // 삭제하면 다시 저장,사진 버튼 보이고 삭제 버튼 숨기기
+            updateButtonVisibility(true)
+            Toast.makeText(context, "일기가 삭제되었습니다", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun updateCurrentDate() {
-        // 날짜를 한국 시간에 맞춤, Date -> String 형태로 변환
-        val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA)
-        binding.currentDate.text = dateFormat.format(calendar.time)
-    }
-
-    private fun saveDiary() {
-        val content = binding.editDiaryContent.text.toString()
-        if (content.isBlank()) {
-            Toast.makeText(context, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        diaryViewModel.saveDiary(content)
-
-        Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show()
-        binding.editDiaryContent.text.clear()
-        binding.selectedImage.visibility = View.INVISIBLE
-    }
-
-    private fun deleteDiary() {
-        diaryViewModel.deleteDiary()
-        Toast.makeText(context, "일기가 삭제되었습니다", Toast.LENGTH_SHORT).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        // resultCode == RESULT_OK , 이미지 선택을 위해 호출한 Intent 구분
         if (resultCode == Activity.RESULT_OK && requestCode == 1) {
-            // 첫번째 data는 매개변수, 두번째 data는 URI?로 선택된 이미지의 URI
             data?.data?.let {
                 binding.selectedImage.apply {
-                    // uri가 가리키는 이미지 주소 가져와서 표시
                     setImageURI(it)
                     visibility = View.VISIBLE
                 }
-
             }
         }
     }
