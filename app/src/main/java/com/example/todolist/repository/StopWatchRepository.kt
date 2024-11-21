@@ -12,8 +12,8 @@ import com.google.firebase.database.database
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
-// StopWatchRepository.kt
 class StopWatchRepository {
     private val auth = Firebase.auth
     private val database = Firebase.database
@@ -98,7 +98,11 @@ class StopWatchRepository {
     }
 
     fun getCurrentDate(): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val timeZone = TimeZone.getTimeZone("Asia/Seoul")
+        TimeZone.setDefault(timeZone)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).apply {
+            this.timeZone = timeZone
+        }
         return dateFormat.format(Date())
     }
 }
