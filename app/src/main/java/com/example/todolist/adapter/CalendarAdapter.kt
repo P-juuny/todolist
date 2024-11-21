@@ -21,14 +21,12 @@ class CalendarAdapter(
     private var selectedDate: LocalDate? = null
 
     inner class CalendarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvDay: TextView = itemView.findViewById(R.id.tv_day)
-
         fun bind(item: DayInfo) {
             tvDay.apply {
-                text = item.date.dayOfMonth.toString()  // 날짜 표시
-                alpha = if (item.isCurrentMonth) 1.0f else 0.5f // 해당 월이 아닌 날짜는 흐리게 표시
+                text = item.date.dayOfMonth.toString()
+                alpha = if (item.isCurrentMonth) 1.0f else 0.5f
 
-                // 오늘 날짜 처리
+                // 오늘 날짜만 표시하기 위한 로직 추가
                 if (item.date == LocalDate.now()) {
                     setBackgroundResource(R.drawable.today_circle_background)
                     setTextColor(ContextCompat.getColor(context, android.R.color.white))
@@ -39,12 +37,13 @@ class CalendarAdapter(
                 }
             }
 
-            // 클릭 리스너
             itemView.setOnClickListener {
                 selectedDate = item.date
                 onDateClick(item.date)
             }
         }
+
+        private val tvDay: TextView = itemView.findViewById(R.id.tv_day)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {

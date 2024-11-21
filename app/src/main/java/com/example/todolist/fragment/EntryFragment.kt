@@ -60,20 +60,20 @@ class EntryFragment : Fragment() {
             binding.tvCurrentDate.text = calendarViewModel.formatCurrentMonth()
         }
 
-        settingsViewModel.todoHidden.observe(viewLifecycleOwner) { collapsed ->
-            binding.dailyRecyclerView.visibility = if (collapsed) View.GONE else View.VISIBLE
+        settingsViewModel.todoHidden.observe(viewLifecycleOwner) {
+            binding.dailyRecyclerView.visibility = if (it) View.GONE else View.VISIBLE
         }
 
-        calendarViewModel.calendarItems.observe(viewLifecycleOwner) { items ->
-            calendarAdapter.submitList(items)
+        calendarViewModel.calendarItems.observe(viewLifecycleOwner) {
+            calendarAdapter.submitList(it)
         }
 
-        calendarViewModel.selectedDate.observe(viewLifecycleOwner) { date ->
-            calendarAdapter.setSelectedDate(date)
+        calendarViewModel.selectedDate.observe(viewLifecycleOwner) {
+            calendarAdapter.setSelectedDate(it)
         }
 
-        todoViewModel.todayTasks.observe(viewLifecycleOwner) { tasks ->
-            todoAdapter.makeList(tasks)
+        todoViewModel.todayTasks.observe(viewLifecycleOwner) {
+            todoAdapter.makeList(it)
         }
     }
 
@@ -89,10 +89,7 @@ class EntryFragment : Fragment() {
                     putInt("selectedMonth", date.monthValue)
                     putInt("selectedDay", date.dayOfMonth)
                 }
-                findNavController().navigate(
-                    R.id.action_entryFragment_to_taskOverviewFragment,
-                    bundle
-                )
+
             },
             currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
         )
