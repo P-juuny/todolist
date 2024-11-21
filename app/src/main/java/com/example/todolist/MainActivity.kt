@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     "Authentication failed."
                 }
-                Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show() // activity는 Context 대신 baseContext 사용
             }
     }
 

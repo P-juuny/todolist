@@ -27,9 +27,10 @@ class TodoRepository {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val taskList = mutableListOf<TaskItem>()
                 snapshot.children.forEach { taskSnapshot ->
-                    taskSnapshot.getValue(TaskItem::class.java)?.let { task ->
-                        task.id = taskSnapshot.key
-                        taskList.add(task)
+                    val item = taskSnapshot.getValue(TaskItem::class.java)
+                    item?.let {
+                        it.id = taskSnapshot.key
+                        taskList.add(it)
                     }
                 }
                 tasks.postValue(taskList)
