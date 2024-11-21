@@ -90,6 +90,10 @@ class EntryFragment : Fragment() {
                     putInt("selectedDay", date.dayOfMonth)
                 }
 
+                findNavController().navigate(
+                    R.id.action_entryFragment_to_taskOverviewFragment,
+                    bundle
+                )
             },
             currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
         )
