@@ -21,6 +21,7 @@ class FixedTodoAdapter(
             binding.FixedTodo.text = taskItem.task
 
             initCheckboxes(taskItem)
+            saveCheckboxes(taskItem)
             setOnCheckedChangeListener()
 
             // 함수로 빼기
@@ -41,6 +42,9 @@ class FixedTodoAdapter(
             binding.checkboxFriday.setOnCheckedChangeListener(null)
             binding.checkboxSaturday.setOnCheckedChangeListener(null)
             binding.checkboxSunday.setOnCheckedChangeListener(null)
+        }
+
+        private fun saveCheckboxes(taskItem: FixedTaskItem) {
             // 고정된 할 일 저장시 체크박스 상태 저장
             binding.checkboxMonday.isChecked = taskItem.monday
             binding.checkboxTuesday.isChecked = taskItem.tuesday

@@ -31,13 +31,13 @@ class FixedToDoViewModel : ViewModel() {
         val task = currentList[position]
 
         when (Id) {
-            0 -> task.monday = isChecked
-            1 -> task.tuesday = isChecked
-            2 -> task.wednesday = isChecked
-            3 -> task.thursday = isChecked
-            4 -> task.friday = isChecked
-            5 -> task.saturday = isChecked
-            6 -> task.sunday = isChecked
+            1 -> task.monday = isChecked
+            2 -> task.tuesday = isChecked
+            3 -> task.wednesday = isChecked
+            4 -> task.thursday = isChecked
+            5 -> task.friday = isChecked
+            6 -> task.saturday = isChecked
+            7 -> task.sunday = isChecked
         }
 
         repository.updateFixedTodo(task.id, task)

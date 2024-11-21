@@ -50,11 +50,15 @@ class TodoRepository {
 
     fun deleteTask(date: LocalDate, taskId: String?) {
         val dateKey = getDateKey(date)
-        taskId?.let { baseRef.child(dateKey).child(it).removeValue() }
+        taskId?.let {
+            baseRef.child(dateKey).child(it).removeValue()
+        }
     }
 
     fun updateTask(date: LocalDate, taskId: String?, task: TaskItem) {
         val dateKey = getDateKey(date)
-        taskId?.let { baseRef.child(dateKey).child(it).setValue(task) }
+        taskId?.let {
+            baseRef.child(dateKey).child(it).setValue(task)
+        }
     }
 }

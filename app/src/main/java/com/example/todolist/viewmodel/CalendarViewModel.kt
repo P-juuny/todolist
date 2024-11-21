@@ -30,15 +30,15 @@ class CalendarViewModel : ViewModel() {
         loadMonth(yearMonth)
     }
 
-    fun formatCurrentMonth(): String {
-        val month = _currentMonth.value ?: YearMonth.now()
-        return "${month.month.name.lowercase().capitalize()} ${month.year}"
-    }
-
     private fun loadMonth(yearMonth: YearMonth) {
         repository.loadMonthData(yearMonth) { dayInfoList ->
             _calendarItems.postValue(dayInfoList)
         }
+    }
+
+    fun formatCurrentMonth(): String {
+        val month = _currentMonth.value ?: YearMonth.now()
+        return "${month.month.name.lowercase().capitalize()} ${month.year}"
     }
 
     fun selectDate(date: LocalDate) {
