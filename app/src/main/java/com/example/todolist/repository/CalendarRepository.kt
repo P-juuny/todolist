@@ -20,7 +20,8 @@ class CalendarRepository {
         val startDate = firstDay.minusDays((firstDayOfWeek - 1).toLong())
         val endDate = lastDay.plusDays((7 - lastDay.dayOfWeek.value).toLong())
 
-        baseRef.get().addOnSuccessListener { 
+        baseRef.get()
+        .addOnSuccessListener {
             val dayInfoList = mutableListOf<DayInfo>()
             var currentDate = startDate
 

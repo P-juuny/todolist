@@ -25,8 +25,8 @@ class CalendarAdapter(
 
         fun bind(item: DayInfo) {
             tvDay.apply {
-                text = item.date.dayOfMonth.toString()  // 날짜 표시
-                alpha = if (item.isCurrentMonth) 1.0f else 0.5f // 해당 월이 아닌 날짜는 흐리게 표시
+                text = item.date.dayOfMonth.toString()
+                alpha = if (item.isCurrentMonth) 1.0f else 0.5f
 
                 // 오늘 날짜 처리
                 if (item.date == LocalDate.now()) {

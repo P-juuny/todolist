@@ -18,7 +18,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     private val preferences = application.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    // Theme mode: 0 = 시스템 설정, 1 = 라이트 모드, 2 = 다크 모드
+    // Theme mode: 시스템 설정 = -1, 라이트 모드 = 1, 다크 모드 = 2
     private val _themeMode = MutableLiveData<Int>()
     val themeMode: LiveData<Int> = _themeMode
 
