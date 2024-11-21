@@ -44,7 +44,6 @@ class SettingsFragment : Fragment() {
     private fun setupThemeSelection() {
         binding.themeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             val themeMode = when (checkedId) {
-                R.id.radioSystemTheme -> SYSTEM_THEME
                 R.id.radioLightTheme -> LIGHT_THEME
                 R.id.radioDarkTheme -> DARK_THEME
                 else -> SYSTEM_THEME
