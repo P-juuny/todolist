@@ -51,20 +51,20 @@ class FixedOverviewFragment : Fragment() {
         binding.AddTaskBtn.setOnClickListener {
             val newTask = binding.editTodoItem.text.toString()
 
-            // 내용이 비어있는지 체크
             if(newTask.isBlank()) {
                 Toast.makeText(context, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+                // return만 쓰게 되면 바깥함수를 종료하는 지 람다함수를 종료하는 지 알 수 없음
                 return@setOnClickListener
             }
 
             // 체크박스가 하나라도 체크되어있는지 확인
-            if(!binding.inputMonday.isChecked &&
-                !binding.inputTuesday.isChecked &&
-                !binding.inputWednesday.isChecked &&
-                !binding.inputThursday.isChecked &&
-                !binding.inputFriday.isChecked &&
-                !binding.inputSaturday.isChecked &&
-                !binding.inputSunday.isChecked) {
+            if(!(binding.inputMonday.isChecked ||
+                binding.inputTuesday.isChecked ||
+                binding.inputWednesday.isChecked ||
+                binding.inputThursday.isChecked ||
+                binding.inputFriday.isChecked ||
+                binding.inputSaturday.isChecked ||
+                binding.inputSunday.isChecked)) {
                 Toast.makeText(context, "요일을 하나 이상 선택해주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }

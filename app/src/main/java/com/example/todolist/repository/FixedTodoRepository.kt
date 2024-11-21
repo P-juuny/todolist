@@ -13,7 +13,7 @@ import com.example.todolist.model.FixedTaskItem
 class FixedTodoRepository {
     private val auth = Firebase.auth
     private val database = Firebase.database
-    private val fixedRef = database.getReference("Users/${auth.currentUser?.uid ?: ""}/FixedTodo")
+    private val fixedRef = database.getReference("Users/${auth.currentUser?.uid ?: ""}/FixedTodo") // 익명 인증을 못받을 경우 currentUser = null
 
     fun observeFixedTodos(todos: MutableLiveData<MutableList<FixedTaskItem>>) {
         fixedRef.addValueEventListener(object : ValueEventListener {
@@ -36,16 +36,20 @@ class FixedTodoRepository {
     }
 
     fun postFixedTodo(task: FixedTaskItem) {
-        val taskRef = fixedRef.push()
+        val taskRef = fixedRef.push() // Firebase의 고유한 키 값 생성
         task.id = taskRef.key
         taskRef.setValue(task)
     }
 
     fun deleteFixedTodo(taskId: String?) {
-        taskId?.let { fixedRef.child(it).removeValue() }
+        taskId?.let {
+            fixedRef.child(it).removeValue()
+        }
     }
 
     fun updateFixedTodo(taskId: String?, task: FixedTaskItem) {
-        taskId?.let { fixedRef.child(it).setValue(task) }
+        taskId?.let {
+            fixedRef.child(it).setValue(task)
+        }
     }
 }

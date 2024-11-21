@@ -39,7 +39,6 @@ class TaskOverviewFragment : Fragment() {
         return binding.root
     }
 
-    //뷰모델 쓰는 공간
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

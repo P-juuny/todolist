@@ -20,7 +20,7 @@ class EditTodoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: TodoViewModel by activityViewModels()
-    private val calendarViewModel: CalendarViewModel by activityViewModels() // 일 별 데이터 분리를 위해 추가 - 건수 추가
+    private val calendarViewModel: CalendarViewModel by activityViewModels() // 일 별 데이터 분리를 위해 추가
     private lateinit var todoAdapter: TodoAdapter
 
     override fun onCreateView(
@@ -40,7 +40,7 @@ class EditTodoFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now()
+        val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now() // 누른 날짜를 calendarViewModel에서 넘김
         todoAdapter = TodoAdapter(viewModel, selectedDate)
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -57,7 +57,7 @@ class EditTodoFragment : Fragment() {
             val todoText = binding.editTodoItem.text.toString()
             if (todoText.isNotBlank()) {
                 val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now()
-                viewModel.addTodo(todoText, selectedDate)  // 새로운 addTodo 메서드 사용
+                viewModel.addTodo(todoText, selectedDate)
                 binding.editTodoItem.text.clear()
             }
             else {

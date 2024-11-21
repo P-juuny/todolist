@@ -11,5 +11,4 @@ data class FixedTaskItem(
     var friday: Boolean = false,
     var saturday: Boolean = false,
     var sunday: Boolean = false,
-    var isChecked: Boolean = false
 )

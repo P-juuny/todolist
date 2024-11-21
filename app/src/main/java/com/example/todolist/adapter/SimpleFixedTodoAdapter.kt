@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.databinding.ItemFixedTodoSimpleBinding
 import com.example.todolist.viewmodel.FixedToDoViewModel
 import com.example.todolist.model.FixedTaskItem
+import java.time.DayOfWeek
 import java.time.LocalDate
 
 class SimpleFixedTodoAdapter(
@@ -52,16 +53,16 @@ class SimpleFixedTodoAdapter(
     override fun getItemCount(): Int = visibleTasks.size
 
     private fun todayTasks(tasks: List<FixedTaskItem>): List<FixedTaskItem> {
-        return tasks.filter { task ->
-            when (date.dayOfWeek.value) {
-                1 -> task.monday
-                2 -> task.tuesday
-                3 -> task.wednesday
-                4  -> task.thursday
-                5  -> task.friday
-                6 -> task.saturday
-                7 -> task.sunday
-                else -> false
+        return tasks.filter {
+            // enum 클래스 사용 -> else문 필요 x
+            when (date.dayOfWeek) {
+                DayOfWeek.MONDAY -> it.monday
+                DayOfWeek.TUESDAY -> it.tuesday
+                DayOfWeek.WEDNESDAY -> it.wednesday
+                DayOfWeek.THURSDAY  -> it.thursday
+                DayOfWeek.FRIDAY  -> it.friday
+                DayOfWeek.SATURDAY -> it.saturday
+                DayOfWeek.SUNDAY -> it.sunday
             }
         }
     }
