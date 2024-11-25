@@ -1,5 +1,6 @@
 package com.example.todolist.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +10,6 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 class CalendarViewModel : ViewModel() {
-
     private val _calendarItems = MutableLiveData<List<DayInfo>>()
     val calendarItems: LiveData<List<DayInfo>> get() = _calendarItems
 
@@ -19,20 +19,28 @@ class CalendarViewModel : ViewModel() {
     private val _selectedDate = MutableLiveData<LocalDate>()
     val selectedDate: LiveData<LocalDate> get() = _selectedDate
 
-    private val repository = CalendarRepository()
+    private lateinit var repository: CalendarRepository
 
-    init {
-        setCurrentMonth(YearMonth.now())
+    fun initializeContext(context: Context) {
+        repository = CalendarRepository(context.applicationContext)
+    }
+
+    fun init() {
+        val savedMonth = repository.getSavedMonth() ?: YearMonth.now()
+        setCurrentMonth(savedMonth)
+
+        // 월 전환 체크
+        if (repository.shouldUpdateMonth(savedMonth)) {
+            setCurrentMonth(YearMonth.now())
+        }
     }
 
     fun setCurrentMonth(yearMonth: YearMonth) {
-        _currentMonth.value = yearMonth
-        loadMonth(yearMonth)
-    }
-
-    private fun loadMonth(yearMonth: YearMonth) {
-        repository.loadMonthData(yearMonth) { dayInfoList ->
-            _calendarItems.postValue(dayInfoList)
+        val currentMonth = _currentMonth.value
+        if (currentMonth?.year != yearMonth.year || currentMonth?.monthValue != yearMonth.monthValue) {
+            _currentMonth.value = yearMonth
+            repository.saveMonth(yearMonth)
+            _calendarItems.value = repository.loadMonthData(yearMonth)
         }
     }
 

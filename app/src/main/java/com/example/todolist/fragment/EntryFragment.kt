@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +45,8 @@ class EntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        calendarViewModel.initializeContext(requireContext())
+        calendarViewModel.init()
         setupViews()
         observeViewModels()
     }
@@ -83,7 +86,6 @@ class EntryFragment : Fragment() {
             onDateClick = { date ->
                 calendarViewModel.selectDate(date)
                 todoViewModel.loadTasksForDate(date)
-                // Bundle로 날짜 데이터 전달
                 val bundle = Bundle().apply {
                     putInt("selectedYear", date.year)
                     putInt("selectedMonth", date.monthValue)
@@ -92,7 +94,11 @@ class EntryFragment : Fragment() {
 
                 findNavController().navigate(
                     R.id.action_entryFragment_to_taskOverviewFragment,
-                    bundle
+                    bundle,
+                    NavOptions.Builder()
+                        .setEnterAnim(android.R.anim.slide_in_left)
+                        .setExitAnim(android.R.anim.slide_out_right)
+                        .build()
                 )
             },
             currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
@@ -162,7 +168,6 @@ class EntryFragment : Fragment() {
                 .show()
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

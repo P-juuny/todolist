@@ -1,44 +1,47 @@
 package com.example.todolist.repository
 
-import android.util.Log
+import android.content.Context
 import com.example.todolist.model.DayInfo
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
-import com.google.firebase.database.database
+import com.example.todolist.util.calculator.CalendarDateCalculator
+import java.time.LocalDate
 import java.time.YearMonth
 
-class CalendarRepository {
-    private val auth = Firebase.auth
-    private val database = Firebase.database
-    private val baseRef = database.getReference("Users/${auth.currentUser?.uid ?: ""}")
+class CalendarRepository(private val context: Context) {
+    private val dateCalculator = CalendarDateCalculator()
+    private val prefs = context.getSharedPreferences("calendar_prefs", Context.MODE_PRIVATE)
 
-    fun loadMonthData(yearMonth: YearMonth, callback: (List<DayInfo>) -> Unit) {
-        val firstDay = yearMonth.atDay(1)
-        val lastDay = yearMonth.atEndOfMonth()
-        val firstDayOfWeek = firstDay.dayOfWeek.value
+    fun loadMonthData(yearMonth: YearMonth): List<DayInfo> {
+        return dateCalculator.calculateMonthDates(yearMonth)
+    }
 
-        val startDate = firstDay.minusDays((firstDayOfWeek - 1).toLong())
-        val endDate = lastDay.plusDays((7 - lastDay.dayOfWeek.value).toLong())
+    fun getSavedMonth(): YearMonth? {
+        val savedYear = prefs.getInt("saved_year", -1)
+        val savedMonth = prefs.getInt("saved_month", -1)
 
-        baseRef.get()
-        .addOnSuccessListener {
-            val dayInfoList = mutableListOf<DayInfo>()
-            var currentDate = startDate
+        return if (savedYear != -1 && savedMonth != -1) {
+            YearMonth.of(savedYear, savedMonth)
+        } else null
+    }
 
-            while (!currentDate.isAfter(endDate)) {
-                dayInfoList.add(
-                    DayInfo(
-                        date = currentDate,
-                        isCurrentMonth = currentDate.month == yearMonth.month
-                    )
-                )
-                currentDate = currentDate.plusDays(1)
-            }
-            callback(dayInfoList)
+    fun saveMonth(yearMonth: YearMonth) {
+        prefs.edit().apply {
+            putInt("saved_year", yearMonth.year)
+            putInt("saved_month", yearMonth.monthValue)
+            apply()
         }
-        .addOnFailureListener { exception ->
-            Log.e("CalendarRepository", "Error loading month data", exception)
-            callback(emptyList())
+    }
+
+    // 월 전환 시점 확인을 위한 메서드 추가
+    fun shouldUpdateMonth(currentMonth: YearMonth): Boolean {
+        val today = LocalDate.now()
+        val savedMonth = getSavedMonth() ?: return true
+
+        return when {
+            // 저장된 월이 없거나 다른 경우
+            savedMonth != YearMonth.from(today) -> true
+            // 월이 바뀌는 시점 (31일 -> 1일)
+            today.dayOfMonth == 1 && savedMonth.monthValue != today.monthValue -> true
+            else -> false
         }
     }
 }

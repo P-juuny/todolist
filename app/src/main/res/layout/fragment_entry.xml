@@ -57,7 +57,7 @@
             android:layout_height="10dp" />
 
         <LinearLayout
-            android:id="@+id/LinearLayoutCalendar"
+            android:id="@+id/CalendarLinearLayout"
             android:layout_width="377dp"
             android:layout_height="wrap_content"
             android:background="?attr/colorSurfaceContainer"
@@ -146,13 +146,30 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <LinearLayout
+            android:id="@+id/DailyToDoLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/daily_recycler_view"
+                android:layout_width="377sp"
+                android:layout_height="200sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/LowerLinearLayout"
-        android:layout_width="377dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -161,15 +178,6 @@
         <!-- 달력 부분만 LinearLayout으로 감싸기 -->
 
         <!-- 기존 나머지 부분 유지 -->
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/daily_recycler_view"
-            android:layout_width="377sp"
-            android:layout_height="200sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
 
         <ImageButton
             android:id="@+id/btn_fixed_to_do"
