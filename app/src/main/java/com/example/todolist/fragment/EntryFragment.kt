@@ -44,6 +44,8 @@ class EntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        calendarViewModel.initializeContext(requireContext())
+        calendarViewModel.init()
         setupViews()
         observeViewModels()
     }
@@ -83,7 +85,6 @@ class EntryFragment : Fragment() {
             onDateClick = { date ->
                 calendarViewModel.selectDate(date)
                 todoViewModel.loadTasksForDate(date)
-                // Bundle로 날짜 데이터 전달
                 val bundle = Bundle().apply {
                     putInt("selectedYear", date.year)
                     putInt("selectedMonth", date.monthValue)
