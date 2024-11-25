@@ -7,5 +7,9 @@
     <color name="btn_refresh">#000000</color>
     <color name="btn_pause">#000000</color>
 
-
+    <color name="background_main">#2D2D2D</color>
+    <color name="text_primary">#000000</color>
+    <color name="button_background">#3B3B3B</color>
+    <color name="text_secondary">#B0B0B0</color>
+    <color name="divider">#404040</color>
 </resources>
