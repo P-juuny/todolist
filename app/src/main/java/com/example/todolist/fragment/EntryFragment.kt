@@ -95,6 +95,10 @@ class EntryFragment : Fragment() {
                 findNavController().navigate(
                     R.id.action_entryFragment_to_taskOverviewFragment,
                     bundle,
+                    NavOptions.Builder()
+                        .setEnterAnim(android.R.anim.slide_in_left)
+                        .setExitAnim(android.R.anim.slide_out_right)
+                        .build()
                 )
             },
             currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
