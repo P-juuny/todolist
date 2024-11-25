@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -93,7 +94,7 @@ class EntryFragment : Fragment() {
 
                 findNavController().navigate(
                     R.id.action_entryFragment_to_taskOverviewFragment,
-                    bundle
+                    bundle,
                 )
             },
             currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
@@ -163,7 +164,6 @@ class EntryFragment : Fragment() {
                 .show()
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
