@@ -45,7 +45,9 @@ class ChallengeViewFragment : Fragment() {
         // 목표 시간을 관찰하여 tvChallengeHour에 표시
         stopwatchViewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
             val hours = goalTimeInSeconds?.div(3600) ?: 0
+            val minutes = (goalTimeInSeconds?.rem(3600) ?: 0) / 60
             binding.tvChallengeHour.text = "$hours"
+            binding.tvChallengeMinute.text = String.format("%02d", minutes) // 분은 항상 두자리로 표현
         }
 
         // 전체 누적 시간을 관찰하여 tvCurrentHour에 표시
