@@ -92,6 +92,12 @@ class TaskOverviewFragment : Fragment() {
             val timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds)
             binding.totalTime.text = timeString
         }
+
+        if (stopWatchViewModel.isRunning) {
+            binding.timerButton.setImageResource(R.drawable.baseline_timer_off_24)
+        } else {
+            binding.timerButton.setImageResource(R.drawable.baseline_timer_24)
+        }
     }
 
     override fun onDestroyView() {
