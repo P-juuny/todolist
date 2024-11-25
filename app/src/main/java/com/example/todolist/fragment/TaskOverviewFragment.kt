@@ -84,15 +84,21 @@ class TaskOverviewFragment : Fragment() {
         }
     }
 
+    // 일별 누적시간을 나타내게끔 수정 - 준영
     private fun setupTimer() {
-        stopWatchViewModel.totalAccumulatedTime.observe(viewLifecycleOwner) {
-            val hours = it / 3600
-            val minutes = (it % 3600) / 60
-            val seconds = it % 60
-            val timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-            binding.totalTime.text = timeString
+        val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now()
+        val dateString = "${selectedDate.year}-${selectedDate.monthValue}-${selectedDate.dayOfMonth}"
+
+        // 일별 누적 시간을 관찰
+        stopWatchViewModel.dailyAccumulatedTimes.observe(viewLifecycleOwner) { dailyTimes ->
+            val todayTime = dailyTimes[dateString] ?: 0
+            val hours = todayTime / 3600
+            val minutes = (todayTime % 3600) / 60
+            val seconds = todayTime % 60
+            binding.totalTime.text = String.format("%02dH %02dM %02dS", hours, minutes, seconds)
         }
 
+        // 타이머 실행 상태에 따른 아이콘 변경
         if (stopWatchViewModel.isRunning) {
             binding.timerButton.setImageResource(R.drawable.baseline_timer_off_24)
         } else {
