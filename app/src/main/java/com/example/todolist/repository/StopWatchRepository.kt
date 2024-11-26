@@ -74,18 +74,13 @@ class StopWatchRepository {
             }
     }
 
-    fun updateMedalsAndScore(gold: Int, silver: Int, bronze: Int, score: Int) {
+    fun updateMedalsAndScore(gold: Int, silver: Int, bronze: Int, score: Int, todayMedal: Int) {
         userRef.updateChildren(mapOf(
             "medals/goldMedals" to gold,
             "medals/silverMedals" to silver,
             "medals/bronzeMedals" to bronze,
             "totalScore" to score,
-            "medalStatus/${getCurrentDate()}" to when {
-                gold > 0 -> 3
-                silver > 0 -> 2
-                bronze > 0 -> 1
-                else -> 0
-            }
+            "medalStatus/${getCurrentDate()}" to todayMedal  // 현재 획득한 메달 레벨을 직접 저장
         ))
     }
 

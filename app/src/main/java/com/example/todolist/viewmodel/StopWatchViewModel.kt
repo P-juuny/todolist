@@ -46,6 +46,7 @@ class StopwatchViewModel : ViewModel() {
     private val repository = StopWatchRepository()
     private var currentDate: String = repository.getCurrentDate()
     private var todayMedal: Int = 0
+    private var isInitialized = false
 
     init {
         repository.observeStopWatchData(
@@ -55,8 +56,13 @@ class StopwatchViewModel : ViewModel() {
             Triple(_goldMedalCount, _silverMedalCount, _bronzeMedalCount),
             _totalScore
         )
+        initializeTodayMedal()
+    }
+
+    private fun initializeTodayMedal() {
         repository.getTodayMedalStatus(currentDate) { savedMedal ->
             todayMedal = savedMedal
+            isInitialized = true
         }
     }
 
@@ -64,6 +70,8 @@ class StopwatchViewModel : ViewModel() {
         val today = repository.getCurrentDate()
         if (today != currentDate) {
             currentDate = today
+            todayMedal = 0  // 새로운 날짜면 메달 초기화
+            isInitialized = false
 
             repository.getTodayMedalStatus(today) { savedMedal ->
                 todayMedal = savedMedal
@@ -93,13 +101,15 @@ class StopwatchViewModel : ViewModel() {
     fun resetTimer() {
         stopTimer()
         val currentTime = _time.value ?: 0
-        if (currentTime > 0) {
+        if (currentTime > 0 && isInitialized) {
             checkDateAndInitialize()
 
             val currentDailyTime = (_dailyAccumulatedTimes.value?.get(currentDate) ?: 0) + currentTime
-            calculateMedalAndScore(currentDailyTime)
 
+            // 메달 계산 전에 Firebase 업데이트
             repository.updateDailyTime(currentDate, currentTime)
+
+            calculateMedalAndScore(currentDailyTime)
         }
         _time.value = 0
     }
@@ -136,14 +146,15 @@ class StopwatchViewModel : ViewModel() {
             val scoreDiff = newMedal - todayMedal
             val newScore = (_totalScore.value ?: 0) + scoreDiff
 
+            todayMedal = newMedal
+
             repository.updateMedalsAndScore(
                 finalMedals.first,
                 finalMedals.second,
                 finalMedals.third,
-                newScore
+                newScore,
+                newMedal
             )
-
-            todayMedal = newMedal
         }
     }
 
