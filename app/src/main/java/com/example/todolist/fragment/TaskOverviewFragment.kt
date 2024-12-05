@@ -87,7 +87,11 @@ class TaskOverviewFragment : Fragment() {
     // 일별 누적시간을 나타내게끔 수정 - 준영
     private fun setupTimer() {
         val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now()
-        val dateString = "${selectedDate.year}-${selectedDate.monthValue}-${selectedDate.dayOfMonth}"
+        val dateString = String.format("%d-%02d-%02d",
+            selectedDate.year,
+            selectedDate.monthValue,
+            selectedDate.dayOfMonth
+        ) // 임시로 포매팅 사용
 
         // 일별 누적 시간을 관찰
         stopWatchViewModel.dailyAccumulatedTimes.observe(viewLifecycleOwner) { dailyTimes ->
