@@ -23,7 +23,6 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 class EntryFragment : Fragment() {
-
     private var _binding: FragmentEntryBinding? = null
     private val binding get() = _binding!!
 
@@ -58,13 +57,10 @@ class EntryFragment : Fragment() {
         setupMonthYearSelection()
     }
 
-    private fun observeViewModels() {
+    // Calendar 관련 관찰자들
+    private fun observeCalendarChanges() {
         calendarViewModel.currentMonth.observe(viewLifecycleOwner) {
             binding.tvCurrentDate.text = calendarViewModel.formatCurrentMonth()
-        }
-
-        settingsViewModel.todoHidden.observe(viewLifecycleOwner) {
-            binding.dailyRecyclerView.visibility = if (it) View.GONE else View.VISIBLE
         }
 
         calendarViewModel.calendarItems.observe(viewLifecycleOwner) {
@@ -74,32 +70,35 @@ class EntryFragment : Fragment() {
         calendarViewModel.selectedDate.observe(viewLifecycleOwner) {
             calendarAdapter.setSelectedDate(it)
         }
+    }
 
+    // Settings 관련 관찰자
+    private fun observeSettingsChanges() {
+        settingsViewModel.todoHidden.observe(viewLifecycleOwner) {
+            binding.dailyRecyclerView.visibility = if (it) View.GONE else View.VISIBLE
+        }
+    }
+
+    // Todo 관련 관찰자
+    private fun observeTodoChanges() {
         todoViewModel.todayTasks.observe(viewLifecycleOwner) {
             todoAdapter.makeList(it)
         }
     }
 
-    // 달력 RecyclerView 설정
+    private fun observeViewModels() {
+        observeCalendarChanges()
+        observeSettingsChanges()
+        observeTodoChanges()
+    }
+
+
     private fun setupCalendarRecyclerView() {
         calendarAdapter = CalendarAdapter(
             onDateClick = { date ->
                 calendarViewModel.selectDate(date)
                 todoViewModel.loadTasksForDate(date)
-                val bundle = Bundle().apply {
-                    putInt("selectedYear", date.year)
-                    putInt("selectedMonth", date.monthValue)
-                    putInt("selectedDay", date.dayOfMonth)
-                }
-
-                findNavController().navigate(
-                    R.id.action_entryFragment_to_taskOverviewFragment,
-                    bundle,
-                    NavOptions.Builder()
-                        .setEnterAnim(android.R.anim.slide_in_left)
-                        .setExitAnim(android.R.anim.slide_out_right)
-                        .build()
-                )
+                navigateToTaskOverview(date)
             },
             currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
         )
@@ -111,63 +110,97 @@ class EntryFragment : Fragment() {
     }
 
 
-    // 오늘 할일 받아와서 RecyclerView에 넣는 함수
+    private fun navigateToTaskOverview(date: LocalDate) {
+        val bundle = Bundle().apply {
+            putInt("selectedYear", date.year)
+            putInt("selectedMonth", date.monthValue)
+            putInt("selectedDay", date.dayOfMonth)
+        }
+
+        findNavController().navigate(
+            R.id.action_entryFragment_to_taskOverviewFragment,
+            bundle,
+            NavOptions.Builder()
+                .setEnterAnim(android.R.anim.slide_in_left)
+                .setExitAnim(android.R.anim.slide_out_right)
+                .build()
+        )
+    }
+
     private fun setupDailyRecyclerView() {
-        todoAdapter = TodoAdapter(todoViewModel, LocalDate.now())  // 오늘 날짜 전달
+        todoAdapter = TodoAdapter(todoViewModel, LocalDate.now())
         binding.dailyRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = todoAdapter
         }
-
-
     }
 
     // Button의 Navigation 설정하는 함수
     private fun setupButtons() {
-        binding.btnSettings.setOnClickListener {
-            findNavController().navigate(R.id.action_entryFragment_to_settingsFragment)
-        }
+        with(binding) {
+            btnSettings.setOnClickListener {
+                findNavController().navigate(R.id.action_entryFragment_to_settingsFragment)
+            }
 
-        binding.btnFixedToDo.setOnClickListener {
-            findNavController().navigate(R.id.action_entryFragment_to_fixedOverviewFragment)
-        }
+            btnFixedToDo.setOnClickListener {
+                findNavController().navigate(R.id.action_entryFragment_to_fixedOverviewFragment)
+            }
 
-        binding.btnAchievements.setOnClickListener {
-            findNavController().navigate(R.id.action_entryFragment_to_challengeViewFragment)
+            btnAchievements.setOnClickListener {
+                findNavController().navigate(R.id.action_entryFragment_to_challengeViewFragment)
+            }
         }
     }
 
     private fun setupMonthYearSelection() {
         binding.tvCurrentDate.setOnClickListener {
-            val current = calendarViewModel.currentMonth.value ?: YearMonth.now()
-            val dialogBinding = DialogMonthYearPickerBinding.inflate(layoutInflater)
-
-            with(dialogBinding) {
-                monthPicker.apply {
-                    minValue = 1
-                    maxValue = 12
-                    value = current.monthValue
-                }
-
-                yearPicker.apply {
-                    minValue = 2020
-                    maxValue = 2030
-                    value = current.year
-                }
-            }
-
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("월/연도 선택")
-                .setView(dialogBinding.root)
-                .setPositiveButton("확인") { _, _ ->
-                    val month = dialogBinding.monthPicker.value
-                    val year = dialogBinding.yearPicker.value
-                    calendarViewModel.setCurrentMonth(YearMonth.of(year, month))
-                }
-                .setNegativeButton("취소", null)
-                .show()
+            showMonthYearPickerDialog()
         }
     }
+
+    private fun showMonthYearPickerDialog() {
+        val current = calendarViewModel.currentMonth.value ?: YearMonth.now()
+        val dialogBinding = DialogMonthYearPickerBinding.inflate(layoutInflater)
+
+        setupMonthYearPickers(dialogBinding, current)
+        showDialog(dialogBinding, current)
+    }
+
+    private fun setupMonthYearPickers(
+        dialogBinding: DialogMonthYearPickerBinding,
+        current: YearMonth
+    ) {
+        with(dialogBinding) {
+            monthPicker.apply {
+                minValue = 1
+                maxValue = 12
+                value = current.monthValue
+            }
+
+            yearPicker.apply {
+                minValue = 2020
+                maxValue = 2030
+                value = current.year
+            }
+        }
+    }
+
+    private fun showDialog(
+        dialogBinding: DialogMonthYearPickerBinding,
+        current: YearMonth
+    ) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("월/연도 선택")
+            .setView(dialogBinding.root)
+            .setPositiveButton("확인") { _, _ ->
+                val month = dialogBinding.monthPicker.value
+                val year = dialogBinding.yearPicker.value
+                calendarViewModel.setCurrentMonth(YearMonth.of(year, month))
+            }
+            .setNegativeButton("취소", null)
+            .show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

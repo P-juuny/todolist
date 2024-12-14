@@ -8,6 +8,7 @@ import com.example.todolist.model.DayInfo
 import com.example.todolist.repository.CalendarRepository
 import java.time.LocalDate
 import java.time.YearMonth
+import java.util.Locale
 
 class CalendarViewModel : ViewModel() {
     private val _calendarItems = MutableLiveData<List<DayInfo>>()
@@ -37,7 +38,7 @@ class CalendarViewModel : ViewModel() {
 
     fun setCurrentMonth(yearMonth: YearMonth) {
         val currentMonth = _currentMonth.value
-        if (currentMonth?.year != yearMonth.year || currentMonth?.monthValue != yearMonth.monthValue) {
+        if (currentMonth?.year != yearMonth.year || currentMonth.monthValue != yearMonth.monthValue) {
             _currentMonth.value = yearMonth
             repository.saveMonth(yearMonth)
             _calendarItems.value = repository.loadMonthData(yearMonth)
@@ -46,7 +47,8 @@ class CalendarViewModel : ViewModel() {
 
     fun formatCurrentMonth(): String {
         val month = _currentMonth.value ?: YearMonth.now()
-        return "${month.month.name.lowercase().capitalize()} ${month.year}"
+        return "${month.month.name.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase(
+            Locale.getDefault()) else it.toString() }} ${month.year}"
     }
 
     fun selectDate(date: LocalDate) {

@@ -31,17 +31,11 @@ class CalendarRepository(private val context: Context) {
         }
     }
 
-    // 월 전환 시점 확인을 위한 메서드 추가
     fun shouldUpdateMonth(currentMonth: YearMonth): Boolean {
         val today = LocalDate.now()
         val savedMonth = getSavedMonth() ?: return true
 
-        return when {
-            // 저장된 월이 없거나 다른 경우
-            savedMonth != YearMonth.from(today) -> true
-            // 월이 바뀌는 시점 (31일 -> 1일)
-            today.dayOfMonth == 1 && savedMonth.monthValue != today.monthValue -> true
-            else -> false
-        }
+        return savedMonth != YearMonth.from(today) ||
+                (today.dayOfMonth == 1 && savedMonth.monthValue != today.monthValue)
     }
 }
