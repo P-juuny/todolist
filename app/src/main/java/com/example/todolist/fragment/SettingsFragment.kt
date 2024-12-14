@@ -35,32 +35,23 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupThemeSelection()
         setupTodoVisibility()
-        observeThemeMode()
-        observeTodoVisibility()
+        observeViewModel()
     }
 
     private fun setupThemeSelection() {
         binding.themeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            val themeMode = when (checkedId) {
-                R.id.radioLightTheme -> LIGHT_THEME
-                R.id.radioDarkTheme -> DARK_THEME
-                else -> SYSTEM_THEME
-            }
+            val themeMode = getThemeModeFromId(checkedId)
             viewModel.setThemeMode(themeMode)
         }
     }
 
-    private fun observeThemeMode() {
-        viewModel.themeMode.observe(viewLifecycleOwner) { mode ->
-            val radioButton = when (mode) {
-                LIGHT_THEME -> binding.radioLightTheme
-                DARK_THEME -> binding.radioDarkTheme
-                else -> binding.radioSystemTheme
-            }
-            radioButton.isChecked = true
-        }
+    private fun getThemeModeFromId(checkedId: Int): Int = when (checkedId) {
+        R.id.radioLightTheme -> LIGHT_THEME
+        R.id.radioDarkTheme -> DARK_THEME
+        else -> SYSTEM_THEME
     }
 
     private fun setupTodoVisibility() {
@@ -69,10 +60,25 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun observeTodoVisibility() {
-        viewModel.todoHidden.observe(viewLifecycleOwner) { collapsed ->
-            binding.switchTodoVisibility.isChecked = collapsed
+    private fun observeViewModel() {
+        with(viewModel) {
+            themeMode.observe(viewLifecycleOwner) { mode ->
+                updateThemeRadioButton(mode)
+            }
+
+            todoHidden.observe(viewLifecycleOwner) { collapsed ->
+                binding.switchTodoVisibility.isChecked = collapsed
+            }
         }
+    }
+
+    private fun updateThemeRadioButton(mode: Int) {
+        val radioButton = when (mode) {
+            LIGHT_THEME -> binding.radioLightTheme
+            DARK_THEME -> binding.radioDarkTheme
+            else -> binding.radioSystemTheme
+        }
+        radioButton.isChecked = true
     }
 
     override fun onDestroyView() {
