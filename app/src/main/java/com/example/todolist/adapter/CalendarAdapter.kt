@@ -21,12 +21,14 @@ class CalendarAdapter(
     private var selectedDate: LocalDate? = null
 
     inner class CalendarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        // findViewById를 매번 호출하지 않도록 프로퍼티로 미리 선언
+        private val tvDay: TextView = itemView.findViewById(R.id.tv_day)
+
         fun bind(item: DayInfo) {
             tvDay.apply {
                 text = item.date.dayOfMonth.toString()
                 alpha = if (item.isCurrentMonth) 1.0f else 0.5f
 
-                // 오늘 날짜만 표시하기 위한 로직 추가
                 if (item.date == LocalDate.now()) {
                     setBackgroundResource(R.drawable.today_circle_background)
                     setTextColor(ContextCompat.getColor(context, android.R.color.white))
@@ -42,8 +44,6 @@ class CalendarAdapter(
                 onDateClick(item.date)
             }
         }
-
-        private val tvDay: TextView = itemView.findViewById(R.id.tv_day)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
@@ -64,10 +64,10 @@ class CalendarAdapter(
 
 private class CalendarDiffCallback : DiffUtil.ItemCallback<DayInfo>() {
     override fun areItemsTheSame(oldItem: DayInfo, newItem: DayInfo): Boolean {
-        return oldItem.date == newItem.date
+        return oldItem.date.isEqual(newItem.date)  // isEqual 사용으로 더 정확한 비교
     }
 
     override fun areContentsTheSame(oldItem: DayInfo, newItem: DayInfo): Boolean {
-        return oldItem == newItem
+        return oldItem.date.isEqual(newItem.date) && oldItem.isCurrentMonth == newItem.isCurrentMonth
     }
 }
