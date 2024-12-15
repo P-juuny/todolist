@@ -75,6 +75,7 @@ class StopwatchViewModel : ViewModel() {
 
             repository.getTodayMedalStatus(today) { savedMedal ->
                 todayMedal = savedMedal
+                isInitialized = true
             }
 
             val updatedDailyTimes = _dailyAccumulatedTimes.value?.toMutableMap() ?: mutableMapOf()
@@ -87,7 +88,6 @@ class StopwatchViewModel : ViewModel() {
         if (isRunning) return
         isRunning = true
         timer = timer(period = 1000) {
-            checkDateAndInitialize()
             _time.postValue((_time.value ?: 0) + 1)
         }
     }
@@ -100,19 +100,24 @@ class StopwatchViewModel : ViewModel() {
 
     fun resetTimer() {
         stopTimer()
-        val currentTime = _time.value ?: 0
-        if (currentTime > 0 && isInitialized) {
-            checkDateAndInitialize()
+        val recordedTime = _time.value ?: 0
+        _time.value = 0  // 타이머 값 초기화
 
-            val currentDailyTime = (_dailyAccumulatedTimes.value?.get(currentDate) ?: 0) + currentTime
+        // 현재 날짜(리셋 직전까지 사용하던 날짜)를 oldDate에 저장
+        val oldDate = currentDate
 
-            // 메달 계산 전에 Firebase 업데이트
-            repository.updateDailyTime(currentDate, currentTime)
-
+        // 만약 기록된 시간이 있다면 먼저 이 시간을 시작했던 날짜의 누적시간에 저장
+        if (recordedTime > 0 && isInitialized) {
+            val currentDailyTime = (_dailyAccumulatedTimes.value?.get(oldDate) ?: 0) + recordedTime
+            repository.updateDailyTime(oldDate, recordedTime)
+            // 현재 currentDate(=oldDate)를 기준으로 메달 계산
             calculateMedalAndScore(currentDailyTime)
         }
-        _time.value = 0
+
+        // 날짜를 확인하여 다음날로 넘어갔을 경우에 변경
+        checkDateAndInitialize()
     }
+
 
     private fun calculateMedalAndScore(totalDailyTime: Int) {
         if (todayMedal == 3) return
