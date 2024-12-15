@@ -2,5 +2,6 @@ package com.example.todolist.model
 
 data class DiaryItem(
     var id: String? = null,
-    val content: String = ""
+    val content: String = "",
+    val imageUrl: String? = null
 )

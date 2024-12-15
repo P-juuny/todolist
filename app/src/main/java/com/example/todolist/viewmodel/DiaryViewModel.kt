@@ -1,5 +1,6 @@
 package com.example.todolist.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,13 +18,17 @@ class DiaryViewModel : ViewModel() {
         repository.getDiary(date, _diary)
     }
 
-    fun saveDiaryForDate(content: String, date: LocalDate) {
-        repository.saveDiary(content, date)
+    fun saveDiaryForDate(content: String, imageUri: Uri?, date: LocalDate) {
+        repository.saveDiary(content, imageUri, date)
     }
 
     fun deleteDiaryForDate(date: LocalDate) {
         repository.deleteDiary(date)
         // 빈 일기장 전환
         _diary.value = DiaryItem()
+    }
+
+    fun getImageUrl(imageUrl: String): LiveData<Uri?> {
+        return repository.getImageUrl(imageUrl)
     }
 }

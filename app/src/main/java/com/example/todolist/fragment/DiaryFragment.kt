@@ -2,7 +2,9 @@ package com.example.todolist.fragment
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.example.todolist.databinding.FragmentDiaryBinding
 import com.example.todolist.viewmodel.DiaryViewModel
 import com.example.todolist.viewmodel.CalendarViewModel
@@ -60,8 +63,18 @@ class DiaryFragment : Fragment() {
             diary?.let {
                 binding.editDiaryContent.setText(it.content)
                 if (it.content.isNotBlank()) {
-                    // 내용 있으면 읽기 모드로
                     updateButtonVisibility(false)
+                }
+                val imageUrl = it.imageUrl
+                if (imageUrl != null) {
+                    diaryViewModel.getImageUrl(imageUrl).observe(viewLifecycleOwner) { uri ->
+                        uri?.let {
+                            Glide.with(this)
+                                .load(uri)
+                                .into(binding.selectedImage)
+                            binding.selectedImage.visibility = View.VISIBLE
+                        }
+                    }
                 }
             }
         }
@@ -81,7 +94,8 @@ class DiaryFragment : Fragment() {
                 Toast.makeText(context, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            diaryViewModel.saveDiaryForDate(content, currentDate)
+            val imageUri = binding.selectedImage.tag as? Uri
+            diaryViewModel.saveDiaryForDate(content, imageUri, currentDate)
             // 저장하면 저장,사진 버튼 숨기고 삭제 버튼 보이게
             updateButtonVisibility(false)
             Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show()
@@ -104,6 +118,7 @@ class DiaryFragment : Fragment() {
                 binding.selectedImage.apply {
                     setImageURI(it)
                     visibility = View.VISIBLE
+                    tag = it
                 }
             }
         }
