@@ -161,7 +161,7 @@ class EntryFragment : Fragment() {
         val dialogBinding = DialogMonthYearPickerBinding.inflate(layoutInflater)
 
         setupMonthYearPickers(dialogBinding, current)
-        showDialog(dialogBinding, current)
+        showDialog(dialogBinding)
     }
 
     private fun setupMonthYearPickers(
@@ -183,10 +183,7 @@ class EntryFragment : Fragment() {
         }
     }
 
-    private fun showDialog(
-        dialogBinding: DialogMonthYearPickerBinding,
-        current: YearMonth
-    ) {
+    private fun showDialog(dialogBinding: DialogMonthYearPickerBinding) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("월/연도 선택")
             .setView(dialogBinding.root)
