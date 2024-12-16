@@ -1,7 +1,6 @@
 package com.example.todolist.repository
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.todolist.model.DiaryItem
@@ -28,14 +27,11 @@ class DiaryRepository {
 
     fun getImageUrl(imageUrl: String): LiveData<Uri?> {
         val result = MutableLiveData<Uri?>()
-        Log.d("DiaryRepository", "Trying to get image URL: $imageUrl")
         storageRef.child(imageUrl).downloadUrl
-            .addOnSuccessListener { uri ->
-                Log.d("DiaryRepository", "Success getting URL: $uri")
-                result.postValue(uri)
+            .addOnSuccessListener {
+                result.postValue(it)
             }
-            .addOnFailureListener { e ->
-                Log.e("DiaryRepository", "Failed to get URL", e)
+            .addOnFailureListener {
                 result.postValue(null)
             }
         return result

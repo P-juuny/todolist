@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,7 +81,7 @@ class DiaryFragment : Fragment() {
 
     private fun setupClickListeners(currentDate: LocalDate) {
         binding.addPictureBtn.setOnClickListener {
-            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            val intent = Intent(Intent.ACTION_GET_CONTENT).apply { //파일 탐색기 호출
                 type = "image/*"
             }
             startActivityForResult(intent, 1)
