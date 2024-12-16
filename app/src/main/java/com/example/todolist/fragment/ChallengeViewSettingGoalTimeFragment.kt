@@ -36,8 +36,8 @@ class ChallengeViewSettingGoalTimeFragment : Fragment() {
                 val hours = goalTimeInSeconds / 3600
                 val minutes = (goalTimeInSeconds % 3600) / 60
 
-                binding.editHours.setText(if (hours < 10) "$hours" else String.format("%02d", hours))
-                binding.editMinutes.setText(String.format("%02d", minutes))
+                binding.editHours.setText(if (hours < 10) "$hours" else "$hours")
+                binding.editMinutes.setText(if (minutes < 10) "$minutes" else "$minutes")
             }
         }
         setupTimePickerDialog()
@@ -66,8 +66,8 @@ class ChallengeViewSettingGoalTimeFragment : Fragment() {
             val hours = timePickerDialog.hour
             val minutes = timePickerDialog.minute
 
-            binding.editHours.setText(String.format("%02d", hours))
-            binding.editMinutes.setText(String.format("%02d", minutes))
+            binding.editHours.setText(if (hours < 10) "$hours" else "$hours")
+            binding.editMinutes.setText(if (minutes < 10) "$minutes" else "$minutes")
 
             // 선택된 시간을 초 단위로 변환하여 저장
             val totalSeconds = (hours * 3600) + (minutes * 60)
