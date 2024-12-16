@@ -51,7 +51,6 @@ class StopWatchRepository {
     }
 
     fun updateDailyTime(date: String, timeInSeconds: Int) {
-        // 현재 날짜의 dailyTimes를 먼저 조회
         userRef.child("dailyTimes").child(date).get().addOnSuccessListener { snapshot ->
             val currentValue = snapshot.getValue(Int::class.java) ?: 0
             val newValue = currentValue + timeInSeconds
@@ -80,7 +79,7 @@ class StopWatchRepository {
             "medals/silverMedals" to silver,
             "medals/bronzeMedals" to bronze,
             "totalScore" to score,
-            "medalStatus/${getCurrentDate()}" to todayMedal  // 현재 획득한 메달 레벨을 직접 저장
+            "medalStatus/${getCurrentDate()}" to todayMedal
         ))
     }
 

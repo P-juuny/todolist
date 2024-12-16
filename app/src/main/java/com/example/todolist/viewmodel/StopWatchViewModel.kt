@@ -8,23 +8,19 @@ import java.util.Timer
 import kotlin.concurrent.timer
 
 class StopwatchViewModel : ViewModel() {
-    // 현재 타이머 시간
+
     private val _time = MutableLiveData(0)
     val time: LiveData<Int> get() = _time
 
-    // 총 누적 시간
     private val _totalAccumulatedTime = MutableLiveData(0)
     val totalAccumulatedTime: LiveData<Int> get() = _totalAccumulatedTime
 
-    // 날짜별 누적 시간
     private val _dailyAccumulatedTimes = MutableLiveData<Map<String, Int>>(emptyMap())
     val dailyAccumulatedTimes: LiveData<Map<String, Int>> get() = _dailyAccumulatedTimes
 
-    // 목표 시간
     private val _goalTime = MutableLiveData<Int?>()
     val goalTime: LiveData<Int?> get() = _goalTime
 
-    // 금, 은, 동 메달 수
     private val _goldMedalCount = MutableLiveData(0)
     val goldMedalCount: LiveData<Int> get() = _goldMedalCount
 
@@ -34,7 +30,6 @@ class StopwatchViewModel : ViewModel() {
     private val _bronzeMedalCount = MutableLiveData(0)
     val bronzeMedalCount: LiveData<Int> get() = _bronzeMedalCount
 
-    // 메달별 계산에 따른 총 점수
     private val _totalScore = MutableLiveData(0)
     val totalScore: LiveData<Int> get() = _totalScore
 
@@ -98,16 +93,14 @@ class StopwatchViewModel : ViewModel() {
     fun resetTimer() {
         stopTimer()
         val recordedTime = _time.value ?: 0
-        _time.value = 0  // 타이머 값 초기화
+        _time.value = 0
 
-        // 현재 날짜(리셋 직전까지 사용하던 날짜)를 oldDate에 저장
+        // 현재 날짜(startBtn 누른 날짜)를 oldDate에 저장
         val oldDate = currentDate
 
-        // 만약 기록된 시간이 있다면 먼저 이 시간을 시작했던 날짜의 누적시간에 저장
         if (recordedTime > 0 && isInitialized) {
             val currentDailyTime = (_dailyAccumulatedTimes.value?.get(oldDate) ?: 0) + recordedTime
             repository.updateDailyTime(oldDate, recordedTime)
-            // 현재 currentDate(=oldDate)를 기준으로 메달 계산
             calculateMedalAndScore(currentDailyTime)
         }
 

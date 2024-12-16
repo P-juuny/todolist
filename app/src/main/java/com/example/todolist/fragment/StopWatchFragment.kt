@@ -15,15 +15,11 @@ import java.time.LocalDate
 
 class StopWatchFragment : Fragment() {
 
-    // nullable 바인딩 객체 선언
     private var _binding: FragmentStopWatchBinding? = null
     private val binding get() = _binding!!
 
-    //StopWatchViewModel 객체 생성
     private val stopwatchViewModel: StopwatchViewModel by activityViewModels()
-    //TodoAdapter 객체 생성
     private lateinit var todoAdapter: TodoAdapter
-    //TodoViewModel 객체 생성
     private val viewModel: TodoViewModel by activityViewModels()
 
 
@@ -41,7 +37,7 @@ class StopWatchFragment : Fragment() {
         setupButtonClickListeners()
         setupDailyRecyclerView()
         observeViewModel()
-        updateButtonState() // 초기 버튼 상태 설정
+        updateButtonState()
     }
 
     private fun setupButtonClickListeners() {
@@ -71,13 +67,13 @@ class StopWatchFragment : Fragment() {
 
     // 오늘 할일 받아와서 RecyclerView에 넣는 함수
     private fun setupDailyRecyclerView() {
-        todoAdapter = TodoAdapter(viewModel, LocalDate.now())  // 오늘 날짜 추가
+        todoAdapter = TodoAdapter(viewModel, LocalDate.now())
         binding.todoRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = todoAdapter
         }
 
-        viewModel.todayTasks.observe(viewLifecycleOwner) { tasks ->  // todoList -> todayTasks
+        viewModel.todayTasks.observe(viewLifecycleOwner) { tasks ->
             todoAdapter.makeList(tasks)
         }
     }

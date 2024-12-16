@@ -66,7 +66,6 @@ class ChallengeViewSettingGoalTimeFragment : Fragment() {
             val hours = timePickerDialog.hour
             val minutes = timePickerDialog.minute
 
-            // 선택된 시간을 각각의 EditText에 표시
             binding.editHours.setText(String.format("%02d", hours))
             binding.editMinutes.setText(String.format("%02d", minutes))
 
