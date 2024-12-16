@@ -103,7 +103,18 @@ class FixedTodoAdapter(
     override fun getItemCount(): Int = fixedtodoList.size
 
     fun makeList(newList: List<FixedTaskItem>) {
-        fixedtodoList = newList
-        notifyDataSetChanged()
+        if (fixedtodoList.size < newList.size) {
+            fixedtodoList = newList
+            notifyItemInserted(fixedtodoList.size - 1)
+        } else if (fixedtodoList.size > newList.size) {
+            for (i in fixedtodoList.indices) {
+                if (i >= newList.size || fixedtodoList[i].id != newList[i].id) {
+                    val deletedPosition = i
+                    fixedtodoList = newList
+                    notifyItemRemoved(deletedPosition)
+                    break
+                }
+            }
+        }
     }
 }
