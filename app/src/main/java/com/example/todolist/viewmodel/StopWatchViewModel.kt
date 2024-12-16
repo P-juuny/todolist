@@ -127,7 +127,7 @@ class StopwatchViewModel : ViewModel() {
             val (updatedGold, updatedSilver, updatedBronze) = when (todayMedal) {
                 1 -> Triple(currentGold, currentSilver, currentBronze - 1)
                 2 -> Triple(currentGold, currentSilver - 1, currentBronze)
-                3 -> Triple(currentGold - 1, currentSilver, currentBronze)
+                //3 -> Triple(currentGold - 1, currentSilver, currentBronze)
                 else -> Triple(currentGold, currentSilver, currentBronze)
             }
 
