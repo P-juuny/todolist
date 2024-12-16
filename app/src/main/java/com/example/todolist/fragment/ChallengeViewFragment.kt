@@ -38,8 +38,8 @@ class ChallengeViewFragment : Fragment() {
 
     private fun observeViewModel() {
         stopwatchViewModel.goalTime.observe(viewLifecycleOwner) { goalTimeInSeconds ->
-            val hours = goalTimeInSeconds?.div(3600) ?: 0
-            val minutes = (goalTimeInSeconds?.rem(3600) ?: 0) / 60
+            val hours = (goalTimeInSeconds ?: 0) / 3600
+            val minutes = ((goalTimeInSeconds ?: 0) % 3600) / 60
             binding.tvChallengeHour.text = "$hours"
             binding.tvChallengeMinute.text = String.format("%02d", minutes) // 분은 항상 두자리로 표현
         }
