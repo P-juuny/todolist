@@ -22,7 +22,7 @@ class ChallengeViewFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentChallengeViewBinding.inflate(inflater, container, false)
         return binding.root
     }
