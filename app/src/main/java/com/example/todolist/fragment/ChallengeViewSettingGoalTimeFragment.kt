@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.todolist.R
 import com.example.todolist.databinding.FragmentChallengeViewSettingGoalTimeBinding
 import com.example.todolist.viewmodel.StopwatchViewModel
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -24,7 +23,7 @@ class ChallengeViewSettingGoalTimeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentChallengeViewSettingGoalTimeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -37,8 +36,8 @@ class ChallengeViewSettingGoalTimeFragment : Fragment() {
                 val hours = goalTimeInSeconds / 3600
                 val minutes = (goalTimeInSeconds % 3600) / 60
 
-                binding.editHours.setText(if (hours < 10) "$hours" else String.format("%02d", hours))
-                binding.editMinutes.setText(String.format("%02d", minutes))
+                binding.editHours.setText(if (hours < 10) "$hours" else "$hours")
+                binding.editMinutes.setText(if (minutes < 10) "$minutes" else "$minutes")
             }
         }
         setupTimePickerDialog()
@@ -55,21 +54,20 @@ class ChallengeViewSettingGoalTimeFragment : Fragment() {
         // 현재 입력된 값을 가져옴
         val currentHours = binding.editHours.text.toString().toIntOrNull() ?: 0
         val currentMinutes = binding.editMinutes.text.toString().toIntOrNull() ?: 0
-
+        // timePicker 위젯이 열릴때 기존 설정한 시간이 나오게끔 설정
         val timePickerDialog = MaterialTimePicker.Builder()
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setHour(currentHours)
             .setMinute(currentMinutes)
             .setTitleText("목표 시간 설정")
             .build()
-
+        // 사용자가 시간을 설정한 뒤 확인을 눌렀을 때의 hour, min 을 불러옴
         timePickerDialog.addOnPositiveButtonClickListener {
             val hours = timePickerDialog.hour
             val minutes = timePickerDialog.minute
 
-            // 선택된 시간을 각각의 EditText에 표시
-            binding.editHours.setText(String.format("%02d", hours))
-            binding.editMinutes.setText(String.format("%02d", minutes))
+            binding.editHours.setText(if (hours < 10) "$hours" else "$hours")
+            binding.editMinutes.setText(if (minutes < 10) "$minutes" else "$minutes")
 
             // 선택된 시간을 초 단위로 변환하여 저장
             val totalSeconds = (hours * 3600) + (minutes * 60)
