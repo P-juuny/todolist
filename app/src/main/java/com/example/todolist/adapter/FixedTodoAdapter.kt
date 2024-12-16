@@ -109,9 +109,8 @@ class FixedTodoAdapter(
         } else if (fixedtodoList.size > newList.size) {
             for (i in fixedtodoList.indices) {
                 if (i >= newList.size || fixedtodoList[i].id != newList[i].id) {
-                    val deletedPosition = i
                     fixedtodoList = newList
-                    notifyItemRemoved(deletedPosition)
+                    notifyItemRemoved(i)
                     break
                 }
             }

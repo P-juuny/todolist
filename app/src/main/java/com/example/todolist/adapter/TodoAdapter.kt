@@ -59,9 +59,8 @@ class TodoAdapter(
         } else if (todoList.size > newList.size) {
             for (i in todoList.indices) {
                 if (i >= newList.size || todoList[i].id != newList[i].id) {
-                    val deletedPosition = i
                     todoList = newList
-                    notifyItemRemoved(deletedPosition)
+                    notifyItemRemoved(i)
                     break
                 }
             }
