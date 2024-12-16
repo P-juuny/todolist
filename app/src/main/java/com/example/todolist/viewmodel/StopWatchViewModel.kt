@@ -70,13 +70,10 @@ class StopwatchViewModel : ViewModel() {
         val today = repository.getCurrentDate()
         if (today != currentDate) {
             currentDate = today
-            todayMedal = 0  // 새로운 날짜면 메달 초기화
+            //todayMedal = 0  // 새로운 날짜면 메달 초기화
             isInitialized = false
 
-            repository.getTodayMedalStatus(today) { savedMedal ->
-                todayMedal = savedMedal
-                isInitialized = true
-            }
+            initializeTodayMedal()
 
             val updatedDailyTimes = _dailyAccumulatedTimes.value?.toMutableMap() ?: mutableMapOf()
             updatedDailyTimes[currentDate] = 0
