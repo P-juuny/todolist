@@ -13,7 +13,6 @@ import com.example.todolist.viewmodel.StopwatchViewModel
 
 class ChallengeViewFragment : Fragment() {
 
-    // 바인딩 객체 선언 (프래그먼트에서는 nullable로 선언 후 나중에 할당함)
     private var _binding: FragmentChallengeViewBinding? = null
     private val binding get() = _binding!!
 
