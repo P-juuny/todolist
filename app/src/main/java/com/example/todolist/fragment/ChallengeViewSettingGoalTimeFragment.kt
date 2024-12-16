@@ -54,14 +54,14 @@ class ChallengeViewSettingGoalTimeFragment : Fragment() {
         // 현재 입력된 값을 가져옴
         val currentHours = binding.editHours.text.toString().toIntOrNull() ?: 0
         val currentMinutes = binding.editMinutes.text.toString().toIntOrNull() ?: 0
-
+        // timePicker 위젯이 열릴때 기존 설정한 시간이 나오게끔 설정
         val timePickerDialog = MaterialTimePicker.Builder()
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setHour(currentHours)
             .setMinute(currentMinutes)
             .setTitleText("목표 시간 설정")
             .build()
-
+        // 사용자가 시간을 설정한 뒤 확인을 눌렀을 때의 hour, min 을 불러옴
         timePickerDialog.addOnPositiveButtonClickListener {
             val hours = timePickerDialog.hour
             val minutes = timePickerDialog.minute
