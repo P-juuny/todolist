@@ -68,8 +68,22 @@ class SimpleFixedTodoAdapter(
     }
 
     fun makeList(newList: List<FixedTaskItem>) {
-        allTasks = newList
-        visibleTasks = todayTasks(newList)
-        notifyDataSetChanged()
+        if (allTasks.size < newList.size) {
+            allTasks = newList
+            visibleTasks = todayTasks(newList)
+            notifyItemInserted(visibleTasks.size - 1)
+        } else if (allTasks.size > newList.size) {
+            val oldVisibleTasks = visibleTasks
+            val newVisibleTasks = todayTasks(newList)
+
+            for (i in oldVisibleTasks.indices) {
+                if (i >= newVisibleTasks.size || oldVisibleTasks[i].id != newVisibleTasks[i].id) {
+                    notifyItemRemoved(i)
+                    allTasks = newList
+                    visibleTasks = newVisibleTasks
+                    break
+                }
+            }
+        }
     }
 }

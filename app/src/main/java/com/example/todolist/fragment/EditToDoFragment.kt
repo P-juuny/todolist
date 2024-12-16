@@ -20,7 +20,7 @@ class EditTodoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: TodoViewModel by activityViewModels()
-    private val calendarViewModel: CalendarViewModel by activityViewModels() // 일 별 데이터 분리를 위해 추가
+    private val calendarViewModel: CalendarViewModel by activityViewModels()
     private lateinit var todoAdapter: TodoAdapter
 
     override fun onCreateView(

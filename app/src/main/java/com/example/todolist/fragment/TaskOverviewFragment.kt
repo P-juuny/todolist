@@ -84,7 +84,7 @@ class TaskOverviewFragment : Fragment() {
         }
     }
 
-    // 일별 누적시간을 나타내게끔 수정 - 준영
+    // 일별 누적시간을 나타내게끔 수정
     private fun setupTimer() {
         val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now()
         val dateString = String.format("%d-%02d-%02d",

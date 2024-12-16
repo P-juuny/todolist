@@ -25,13 +25,13 @@ class TodoAdapter(
             binding.checkBox.isChecked = taskItem.isChecked
 
             binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.updateTodoCheck(adapterPosition, isChecked, date)  // date 추가
+                viewModel.updateTodoCheck(adapterPosition, isChecked, date)
             }
 
             binding.DeleteBtn.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    viewModel.deleteTodo(position, date)  // date 추가
+                    viewModel.deleteTodo(position, date)
                 }
             }
         }
@@ -53,7 +53,18 @@ class TodoAdapter(
     override fun getItemCount(): Int = todoList.size
 
     fun makeList(newList: List<TaskItem>) {
-        todoList = newList
-        notifyDataSetChanged()
+        if (todoList.size < newList.size) {
+            todoList = newList
+            notifyItemInserted(todoList.size - 1)
+        } else if (todoList.size > newList.size) {
+            for (i in todoList.indices) {
+                if (i >= newList.size || todoList[i].id != newList[i].id) {
+                    val deletedPosition = i
+                    todoList = newList
+                    notifyItemRemoved(deletedPosition)
+                    break
+                }
+            }
+        }
     }
 }
