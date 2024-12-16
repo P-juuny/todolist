@@ -20,18 +20,15 @@ class CalendarViewModel : ViewModel() {
     private val _selectedDate = MutableLiveData<LocalDate>()
     val selectedDate: LiveData<LocalDate> get() = _selectedDate
 
-    private lateinit var repository: CalendarRepository
+    private val repository = CalendarRepository()
     private var lastCheckedDate = LocalDate.now()
 
-    fun initializeContext(context: Context) {
-        repository = CalendarRepository(context.applicationContext)
-        val savedMonth = repository.getSavedMonth() ?: YearMonth.now()
-        setCurrentMonth(savedMonth)
+    init {
+        setCurrentMonth(YearMonth.now())  // 앱 시작시 한번만 초기화
     }
 
     fun setCurrentMonth(yearMonth: YearMonth) {
         _currentMonth.value = yearMonth
-        repository.saveMonth(yearMonth)
         _calendarItems.value = repository.loadMonthData(yearMonth)
     }
 
