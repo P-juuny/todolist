@@ -84,16 +84,16 @@ class TaskOverviewFragment : Fragment() {
         }
     }
 
-    // 일별 누적시간을 나타내게끔 수정 - 준영
+    // 일별 누적시간을 불러오기 위해 파베에 저장된 날짜로 설정
     private fun setupTimer() {
         val selectedDate = calendarViewModel.selectedDate.value ?: LocalDate.now()
         val dateString = String.format("%d-%02d-%02d",
             selectedDate.year,
             selectedDate.monthValue,
             selectedDate.dayOfMonth
-        ) // 임시로 포매팅 사용
+        )
 
-        // 일별 누적 시간을 관찰
+        // 일별 누적 시간을 나타냄
         stopWatchViewModel.dailyAccumulatedTimes.observe(viewLifecycleOwner) { dailyTimes ->
             val todayTime = dailyTimes[dateString] ?: 0
             val hours = todayTime / 3600
