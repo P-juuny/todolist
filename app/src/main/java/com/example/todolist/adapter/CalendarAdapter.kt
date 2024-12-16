@@ -16,13 +16,14 @@ class CalendarAdapter(
     private val onDateClick: (LocalDate) -> Unit
 ) : ListAdapter<DayInfo, CalendarAdapter.CalendarViewHolder>(CalendarDiffCallback()) {
 
-    private var selectedDate: LocalDate? = null
-
     inner class CalendarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // findViewById를 매번 호출하지 않도록 프로퍼티로 미리 선언
         private val tvDay: TextView = itemView.findViewById(R.id.tv_day)
+        private var currentDate: LocalDate? = null
 
         fun bind(item: DayInfo) {
+            currentDate = item.date
+
             tvDay.apply {
                 text = item.date.dayOfMonth.toString()
                 alpha = if (item.isCurrentMonth) 1.0f else 0.5f
@@ -38,8 +39,7 @@ class CalendarAdapter(
             }
 
             itemView.setOnClickListener {
-                selectedDate = item.date
-                onDateClick(item.date)
+                currentDate?.let { onDateClick(it) }
             }
         }
     }
@@ -52,11 +52,6 @@ class CalendarAdapter(
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    fun setSelectedDate(date: LocalDate) {
-        selectedDate = date
-        notifyDataSetChanged()
     }
 }
 

@@ -13,8 +13,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val PREFS_NAME = "todo_settings"
         private const val KEY_THEME_MODE = "theme_mode"
         private const val KEY_TODO_HIDDEN = "todo_hidden"
-
-        private const val THEME_SYSTEM = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
 
     private val preferences = application.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -25,8 +23,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     private val _todoHidden = MutableLiveData<Boolean>()
     val todoHidden: LiveData<Boolean> = _todoHidden
 
-
-
     init {
         // 저장된 테마 설정 불러오기
         loadThemeMode()
@@ -34,7 +30,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun loadThemeMode() {
-        val savedThemeMode = preferences.getInt(KEY_THEME_MODE, THEME_SYSTEM)
+        val savedThemeMode = preferences.getInt(KEY_THEME_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         _themeMode.value = savedThemeMode
         AppCompatDelegate.setDefaultNightMode(savedThemeMode)
     }

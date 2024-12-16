@@ -44,10 +44,9 @@ class EntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        calendarViewModel.initializeContext(requireContext())
 
-        if (savedInstanceState == null) {
-            calendarViewModel.init() // 최초 실행시에만 초기화
+        if (calendarViewModel.currentMonth.value == null) {
+            calendarViewModel.setCurrentMonth(YearMonth.now())
         }
 
         setupViews()
@@ -58,7 +57,7 @@ class EntryFragment : Fragment() {
         setupCalendarRecyclerView()
         setupDailyRecyclerView()
         setupButtons()
-        setupMonthYearSelection()
+        setupMonthYearPicker()
     }
 
     // Calendar 관련 관찰자들
@@ -69,10 +68,6 @@ class EntryFragment : Fragment() {
 
         calendarViewModel.calendarItems.observe(viewLifecycleOwner) {
             calendarAdapter.submitList(it)
-        }
-
-        calendarViewModel.selectedDate.observe(viewLifecycleOwner) {
-            calendarAdapter.setSelectedDate(it)
         }
     }
 
@@ -155,7 +150,7 @@ class EntryFragment : Fragment() {
         }
     }
 
-    private fun setupMonthYearSelection() {
+    private fun setupMonthYearPicker() {
         binding.tvCurrentDate.setOnClickListener {
             showMonthYearPickerDialog()
         }
@@ -166,7 +161,7 @@ class EntryFragment : Fragment() {
         val dialogBinding = DialogMonthYearPickerBinding.inflate(layoutInflater)
 
         setupMonthYearPickers(dialogBinding, current)
-        showDialog(dialogBinding, current)
+        showDialog(dialogBinding)
     }
 
     private fun setupMonthYearPickers(
@@ -188,10 +183,7 @@ class EntryFragment : Fragment() {
         }
     }
 
-    private fun showDialog(
-        dialogBinding: DialogMonthYearPickerBinding,
-        current: YearMonth
-    ) {
+    private fun showDialog(dialogBinding: DialogMonthYearPickerBinding) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("월/연도 선택")
             .setView(dialogBinding.root)
