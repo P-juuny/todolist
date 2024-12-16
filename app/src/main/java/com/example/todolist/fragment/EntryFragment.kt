@@ -45,7 +45,11 @@ class EntryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         calendarViewModel.initializeContext(requireContext())
-        calendarViewModel.init()
+
+        if (savedInstanceState == null) {
+            calendarViewModel.init() // 최초 실행시에만 초기화
+        }
+
         setupViews()
         observeViewModels()
     }
@@ -99,8 +103,7 @@ class EntryFragment : Fragment() {
                 calendarViewModel.selectDate(date)
                 todoViewModel.loadTasksForDate(date)
                 navigateToTaskOverview(date)
-            },
-            currentMonth = calendarViewModel.currentMonth.value ?: YearMonth.now()
+            }
         )
 
         binding.calendarRecyclerView.apply {
@@ -199,6 +202,11 @@ class EntryFragment : Fragment() {
             }
             .setNegativeButton("취소", null)
             .show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        calendarViewModel.checkDateChange()
     }
 
     override fun onDestroyView() {

@@ -11,11 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.model.DayInfo
 import java.time.LocalDate
-import java.time.YearMonth
 
 class CalendarAdapter(
-    private val onDateClick: (LocalDate) -> Unit,
-    private val currentMonth: YearMonth
+    private val onDateClick: (LocalDate) -> Unit
 ) : ListAdapter<DayInfo, CalendarAdapter.CalendarViewHolder>(CalendarDiffCallback()) {
 
     private var selectedDate: LocalDate? = null

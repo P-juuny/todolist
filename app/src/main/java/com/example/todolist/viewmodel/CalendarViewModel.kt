@@ -21,6 +21,7 @@ class CalendarViewModel : ViewModel() {
     val selectedDate: LiveData<LocalDate> get() = _selectedDate
 
     private lateinit var repository: CalendarRepository
+    private var lastCheckedDate = LocalDate.now()
 
     fun initializeContext(context: Context) {
         repository = CalendarRepository(context.applicationContext)
@@ -29,26 +30,33 @@ class CalendarViewModel : ViewModel() {
     fun init() {
         val savedMonth = repository.getSavedMonth() ?: YearMonth.now()
         setCurrentMonth(savedMonth)
-
-        // 월 전환 체크
-        if (repository.shouldUpdateMonth(savedMonth)) {
-            setCurrentMonth(YearMonth.now())
-        }
     }
 
     fun setCurrentMonth(yearMonth: YearMonth) {
-        val currentMonth = _currentMonth.value
-        if (currentMonth?.year != yearMonth.year || currentMonth.monthValue != yearMonth.monthValue) {
-            _currentMonth.value = yearMonth
-            repository.saveMonth(yearMonth)
-            _calendarItems.value = repository.loadMonthData(yearMonth)
-        }
+        _currentMonth.value = yearMonth
+        repository.saveMonth(yearMonth)
+        _calendarItems.value = repository.loadMonthData(yearMonth)
     }
 
     fun formatCurrentMonth(): String {
         val month = _currentMonth.value ?: YearMonth.now()
         return "${month.month.name.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase(
             Locale.getDefault()) else it.toString() }} ${month.year}"
+    }
+
+    fun checkDateChange() {
+        val today = LocalDate.now()
+        val currentMonth = _currentMonth.value ?: YearMonth.now()
+
+        if (today != lastCheckedDate && shouldUpdateMonth(currentMonth)) {
+            setCurrentMonth(YearMonth.now())
+            lastCheckedDate = today
+        }
+    }
+
+    private fun shouldUpdateMonth(currentMonth: YearMonth): Boolean {
+        val today = LocalDate.now()
+        return currentMonth != YearMonth.from(today) && today.dayOfMonth == 1
     }
 
     fun selectDate(date: LocalDate) {
