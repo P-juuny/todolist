@@ -58,7 +58,7 @@ class EntryFragment : Fragment() {
         setupCalendarRecyclerView()
         setupDailyRecyclerView()
         setupButtons()
-        setupMonthYearSelection()
+        setupMonthYearPicker()
     }
 
     // Calendar 관련 관찰자들
@@ -69,10 +69,6 @@ class EntryFragment : Fragment() {
 
         calendarViewModel.calendarItems.observe(viewLifecycleOwner) {
             calendarAdapter.submitList(it)
-        }
-
-        calendarViewModel.selectedDate.observe(viewLifecycleOwner) {
-            calendarAdapter.setSelectedDate(it)
         }
     }
 
@@ -155,7 +151,7 @@ class EntryFragment : Fragment() {
         }
     }
 
-    private fun setupMonthYearSelection() {
+    private fun setupMonthYearPicker() {
         binding.tvCurrentDate.setOnClickListener {
             showMonthYearPickerDialog()
         }
