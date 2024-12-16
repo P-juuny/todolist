@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.todolist.R
 import com.example.todolist.databinding.FragmentChallengeViewSettingGoalTimeBinding
 import com.example.todolist.viewmodel.StopwatchViewModel
 import com.google.android.material.timepicker.MaterialTimePicker
