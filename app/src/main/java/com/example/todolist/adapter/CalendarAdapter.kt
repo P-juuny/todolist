@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.model.DayInfo
 import java.time.LocalDate
-import java.time.YearMonth
 
 class CalendarAdapter(
     private val onDateClick: (LocalDate) -> Unit
