@@ -25,9 +25,6 @@ class CalendarViewModel : ViewModel() {
 
     fun initializeContext(context: Context) {
         repository = CalendarRepository(context.applicationContext)
-    }
-
-    fun init() {
         val savedMonth = repository.getSavedMonth() ?: YearMonth.now()
         setCurrentMonth(savedMonth)
     }
