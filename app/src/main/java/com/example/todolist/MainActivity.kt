@@ -14,7 +14,9 @@ import com.google.firebase.Firebase
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,8 +25,9 @@ class MainActivity : AppCompatActivity() {
 
         initializeFirebase()
         setupTheme()
-        setupView()
 
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     private fun initializeFirebase() {
@@ -45,11 +48,7 @@ class MainActivity : AppCompatActivity() {
         val preferences = getSharedPreferences("todo_settings", Context.MODE_PRIVATE)
         val themeMode = preferences.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) // 기본값은 시스템 설정
         AppCompatDelegate.setDefaultNightMode(themeMode)
-    }
-
-    private fun setupView() {
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        // 라이트 = 1, 다크 = 2, 시스템 = -1
     }
 
     override fun onSupportNavigateUp(): Boolean {
