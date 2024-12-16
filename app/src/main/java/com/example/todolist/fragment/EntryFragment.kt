@@ -204,6 +204,11 @@ class EntryFragment : Fragment() {
             .show()
     }
 
+    override fun onResume() {
+        super.onResume()
+        calendarViewModel.checkDateChange()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

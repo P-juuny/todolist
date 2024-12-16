@@ -30,12 +30,4 @@ class CalendarRepository(private val context: Context) {
             apply()
         }
     }
-
-    fun shouldUpdateMonth(currentMonth: YearMonth): Boolean {
-        val today = LocalDate.now()
-        val savedMonth = getSavedMonth() ?: return true
-
-        return savedMonth != YearMonth.from(today) ||
-                (today.dayOfMonth == 1 && savedMonth.monthValue != today.monthValue)
-    }
 }
