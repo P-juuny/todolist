@@ -17,7 +17,7 @@ class FixedToDoViewModel : ViewModel() {
     }
 
     fun addTodo(task: FixedTaskItem) {
-        repository.postFixedTodo(task)
+        repository.addFixedTodo(task)
     }
 
     fun deleteTodo(position: Int) {

@@ -14,7 +14,7 @@ import java.time.LocalDate
 class TodoRepository {
     private val auth = Firebase.auth
     private val database = Firebase.database
-    // getReference 경로 수정 - 준영
+    // getReference 경로 수정
     private val baseRef = database.getReference("Users").child(auth.currentUser?.uid ?: "").child("Todo")
 
     private fun getDateKey(date: LocalDate): String {

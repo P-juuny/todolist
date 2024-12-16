@@ -35,7 +35,7 @@ class FixedTodoRepository {
         })
     }
 
-    fun postFixedTodo(task: FixedTaskItem) {
+    fun addFixedTodo(task: FixedTaskItem) {
         val taskRef = fixedRef.push() // Firebase의 고유한 키 값 생성
         task.id = taskRef.key
         taskRef.setValue(task)
