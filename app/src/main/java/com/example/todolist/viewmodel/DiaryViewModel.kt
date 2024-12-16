@@ -15,6 +15,7 @@ class DiaryViewModel : ViewModel() {
     private val repository = DiaryRepository()
 
     fun loadDiaryForDate(date: LocalDate) {
+        _diary.value = null
         repository.getDiary(date, _diary)
     }
 

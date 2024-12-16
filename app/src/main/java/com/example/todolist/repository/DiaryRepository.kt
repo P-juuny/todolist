@@ -1,11 +1,15 @@
 package com.example.todolist.repository
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.todolist.model.DiaryItem
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.google.firebase.storage.storage
 import java.time.LocalDate
@@ -19,7 +23,6 @@ class DiaryRepository {
 
     fun getDiary(date: LocalDate, diary: MutableLiveData<DiaryItem?>) {
         val dateKey = date.toString()
-        // 일회성 데이터 로드
         diaryRef.child(dateKey).get().addOnSuccessListener { snapshot ->
             diary.postValue(snapshot.getValue(DiaryItem::class.java))
         }
