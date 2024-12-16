@@ -45,9 +45,8 @@ class EntryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         calendarViewModel.initializeContext(requireContext())
-
-        if (savedInstanceState == null) {
-            calendarViewModel.init() // 최초 실행시에만 초기화
+        if (calendarViewModel.currentMonth.value == null) {
+            calendarViewModel.setCurrentMonth(YearMonth.now())
         }
 
         setupViews()
