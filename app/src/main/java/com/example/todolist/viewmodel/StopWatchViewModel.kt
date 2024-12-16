@@ -65,7 +65,6 @@ class StopwatchViewModel : ViewModel() {
         val today = repository.getCurrentDate()
         if (today != currentDate) {
             currentDate = today
-            //todayMedal = 0  // 새로운 날짜면 메달 초기화
             isInitialized = false
 
             initializeTodayMedal()
