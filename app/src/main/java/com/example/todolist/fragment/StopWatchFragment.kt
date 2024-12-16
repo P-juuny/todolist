@@ -65,7 +65,6 @@ class StopWatchFragment : Fragment() {
         }
     }
 
-    // 오늘 할일 받아와서 RecyclerView에 넣는 함수
     private fun setupDailyRecyclerView() {
         todoAdapter = TodoAdapter(viewModel, LocalDate.now())
         binding.todoRecyclerView.apply {
