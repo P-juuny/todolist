@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
 import com.example.todolist.databinding.FragmentChallengeViewBinding
 import com.example.todolist.viewmodel.StopwatchViewModel
-import kotlin.math.roundToInt
 
 class ChallengeViewFragment : Fragment() {
 
