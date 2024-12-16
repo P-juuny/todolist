@@ -25,8 +25,9 @@ class MainActivity : AppCompatActivity() {
 
         initializeFirebase()
         setupTheme()
-        setupView()
 
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     private fun initializeFirebase() {
@@ -48,11 +49,6 @@ class MainActivity : AppCompatActivity() {
         val themeMode = preferences.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) // 기본값은 시스템 설정
         AppCompatDelegate.setDefaultNightMode(themeMode)
         // 라이트 = 1, 다크 = 2, 시스템 = -1
-    }
-
-    private fun setupView() {
-        _binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
     }
 
     override fun onSupportNavigateUp(): Boolean {
