@@ -29,20 +29,12 @@ class CalendarViewModel : ViewModel() {
     fun init() {
         val savedMonth = repository.getSavedMonth() ?: YearMonth.now()
         setCurrentMonth(savedMonth)
-
-        // 월 전환 체크
-        if (repository.shouldUpdateMonth(savedMonth)) {
-            setCurrentMonth(YearMonth.now())
-        }
     }
 
     fun setCurrentMonth(yearMonth: YearMonth) {
-        val currentMonth = _currentMonth.value
-        if (currentMonth?.year != yearMonth.year || currentMonth.monthValue != yearMonth.monthValue) {
-            _currentMonth.value = yearMonth
-            repository.saveMonth(yearMonth)
-            _calendarItems.value = repository.loadMonthData(yearMonth)
-        }
+        _currentMonth.value = yearMonth
+        repository.saveMonth(yearMonth)
+        _calendarItems.value = repository.loadMonthData(yearMonth)
     }
 
     fun formatCurrentMonth(): String {
