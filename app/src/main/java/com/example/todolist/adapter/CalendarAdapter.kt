@@ -19,7 +19,7 @@ class CalendarAdapter(
     inner class CalendarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // findViewById를 매번 호출하지 않도록 프로퍼티로 미리 선언
         private val tvDay: TextView = itemView.findViewById(R.id.tv_day)
-        private var currentDate: LocalDate? = null
+        private lateinit var currentDate: LocalDate
 
         fun bind(item: DayInfo) {
             currentDate = item.date
