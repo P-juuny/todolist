@@ -39,7 +39,7 @@ class CalendarAdapter(
             }
 
             itemView.setOnClickListener {
-                currentDate?.let { onDateClick(it) }
+                onDateClick(currentDate)
             }
         }
     }
