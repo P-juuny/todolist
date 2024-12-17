@@ -20,7 +20,6 @@ class CalendarViewModel : ViewModel() {
     val selectedDate: LiveData<LocalDate> get() = _selectedDate
 
     private val repository = CalendarRepository()
-    private var lastCheckedDate = LocalDate.now()
 
     fun setCurrentMonth(yearMonth: YearMonth) {
         _currentMonth.value = yearMonth
@@ -34,12 +33,10 @@ class CalendarViewModel : ViewModel() {
     }
 
     fun checkDateChange() {
-        val today = LocalDate.now()
         val currentMonth = _currentMonth.value ?: YearMonth.now()
 
-        if (today != lastCheckedDate && shouldUpdateMonth(currentMonth)) {
+        if (shouldUpdateMonth(currentMonth)) {
             setCurrentMonth(YearMonth.now())
-            lastCheckedDate = today
         }
     }
 
