@@ -22,10 +22,6 @@ class CalendarViewModel : ViewModel() {
     private val repository = CalendarRepository()
     private var lastCheckedDate = LocalDate.now()
 
-    init {
-        setCurrentMonth(YearMonth.now())  // 앱 시작시 한번만 초기화
-    }
-
     fun setCurrentMonth(yearMonth: YearMonth) {
         _currentMonth.value = yearMonth
         _calendarItems.value = repository.loadMonthData(yearMonth)
