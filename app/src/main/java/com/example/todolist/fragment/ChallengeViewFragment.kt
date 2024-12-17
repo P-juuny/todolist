@@ -41,7 +41,7 @@ class ChallengeViewFragment : Fragment() {
             val hours = (goalTimeInSeconds ?: 0) / 3600
             val minutes = ((goalTimeInSeconds ?: 0) % 3600) / 60
             binding.tvChallengeHour.text = "$hours"
-            binding.tvChallengeMinute.text = String.format("%02d", minutes) // 분은 항상 두자리로 표현
+            binding.tvChallengeMinute.text = if(minutes < 10) "0$minutes" else "$minutes"
         }
 
         stopwatchViewModel.totalAccumulatedTime.observe(viewLifecycleOwner) { totalAccumulatedSeconds ->
